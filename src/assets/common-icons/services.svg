@@ -1,0 +1,9 @@
+<svg id="photo-image-square.2" xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 35 35">
+  <path id="Path_74898" data-name="Path 74898" d="M0,0H35V35H0Z" fill="none"/>
+  <g id="Group_69676" data-name="Group 69676" transform="translate(1.259 1.339)">
+    <path id="Path_74899" data-name="Path 74899" d="M11.835,16.558l7.6,7.6a3.224,3.224,0,0,0,4.558,0h0a3.224,3.224,0,0,0,0-4.558l-7.6-7.6" transform="translate(4.637 4.845)" fill="none" stroke="#777373" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+    <path id="Path_74900" data-name="Path 74900" d="M30.11,7.5a.289.289,0,0,1,.077.129,6.926,6.926,0,0,1-8.735,8.637L8.77,28.945a3.273,3.273,0,0,1-4.528.137,3.224,3.224,0,0,1-.085-4.64L16.894,11.705a6.926,6.926,0,0,1,8.637-8.735.3.3,0,0,1,.129.077l.246.246a.3.3,0,0,1,0,.43l-4,4.005,3.525,3.525,4.005-4.005a.3.3,0,0,1,.43,0l.246.248Z" transform="translate(0.159)" fill="none" stroke="#777373" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+    <path id="Path_74901" data-name="Path 74901" d="M2.946,4.927,3.97,8A1.518,1.518,0,0,0,5.412,9.04H8.875V5.577A1.519,1.519,0,0,0,7.836,4.135L4.762,3.111a.76.76,0,0,0-.778.184l-.854.854a.76.76,0,0,0-.184.778Z" transform="translate(0 0.209)" fill="none" stroke="#777373" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+    <path id="Path_74902" data-name="Path 74902" d="M6.84,7l5.318,5.318" transform="translate(2.042 2.249)" fill="none" stroke="#777373" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+  </g>
+</svg>

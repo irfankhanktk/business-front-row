@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="47" height="47" viewBox="0 0 47 47">
+  <defs>
+    <clipPath id="clip-path">
+      <path id="Mask" d="M8.5,13.579a1.067,1.067,0,0,1,0,1.546,1.067,1.067,0,0,1-1.546,0L.331,8.5a1.067,1.067,0,0,1,0-1.546L6.955.331A1.067,1.067,0,0,1,8.5.331a1.067,1.067,0,0,1,0,1.546L2.65,7.728Z" fill="#363f4d" stroke="rgba(0,0,0,0)" stroke-width="1"/>
+    </clipPath>
+  </defs>
+  <g id="Group_67802" data-name="Group 67802" transform="translate(0.08 0.304)">
+    <g id="Group_67489" data-name="Group 67489" transform="translate(-0.08 -0.304)">
+      <g id="Menu">
+        <circle id="Ellipse_2" data-name="Ellipse 2" cx="23.5" cy="23.5" r="23.5" fill="#f5f4f4"/>
+      </g>
+    </g>
+    <g id="Group_68456" data-name="Group 68456" transform="translate(17.38 15.892)">
+      <path id="Mask-2" data-name="Mask" d="M8.5,13.579a1.067,1.067,0,0,1,0,1.546,1.067,1.067,0,0,1-1.546,0L.331,8.5a1.067,1.067,0,0,1,0-1.546L6.955.331A1.067,1.067,0,0,1,8.5.331a1.067,1.067,0,0,1,0,1.546L2.65,7.728Z" fill="#363f4d" stroke="rgba(0,0,0,0)" stroke-width="1"/>
+      <g id="Mask_Group_1" data-name="Mask Group 1" clip-path="url(#clip-path)">
+        <g id="Icon_" data-name="Icon 🎨" transform="translate(-8.832 -5.52)">
+          <rect id="Shape" width="26.496" height="26.496" fill="#363f4d" stroke="rgba(0,0,0,0)" stroke-width="1"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

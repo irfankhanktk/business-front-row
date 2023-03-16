@@ -1,0 +1,1 @@
+export { default as AHistory } from './history.svg';

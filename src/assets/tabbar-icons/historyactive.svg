@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="256" height="256" viewBox="0 0 256 256" xml:space="preserve">
+<desc>Created with Fabric.js 1.7.22</desc>
+<defs>
+</defs>
+<g transform="translate(128 128) scale(0.72 0.72)" style="">
+	<g style="stroke: none; stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: none; fill-rule: nonzero; opacity: 1;" transform="translate(-175.05 -175.05000000000004) scale(3.89 3.89)" >
+	<path d="M 48.33 86.817 c -13.545 0 -26.311 -6.609 -34.15 -17.679 c -2.37 -3.347 -4.228 -7.008 -5.522 -10.884 l 1.904 -0.635 c 1.232 3.688 3 7.174 5.255 10.359 C 23.28 78.518 35.435 84.81 48.33 84.81 c 21.951 0 39.81 -17.859 39.81 -39.81 S 70.281 5.19 48.33 5.19 C 26.379 5.19 8.52 23.049 8.52 45 H 6.514 c 0 -23.057 18.758 -41.816 41.816 -41.816 S 90.146 21.943 90.146 45 S 71.387 86.817 48.33 86.817 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill:#0F6EF4; fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
+	<polygon points="66.6,61.15 47.33,45.48 47.33,17.26 49.33,17.26 49.33,44.52 67.87,59.59 " style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill:#0F6EF4 ; fill-rule: nonzero; opacity: 1;" transform="  matrix(1 0 0 1 0 0) "/>
+	<polygon points="7.52,46.42 0.15,39.05 1.56,37.63 7.52,43.58 13.47,37.63 14.89,39.05 " style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill:#0F6EF4; fill-rule: nonzero; opacity: 1;" transform="  matrix(1 0 0 1 0 0) "/>
+</g>
+</g>
+</svg>

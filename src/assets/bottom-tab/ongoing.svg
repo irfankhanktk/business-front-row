@@ -1,0 +1,13 @@
+<svg id="home-house-line" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <path id="Path_58700" data-name="Path 58700" d="M0,0H24V24H0Z" fill="none"/>
+  <g id="Group_69960" data-name="Group 69960" transform="translate(0 1)">
+    <path id="Path_74955" data-name="Path 74955" d="M10,2h4" fill="none" stroke="#fea409" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+    <path id="Path_74956" data-name="Path 74956" d="M6.343,7.343a8,8,0,1,1,0,11.314,8,8,0,0,1,0-11.314" fill="none" stroke="#fea409" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+    <path id="Path_74957" data-name="Path 74957" d="M12,12.5a.5.5,0,1,0,.5.5.5.5,0,0,0-.5-.5" fill="none" stroke="#fea409" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+    <path id="Path_74958" data-name="Path 74958" d="M16.905,12.1A4.569,4.569,0,0,1,17,13" fill="none" stroke="#fea409" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+    <path id="Path_74959" data-name="Path 74959" d="M12.35,12.65l3.19-3.19" fill="none" stroke="#fea409" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+    <path id="Path_74960" data-name="Path 74960" d="M20,5,17.66,7.34" fill="none" stroke="#fea409" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+    <path id="Path_74961" data-name="Path 74961" d="M19,4l2,2" fill="none" stroke="#fea409" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+    <path id="Path_74962" data-name="Path 74962" d="M7,13a5,5,0,0,1,5-5,4.569,4.569,0,0,1,.9.1" fill="none" stroke="#fea409" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+  </g>
+</svg>

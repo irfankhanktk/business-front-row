@@ -1,0 +1,4 @@
+<svg id="icn_general_time" data-name="icn/general/time" xmlns="http://www.w3.org/2000/svg" width="23" height="24" viewBox="0 0 23 24">
+  <rect id="Rectangle" width="23" height="24" fill="none"/>
+  <path id="Combined_Shape" data-name="Combined Shape" d="M9.5,19A9.5,9.5,0,1,1,19,9.5,9.511,9.511,0,0,1,9.5,19Zm0-14.251A1.189,1.189,0,0,0,8.313,5.938V9.5l.007.138A1.187,1.187,0,0,0,9.5,10.687h3.562l.139-.007A1.188,1.188,0,0,0,14.249,9.5l-.007-.139a1.186,1.186,0,0,0-1.18-1.048H10.687V5.938L10.68,5.8A1.188,1.188,0,0,0,9.5,4.749Z" transform="translate(2 3)" fill="#363f4d"/>
+</svg>

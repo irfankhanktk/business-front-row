@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="28" height="29" viewBox="0 0 28 29">
+  <g id="Camera_icon_upload_Profile" data-name="Camera icon upload Profile" transform="translate(-0.099 -0.209)">
+    <g id="Ellipse_543" data-name="Ellipse 543" transform="translate(0.099 0.209)" fill="#2e3036" stroke="#fff" stroke-width="2">
+      <ellipse cx="14" cy="14.5" rx="14" ry="14.5" stroke="none"/>
+      <ellipse cx="14" cy="14.5" rx="13" ry="13.5" fill="none"/>
+    </g>
+    <g id="Group_69626" data-name="Group 69626" transform="translate(6.489 6.681)">
+      <path id="Path_32187" data-name="Path 32187" d="M15,10.274H13.294V9.422A1.422,1.422,0,0,0,11.872,8H10.167A1.422,1.422,0,0,0,8.745,9.422v.853H7.039A1.706,1.706,0,0,0,5.333,11.98v4.549a1.706,1.706,0,0,0,1.706,1.706H15a1.706,1.706,0,0,0,1.706-1.706V11.98A1.706,1.706,0,0,0,15,10.274ZM9.882,9.422a.284.284,0,0,1,.284-.284h1.706a.284.284,0,0,1,.284.284v.853H9.882Zm5.686,7.108A.569.569,0,0,1,15,17.1H7.039a.569.569,0,0,1-.569-.569V11.98a.569.569,0,0,1,.569-.569H15a.569.569,0,0,1,.569.569Z" transform="translate(-3.453 -6.213)" fill="#fff"/>
+      <path id="Path_32188" data-name="Path 32188" d="M24.657,28a1.99,1.99,0,1,0,1.99,1.99A1.99,1.99,0,0,0,24.657,28Zm0,2.843a.853.853,0,1,1,.853-.853A.853.853,0,0,1,24.657,30.843Z" transform="translate(-17.091 -21.948)" fill="#fff"/>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34">
+  <circle id="Oval_Copy_2" data-name="Oval Copy 2" cx="17" cy="17" r="17" fill="#fff" opacity="0.21"/>
+  <g id="Document.14" transform="translate(5 5)">
+    <g id="Group_69913" data-name="Group 69913">
+      <path id="Path_74960" data-name="Path 74960" d="M19,12V7.828a2,2,0,0,0-.586-1.414L15.586,3.586A2,2,0,0,0,14.172,3H7A2,2,0,0,0,5,5V19a2,2,0,0,0,2,2h5" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      <path id="Path_74961" data-name="Path 74961" d="M8,9h8" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      <path id="Path_74962" data-name="Path 74962" d="M8,12h8" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      <path id="Path_74963" data-name="Path 74963" d="M8,15h2" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      <path id="Path_74964" data-name="Path 74964" d="M17.5,21S20,19.8,20,18V15.9l-1.823-.656a2,2,0,0,0-1.355,0L15,15.9V18C15,19.8,17.5,21,17.5,21Z" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+    </g>
+    <path id="Path_74965" data-name="Path 74965" d="M0,0H24V24H0Z" fill="none"/>
+  </g>
+</svg>

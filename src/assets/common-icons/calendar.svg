@@ -1,0 +1,11 @@
+<svg id="calendar-task-sheet" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <path id="Path_74972" data-name="Path 74972" d="M0,0H24V24H0Z" fill="none"/>
+  <path id="Path_74973" data-name="Path 74973" d="M19,4H5A2,2,0,0,0,3,6V19a2,2,0,0,0,2,2H19a2,2,0,0,0,2-2V6A2,2,0,0,0,19,4Z" fill="none" stroke="#323232" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+  <path id="Path_74974" data-name="Path 74974" d="M16,3V6" fill="none" stroke="#323232" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+  <path id="Path_74975" data-name="Path 74975" d="M12,3V6" fill="none" stroke="#323232" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+  <path id="Path_74976" data-name="Path 74976" d="M8,3V6" fill="none" stroke="#323232" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+  <path id="Path_74977" data-name="Path 74977" d="M12,16h5" fill="none" stroke="#323232" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+  <path id="Path_74978" data-name="Path 74978" d="M8.634,15.116a1.25,1.25,0,1,1-1.768,0,1.25,1.25,0,0,1,1.768,0" fill="none" stroke="#323232" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+  <path id="Path_74979" data-name="Path 74979" d="M12,11h5" fill="none" stroke="#323232" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+  <path id="Path_74980" data-name="Path 74980" d="M8.634,10.116a1.25,1.25,0,1,1-1.768,0,1.25,1.25,0,0,1,1.768,0" fill="none" stroke="#323232" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+</svg>

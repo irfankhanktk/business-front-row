@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34">
+  <g id="Oval">
+    <circle id="Oval-2" data-name="Oval" cx="17" cy="17" r="17" fill="#fff" opacity="0.21"/>
+  </g>
+  <g id="bell-notification" transform="translate(5 5)">
+    <g id="Group_69912" data-name="Group 69912">
+      <path id="Path_74951" data-name="Path 74951" d="M17.5,17.359h0a1.9,1.9,0,0,0,1.9-1.894h0a2.005,2.005,0,0,0-.591-1.419l-1.259-1.26V9.043h0A5.544,5.544,0,0,0,12.006,3.5h0A5.544,5.544,0,0,0,6.459,9.043v3.74L5.2,14.043h0a2.006,2.006,0,0,0-.592,1.419h0a1.9,1.9,0,0,0,1.9,1.894Z" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      <path id="Path_74952" data-name="Path 74952" d="M17.5,17.359h0" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      <path id="Path_74953" data-name="Path 74953" d="M10.521,20.5h2.957" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+    </g>
+    <path id="Path_74954" data-name="Path 74954" d="M0,0H24V24H0Z" fill="none"/>
+  </g>
+</svg>

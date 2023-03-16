@@ -1,0 +1,12 @@
+<svg id="Component_3_4" data-name="Component 3 – 4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="home-house-line">
+    <path id="Path_58700" data-name="Path 58700" d="M0,0H24V24H0Z" fill="none"/>
+    <g id="Group_68908" data-name="Group 68908">
+      <g id="Group_68906" data-name="Group 68906">
+        <path id="Path_58706" data-name="Path 58706" d="M13.591,7.659a2.25,2.25,0,1,1-3.182,0,2.249,2.249,0,0,1,3.182,0" fill="none" stroke="#fea409" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Path_58707" data-name="Path 58707" d="M16.321,16.541a2.9,2.9,0,0,0-2.865-2.453H10.544a2.9,2.9,0,0,0-2.865,2.453" fill="none" stroke="#fea409" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      </g>
+      <path id="Path_58708" data-name="Path 58708" d="M17,21H7a4,4,0,0,1-4-4V7A4,4,0,0,1,7,3H17a4,4,0,0,1,4,4V17A4,4,0,0,1,17,21Z" fill="none" stroke="#fea409" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+    </g>
+  </g>
+</svg>

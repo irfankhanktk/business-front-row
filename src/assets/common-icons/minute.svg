@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="20.66" height="20.66" viewBox="0 0 20.66 20.66">
+  <g id="Group_70082" data-name="Group 70082" transform="translate(-19758.721 -326.301)">
+    <rect id="Rectangle" width="20.66" height="20.66" rx="3" transform="translate(19758.721 326.301)" fill="#fea409"/>
+    <g id="pin-location-direction.2" transform="translate(19760.1 327.681)">
+      <path id="Path_74992" data-name="Path 74992" d="M0,0H17.9V17.9H0Z" transform="translate(17.9 17.9) rotate(180)" fill="none"/>
+      <path id="Path_74993" data-name="Path 74993" d="M12.95,13h1.492a1.491,1.491,0,0,1,1.492,1.492h0a1.491,1.491,0,0,1-1.492,1.492H5.492A1.491,1.491,0,0,0,4,17.475H4a1.491,1.491,0,0,0,1.492,1.492H8.475" transform="translate(-1.017 -3.304)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Path_74994" data-name="Path 74994" d="M9.983,10.458S12.967,8.076,12.967,5.9A2.985,2.985,0,0,0,7,5.9C7,8.076,9.983,10.458,9.983,10.458Z" transform="translate(-1.779 -0.762)" fill="#fff"/>
+      <path id="Path_74995" data-name="Path 74995" d="M10.928,6.722a.207.207,0,1,1-.213.207.21.21,0,0,1,.213-.207" transform="translate(-2.723 -1.708)" fill="none" stroke="#fea409" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+    </g>
+  </g>
+</svg>

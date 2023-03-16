@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34">
+  <circle id="Oval_Copy_2" data-name="Oval Copy 2" cx="17" cy="17" r="17" fill="#fff" opacity="0.21"/>
+  <g id="File_Shield_" data-name="File, Shield," transform="translate(5 5)">
+    <path id="Path_74955" data-name="Path 74955" d="M0,0H24V24H0Z" fill="none"/>
+    <path id="Path_74956" data-name="Path 74956" d="M7,7h5.5" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+    <path id="Path_74957" data-name="Path 74957" d="M7,11h3" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+    <path id="Path_74958" data-name="Path 74958" d="M10,21H5a2,2,0,0,1-2-2V5A2,2,0,0,1,5,3H17a2,2,0,0,1,2,2V9" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+    <path id="Path_74959" data-name="Path 74959" d="M12,14.031,16,12l4,2.031V17a4,4,0,0,1-8,0Z" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+  </g>
+</svg>

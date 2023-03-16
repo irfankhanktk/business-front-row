@@ -1,0 +1,8 @@
+<svg id="dots" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="Group_70077" data-name="Group 70077">
+    <path id="Path_74983" data-name="Path 74983" d="M12,17.5a.5.5,0,1,0,.5.5.5.5,0,0,0-.5-.5" fill="none" stroke="#323232" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+    <path id="Path_74984" data-name="Path 74984" d="M12,11.5a.5.5,0,1,0,.5.5.5.5,0,0,0-.5-.5" fill="none" stroke="#323232" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+    <path id="Path_74985" data-name="Path 74985" d="M12,5.5a.5.5,0,1,0,.5.5.5.5,0,0,0-.5-.5" fill="none" stroke="#323232" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+  </g>
+  <path id="Path_74986" data-name="Path 74986" d="M0,0H24V24H0Z" fill="none"/>
+</svg>
