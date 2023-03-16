@@ -28,8 +28,6 @@ export const CustomAppHeader = ({
       <View style={{ flex: 1, alignItems: 'center' }}>
         <Medium
           label={title}
-          style={{ ...styles.TITLE }}
-          color={color}
           size={size}
         />
       </View>

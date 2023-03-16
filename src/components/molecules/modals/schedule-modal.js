@@ -16,16 +16,19 @@ import {
 } from "../../../assets/common-icons";
 import Regular from "../../../presentation/typography/regular-text";
 import { mvs, width } from "../../../services/metrices";
+import PageLoader from "../../atoms/page-loader";
+import ModalLoader from "../modal-loader";
 import Bold from "./../../../presentation/typography/bold-text";
 import colors from "./../../../services/colors";
 import Row from "./../../atoms/row";
 
 const ScheduleModal = ({
-  setDate = (arg) => {},
-  setValue = () => {},
+  setDate = (arg) => { },
+  setValue = () => { },
   visible,
   slotItem,
   onBackdropPress,
+  slotLoading,
 }) => {
   //console.log(date);
   const todayDate = moment(new Date()).format("YYYY-MM-DD");
@@ -253,20 +256,12 @@ const ScheduleModal = ({
             </>
           )}
         </ScrollView>
-        {/* <View style={{ marginVertical: 20, width: "100%" ,paddingHorizontal:mvs(10)}}>
-          <Buttons.ButtonPrimary
-            textStyle={styles.buttonBlackText}
-            title="Continue"
-            disabled={disabled}
-            loading={loadingState}
-            style={styles.button}
-            onClick={updateSlot}
-          />
-        </View> */}
+        {slotLoading && <ModalLoader />}
       </View>
     </ReactNativeModal>
   );
 };
+
 export default ScheduleModal;
 const styles = StyleSheet.create({
   container: {

@@ -3,7 +3,7 @@ export const IP = 'http://124.29.208.60:8080';
 export const URLS = {
   //    base_url:'http://192.168.100.3:3000/api/',
   base_url: `${IP}/api/`,
-  image_url: `${IP}/`,
+  image_url: `${IP}`,
   business: 'b/om/businesses/',
   booking: {
     create_booking: "p/public/bookings",
@@ -14,6 +14,7 @@ export const URLS = {
     get_available_coupons: 'c/cus/customers/',
     apply_coupon: 'c/cus/customers/',
     remove_discount: 'b/om/businesses/',
+    apply_discount: 'b/om/businesses/',
     update_payment: 'p/public/bookings/',
     get_service_bookings: 'b/om/businesses/',
     get_service_jobs: 'b/om/businesses/',

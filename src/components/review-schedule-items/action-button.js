@@ -6,7 +6,7 @@ import { mvs } from '../../services/metrices';
 import PageLoader from '../atoms/page-loader';
 const ActionButton = ({
   title = 'Accept',
-  borderColor = colors.gray,
+  borderColor = colors.lightgrey1,
   bgColor = colors.gray,
   titleColor = colors.lightgrey1,
   onClick,

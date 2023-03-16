@@ -7,13 +7,15 @@ import colors from "../../../services/colors";
 import { mvs, width } from "../../../services/metrices";
 import Row from "../../atoms/row";
 import BookingCoupon from "../../coupon-promo/booking-coupon";
+import ModalLoader from "../modal-loader";
 const CouponModal = ({
-  title='Select Coupon',
+  title = 'Select Coupon',
   value,
-  setValue = (arg) => {},
+  setValue = (arg) => { },
   visible,
   onBackdropPress,
   items = [],
+  modalLoading
 }) => {
   // console.log(items)
   return (
@@ -36,13 +38,18 @@ const CouponModal = ({
             >
               <Row style={{ ...styles.PAYMENTDROPDOWN }}>
                 <BookingCoupon
-                  name={item?.name}
-                  imageUrl={item?.image}
-                  price={item?.price}
-                  voucher={item?.voucher}
+                  loading={true}
+                  cover={item?.cover}
+                  showCoupon={!item?.applyCoupon}
+                  title={item?.title}
+                  subTitle={item?.subTitle}
+                  highlightedText={item?.highlight}
+                  statusLine={item?.statusLine}
+                  isExpiring={item?.remove}
+                  showHighLighted={item?.change}
                 />
                 <View>
-                  {item?.id === value?.id ? (
+                  {item?.selected ? (
                     <SelectedCard />
                   ) : (
                     <UnSelectedCard />
@@ -52,6 +59,7 @@ const CouponModal = ({
             </TouchableOpacity>
           ))}
         </>
+        {modalLoading && <ModalLoader />}
       </View>
     </ReactNativeModal>
   );
@@ -68,7 +76,7 @@ const styles = StyleSheet.create({
     padding: 10,
     alignItems: "center",
     alignSelf: "center",
-    paddingBottom:mvs(45)
+    paddingBottom: mvs(45)
   },
   PAYMENTDROPDOWN: {
     justifyContent: "space-between",
@@ -79,6 +87,6 @@ const styles = StyleSheet.create({
     borderColor: colors.gray,
     paddingHorizontal: mvs(11),
     paddingBottom: mvs(5),
-    paddingTop:mvs(5)
+    paddingTop: mvs(5)
   },
 });

@@ -89,6 +89,18 @@ const apply_coupon = (bookingId, couponId, customerId) => {
     }
   };
 };
+const apply_discount = (bookingId, discountId, customerId) => {
+  console.log('url=>>>::', `${URLS.booking.apply_coupon}${customerId}/bookings/${bookingId}/discount/${discountId}`);
+  return async (dispatch, getState) => {
+    try {
+      const response = await API_REQUESTS.putDataWithoutBody(
+        `${URLS.booking.apply_discount}${customerId}/bookings/${bookingId}/discount/${discountId}`);
+      return response;
+    } catch (error) {
+      console.log(error?.response?.data);
+    }
+  };
+};
 const remove_discount = (bookingId, businessId) => {
   return async (dispatch, getState) => {
     try {
@@ -266,6 +278,7 @@ const DIVIY_API = {
   remove_slot,
   get_booking_coupons,
   apply_coupon,
+  apply_discount,
   remove_discount,
   update_booking_payment,
   no_show,

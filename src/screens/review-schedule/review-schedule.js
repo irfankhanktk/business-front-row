@@ -41,6 +41,7 @@ const ReviewSchedule = (props) => {
     remove_discount,
     remove_slot,
     apply_coupon,
+    apply_discount,
     complete_my_booking,
     get_booking_discounts,
     route,
@@ -72,6 +73,10 @@ const ReviewSchedule = (props) => {
     remove: false,
     confirm: false,
     removeDiscount: false,
+    modalLoading: false,
+    discount: false,
+    coupon: false,
+    changeCoupon: false,
   })
   const [isRefresh, setRefresh] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -82,7 +87,7 @@ const ReviewSchedule = (props) => {
     //setCoupon(booking?.discount)
   }, [isRefresh]);
   const inIt = async () => {
-    setLoading(true);
+    // setLoading(true);
     var bId = await getData("BusinessId");
     setBussinessId(bId);
     console.log("Booking id is====> ", bookingId);
@@ -91,11 +96,19 @@ const ReviewSchedule = (props) => {
       setBooking(bookingResponse?.data);
       console.log("Booking information===>", bookingResponse?.data);
       setSelectedSlot(bookingResponse?.data?.slot);
-      //setCoupon(bookingResponse?.data?.discount)
+      console.log('bookingResponse?.data?.discount=>>>>::', bookingResponse?.data?.couponId);
+      // console.log('bookingResponse?.data?.coupon', bookingResponse?.data?.coupon);
       if (bookingResponse?.data?.discount) {
         var c = bookingResponse?.data?.discount;
         c.id = bookingResponse?.data?.discountId;
+        // if (bookingResponse?.data?.couponId) {
+        //   c = { ...c, id: bookingResponse?.data?.couponId }
+        // }
         setCoupon(c);
+      } else {
+        // var c = bookingResponse?.data?.discount;
+        // c.id = bookingResponse?.data?.discountId;
+        // setCoupon(c);
       }
       if (bookingResponse?.data?.worker) {
         var w = bookingResponse?.data?.worker;
@@ -115,7 +128,7 @@ const ReviewSchedule = (props) => {
   };
   const getSlots = async date => {
     try {
-      setLoaders({ ...loaders, change: true, find: true })
+      setLoaders({ ...loaders, change: true, find: true, slotChange: true })
       const slotReponse = await get_available_slots(bookingId, date);
       console.log('slotReponse=>', slotReponse);
       if (slotReponse?.data) {
@@ -125,30 +138,40 @@ const ReviewSchedule = (props) => {
     } catch (error) {
       console.log('error=>', error);
     } finally {
-      setLoaders({ ...loaders, change: false, find: false })
+      setLoaders({ ...loaders, change: false, find: false, slotChange: false })
     }
   };
-  const getCoupons = async (t) => {
-    setTitle(t);
-    if (t == "Select Coupon") {
-      const couponReponse = await get_booking_coupons(bookingId, customerId);
-      console.log("coupons information===>", couponReponse?.data);
-      if (couponReponse?.data) {
-        setCoupons(couponReponse?.data);
-        setCouponPickerVisible(true);
+  const getCoupons = async (t, isChange) => {
+    try {
+      setTitle(t);
+      if (t == "Select Coupon") {
+        setLoaders({ ...loaders, coupon: !isChange, changeCoupon: isChange })
+        const couponReponse = await get_booking_coupons(bookingId, customerId);
+        console.log("coupons information===>", couponReponse?.data);
+        // await inIt();
+        if (couponReponse?.data) {
+          setCoupons(couponReponse?.data);
+          setCouponPickerVisible(true);
+        }
+      } else {
+        setLoaders({ ...loaders, discount: !isChange, changeCoupon: isChange })
+        const couponReponse = await get_booking_discounts(bookingId, bussinessId);
+        console.log("discounts information===>", couponReponse?.data);
+        if (couponReponse?.data) {
+          setCoupons(couponReponse?.data);
+          setCouponPickerVisible(true);
+        }
+        // await inIt();
       }
-    } else {
-      const couponReponse = await get_booking_discounts(bookingId, bussinessId);
-      console.log("discounts information===>", couponReponse?.data);
-      if (couponReponse?.data) {
-        setCoupons(couponReponse?.data);
-        setCouponPickerVisible(true);
-      }
+    } catch (error) {
+
+    } finally {
+      setLoaders({ ...loaders, coupon: false, discount: false, changeCoupon: false })
     }
   };
   const checkin_booking = async () => {
     await checkin(bussinessId, bookingId);
-    setRefresh(!isRefresh);
+    await inIt();
   };
   const complete_the_booking = async () => {
     try {
@@ -173,20 +196,20 @@ const ReviewSchedule = (props) => {
   };
   const complete_booking = async () => {
     await complete_job(bussinessId, bookingId);
-    setRefresh(!isRefresh);
+    await inIt();
   };
   const start_booking = async () => {
     await start(bussinessId, bookingId);
-    setRefresh(!isRefresh);
+    await inIt();
   };
   const no_show_booking = async () => {
     await no_show(bussinessId, bookingId);
-    setRefresh(!isRefresh);
+    await inIt();
   };
   const assign_booking_worker = async (id) => {
     await assign_worker(bussinessId, bookingId, id);
+    await inIt();
     setWorkerVisible(false);
-    setRefresh(!isRefresh);
   };
 
   const update_payment = async id => {
@@ -204,7 +227,7 @@ const ReviewSchedule = (props) => {
   };
   const update_booking_slot = async id => {
     try {
-      setLoaders({ ...loaders, accept: true })
+      setLoaders({ ...loaders, slotChange: true, accept: true })
       await update_slot(bookingId, id);
       await inIt();
       setSlotVisible(false);
@@ -212,7 +235,7 @@ const ReviewSchedule = (props) => {
     } catch (error) {
 
     } finally {
-      setLoaders({ ...loaders, accept: false })
+      setLoaders({ ...loaders, slotChange: false, accept: false })
     }
   };
   // const update_booking_slot = async (id) => {
@@ -225,14 +248,35 @@ const ReviewSchedule = (props) => {
     setRefresh(!isRefresh);
   };
   const remove_booking_discount = async () => {
-    await remove_discount(bookingId, bussinessId);
-    console.log("Discount is Removed");
-    setRefresh(!isRefresh);
+    try {
+      setLoaders({ ...loaders, removeDiscount: true })
+
+      await remove_discount(bookingId, bussinessId);
+      console.log("Discount is Removed");
+      await inIt();
+    } catch (error) {
+      console.log('error=>', error);
+    } finally {
+      setLoaders({ ...loaders, removeDiscount: false })
+    }
   };
-  const apply_booking_discount = async (couponId) => {
-    await apply_coupon(bookingId, couponId, customerId);
-    setRefresh(!isRefresh);
-    setCouponPickerVisible(false);
+  const apply_booking_discount = async (value, id) => {
+    try {
+      setLoaders({ ...loaders, modalLoading: true })
+      if (title === "Select Coupon") {
+        await apply_coupon(bookingId, id, customerId);
+      } else {
+        await apply_discount(bookingId, id, customerId);
+      }
+      await inIt();
+      setCouponPickerVisible(false);
+
+    } catch (error) {
+      console.log('error=>', error);
+    } finally {
+      setLoaders({ ...loaders, modalLoading: false })
+
+    }
   };
   const moveTo = async () => {
     if (booking?.view?.message?.completed) {
@@ -245,7 +289,6 @@ const ReviewSchedule = (props) => {
     <SafeAreaView style={styles.conntainer}>
       <CustomAppHeader
         title={"Review & Schedule"}
-        color={colors?.lightgrey2}
         onBackClick={() => moveTo()}
       />
       <View style={styles.body}>
@@ -287,22 +330,24 @@ const ReviewSchedule = (props) => {
                   <Medium label={"Apply "} color={colors.black} size={12} />
                   {coupon?.view?.applyCoupon && (
                     <ActionButton
+                      loading={loaders?.coupon}
                       title="Coupon"
                       bgColor={colors.lightGreen1}
                       borderColor={colors.green}
                       titleColor={colors.green}
-                      style={{ marginTop: 0, width: mvs(62), }}
+                      style={{ marginTop: 0, }}
                       onClick={() => getCoupons("Select Coupon")}
                     />
                   )}
 
                   {coupon?.view?.applyDiscount && (
                     <ActionButton
+                      loading={loaders?.discount}
                       title="Discount"
                       bgColor={colors.lightGreen1}
                       borderColor={colors.green}
                       titleColor={colors.green}
-                      style={{ marginTop: 0, marginLeft: 4, width: mvs(62), }}
+                      style={{ marginTop: 0, marginLeft: 4, }}
                       onClick={() => getCoupons("Select Discount")}
                     />
                   )}
@@ -311,14 +356,14 @@ const ReviewSchedule = (props) => {
             </Row>
             <Row style={styles.coupon_row}>
               <NewCouponItem
-                showCoupon={!coupon?.view?.applyCoupon}
+                loading={!loading}
+                cover={coupon?.id ? coupon?.cover : null}
                 title={coupon?.title}
                 subTitle={coupon?.subTitle}
                 highlightedText={coupon?.highlight}
                 statusLine={coupon?.view?.message}
-                isExpiring={coupon?.view?.error}
+                isExpiring={coupon?.view?.remove}
                 showHighLighted={coupon?.view?.change}
-                loading={!loading}
               />
               <View
                 style={{
@@ -330,30 +375,33 @@ const ReviewSchedule = (props) => {
                       !coupon?.view?.changeDiscount
                       ? "flex-end"
                       : "flex-start",
+                  // backgroundColor: 'red',
+                  // flex: 1
                 }}
               >
                 {coupon?.view?.changeCoupon || coupon?.view?.changeDiscount ? (
                   <ActionButton
-                    loading={loading}
+                    loading={loaders?.changeCoupon}
                     title="Change"
                     bgColor={colors.lightYellow}
                     borderColor={colors.primary}
                     titleColor={colors.primary}
-                    onClick={() => getCoupons()}
+                    onClick={() => getCoupons(title, true)}
                     style={{ alignSelf: 'flex-end' }}
                   />
                 ) : null}
                 {coupon?.view?.remove ? (
-                  <ActionButton
-                    loading={loaders?.removeDiscount}
-                    title="Remove"
-                    bgColor={colors.lightPink1}
-                    borderColor={colors.red}
-                    titleColor={colors.red}
-                    style={{ alignSelf: 'flex-end', }}
-                    onClick={() => remove_booking_discount()}
-                  />
-                ) : null}
+                  <View style={{ flex: 1, justifyContent: 'center' }}>
+                    <ActionButton
+                      loading={loaders?.removeDiscount}
+                      title="Remove"
+                      bgColor={colors.lightPink1}
+                      borderColor={colors.red}
+                      titleColor={colors.red}
+                      style={{ alignSelf: 'flex-end', marginTop: mvs(5) }}
+                      onClick={() => remove_booking_discount()}
+                    />
+                  </View>) : null}
               </View>
             </Row>
             <Medium
@@ -416,56 +464,7 @@ const ReviewSchedule = (props) => {
               size={14}
             />
 
-            <Medium
-              label={"Booking Lifecycle"}
-              color={colors.black}
-              size={16}
-              style={{ marginTop: mvs(15) }}
-            />
-            {booking?.lifecycle?.booked && (
-              <LifeCycleItem
-                buttonText={"Book"}
-                item={booking?.lifecycle?.booked}
-                onClick={() => console.log("Booked")}
-              />
-            )}
-            {booking?.lifecycle?.cancelled && (
-              <LifeCycleItem
-                buttonText={"Cancel"}
-                item={booking?.lifecycle?.cancelled}
-                onClick={() => console.log("cancelled")}
-              />
-            )}
-            {booking?.lifecycle?.noshow && (
-              <LifeCycleItem
-                buttonText={"No show"}
-                item={booking?.lifecycle?.noshow}
-                onClick={() => no_show_booking()}
-              />
-            )}
-            {booking?.lifecycle?.checkin && (
-              <LifeCycleItem
-                buttonText={"Check in"}
-                item={booking?.lifecycle?.checkin}
-                onClick={() => checkin_booking()}
-              />
-            )}
-            {booking?.lifecycle?.started && (
-              <LifeCycleItem
-                buttonText={"Start"}
-                item={booking?.lifecycle?.started}
-                onClick={() => start_booking()}
-                assignWorker={booking?.lifecycle?.started?.assignWorker}
-                onAssignWorker={() => getWorkers()}
-              />
-            )}
-            {booking?.lifecycle?.completed && (
-              <LifeCycleItem
-                buttonText={"Complete"}
-                item={booking?.lifecycle?.completed}
-                onClick={() => complete_booking()}
-              />
-            )}
+
             {worker != null && (
               <Medium
                 label={"Worker"}
@@ -492,6 +491,57 @@ const ReviewSchedule = (props) => {
               invoice={booking?.invoice}
               bWidth={worker != null ? 0.3 : 0}
             />
+            {!booking?.lifecycle?.booked && <><Medium
+              label={"Booking Lifecycle"}
+              color={colors.black}
+              size={16}
+              style={{ marginTop: mvs(15) }}
+            />
+              {booking?.lifecycle?.booked && (
+                <LifeCycleItem
+                  buttonText={"Book"}
+                  item={booking?.lifecycle?.booked}
+                  onClick={() => console.log("Booked")}
+                />
+              )}
+              {booking?.lifecycle?.cancelled && (
+                <LifeCycleItem
+                  buttonText={"Cancel"}
+                  item={booking?.lifecycle?.cancelled}
+                  onClick={() => console.log("cancelled")}
+                />
+              )}
+              {booking?.lifecycle?.noshow && (
+                <LifeCycleItem
+                  buttonText={"No show"}
+                  item={booking?.lifecycle?.noshow}
+                  onClick={() => no_show_booking()}
+                />
+              )}
+              {booking?.lifecycle?.checkin && (
+                <LifeCycleItem
+                  buttonText={"Check in"}
+                  item={booking?.lifecycle?.checkin}
+                  onClick={() => checkin_booking()}
+                />
+              )}
+              {booking?.lifecycle?.started && (
+                <LifeCycleItem
+                  buttonText={"Start"}
+                  item={booking?.lifecycle?.started}
+                  onClick={() => start_booking()}
+                  assignWorker={booking?.lifecycle?.started?.assignWorker}
+                  onAssignWorker={() => getWorkers()}
+                />
+              )}
+              {booking?.lifecycle?.completed && (
+                <LifeCycleItem
+                  buttonText={"Complete"}
+                  item={booking?.lifecycle?.completed}
+                  onClick={() => complete_booking()}
+                />
+              )}
+            </>}
           </ScrollView>
 
           <View style={styles.bottomView}>
@@ -534,22 +584,23 @@ const ReviewSchedule = (props) => {
         </>
         }
         <CouponModal
+          modalLoading={loaders?.modalLoading}
           title={title}
           value={coupon}
           visible={couponPickerVisible}
           onBackdropPress={() => setCouponPickerVisible(false)}
           items={coupons}
           setValue={(value) => {
-            setCoupon(value);
-            apply_booking_discount(value?.id);
+            apply_booking_discount(value, value?.id);
           }}
         />
         <ScheduleModal
           slotItem={slotItem}
           visible={slotVisible}
           value={selectedSlot}
+          slotLoading={loaders?.modalLoading}
           setValue={(item) => {
-            setSelectedSlot(item);
+            // setSelectedSlot(item);
             update_booking_slot(item?.id);
           }}
           updateSlot={() => {
@@ -607,5 +658,7 @@ const mapDispatchToProps = {
     DIVIY_API.remove_discount(bookingId, bussinessId),
   apply_coupon: (bookingId, couponId, customerId) =>
     DIVIY_API.apply_coupon(bookingId, couponId, customerId),
+  apply_discount: (bookingId, discountId, customerId) =>
+    DIVIY_API.apply_discount(bookingId, discountId, customerId),
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ReviewSchedule);

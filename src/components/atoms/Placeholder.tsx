@@ -17,8 +17,7 @@ const ImagePlaceholder: FC<IProps> = ({ containerStyle, style, isUser = false, b
 
   return (
     <ImageBackground
-      resizeMode='contain'
-      source={isUser ? require('../../../src/assets/images/user.png') : require('../../../src/assets/images/placeholder.jpg')}
+      //source={ isUser?require('../../../src/assets/images/user.png'):require('../../../src/assets/images/placeholder.png')}
       style={{ height: mvs(40), width: mvs(40), borderRadius: mvs(borderRadius), ...containerStyle, overflow: 'hidden' }}>
       <Image
         source={uri}
@@ -31,9 +30,6 @@ const ImagePlaceholder: FC<IProps> = ({ containerStyle, style, isUser = false, b
         }}
       // resizeMode={resizeMode}
       />
-      <View style={{ position: 'absolute', bottom: mvs(5), ...style }}>
-        {props.children}
-      </View>
     </ImageBackground>
   );
 };
