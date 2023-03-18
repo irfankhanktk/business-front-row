@@ -59,6 +59,7 @@ const SlotItem = ({
             label={details}
             color={!noMore ? colors.lightgrey1 : colors.red}
             size={13}
+            numberOfLines={null}
             style={{ fontStyle: 'italic', flex: 1 }}
           />
           <View>

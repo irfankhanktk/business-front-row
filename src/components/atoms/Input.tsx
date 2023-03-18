@@ -12,6 +12,7 @@ import SelectDropdown from 'react-native-select-dropdown';
 import Icon from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import * as SVGS from '../../assets/common-icons';
+import Medium from '../../presentation/typography/medium-text';
 import Regular from '../../presentation/typography/regular-text';
 import SemiBold from '../../presentation/typography/semibold-text';
 import colors from '../../services/colors';
@@ -81,9 +82,9 @@ const InputSecondary: FC<IProps> = ({
   const RIcon = SVGS[rightIcon as keyof typeof SVGS];
   return (
     <View style={[{ marginBottom: mvs(18) }, containerStyle]}>
-      <SemiBold
+      <Medium
         label={label}
-        style={{ color: colors.text, marginBottom: mvs(10), ...labelStyle }}
+        style={{ marginBottom: mvs(10), ...labelStyle }}
       />
       <View
         style={{
@@ -248,7 +249,7 @@ const CustomDropDown: FC<IProps> = ({
       )}
       <Row style={{ marginTop: mvs(4) }} alignItems='center'>
         <>
-          <Bold label={!value ? placeholder : value} style={{ flex: 1 }} />
+          <Medium label={!value ? placeholder : value} style={{ flex: 1 }} />
           <SVGS.Caret style={{ transform: [{ translateY: mvs(1) }] }} />
         </>
       </Row>
@@ -322,9 +323,8 @@ const InputView: FC<IProps> = ({
   return (
     <View
       style={{ ...INPUT_STYLES.DROPDOWN_INPUT, ...INPUT_STYLES.CUSTOM_DROPDOWN, height: mvs(90), paddingHorizontal: mvs(20), ...style }}>
-      <SemiBold
+      <Medium
         label={label}
-        style={{ color: colors.text, fontSize: 14 }}
       />
       <TextInput style={{ ...INPUT_STYLES.TXTINPUT, marginBottom: mvs(10), paddingLeft: 0 }} placeholder={placeholder} onChangeText={onChangeText} />
     </View>

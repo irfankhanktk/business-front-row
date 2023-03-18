@@ -13,13 +13,16 @@ export const Styles = StyleSheet.create({
   },
   bottomView: {
     paddingVertical: mvs(14),
-    borderTopColor: colors.lightgrey1,
-    borderTopWidth: 0.2,
+    // borderTopColor: colors.lightgrey1,
+    // borderTopWidth: 0.2,
     paddingHorizontal: mvs(20)
   },
   coupon_row: {
-    borderBottomColor: colors.gray,
-    borderBottomWidth: 0.2,
-    paddingBottom: mvs(13.6),
+    marginTop: mvs(10),
+    alignItems: 'center',
+  },
+  div: {
+    borderBottomWidth: 0.3,
+    borderColor: colors.gray,
   }
 });

@@ -1,48 +1,35 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { useState, useEffect } from "react";
+import moment from "moment";
+import React, { useEffect, useState } from "react";
 import {
-  ScrollView,
-  SafeAreaView,
-  TextInput,
-  TouchableOpacity,
-  View,
   ActivityIndicator,
-  Image,
-  DrawerLayoutAndroidComponent,
+  Image, SafeAreaView, ScrollView, TextInput,
+  TouchableOpacity,
+  View
 } from "react-native";
-import { connect } from "react-redux";
+import { BaseURL } from "../../ApiServices";
 import {
   Edit,
-  TabActivityIcon,
-  TabOngoingIcon,
-  WhitePercentage,
+  TabActivityIcon
 } from "../../assets/common-icons";
-import { Bg } from "../../assets/images";
+import { Warning } from "../../assets/images";
 import Buttons from "../../components/atoms/Button";
-import ImagePlaceholder from "../../components/atoms/Placeholder";
 import Row from "../../components/atoms/row";
+import BookingDetailsHeader from "../../components/booking-details-header";
+import BookingPaymentView from "../../components/booking-payment-view";
+import BookingCoupon from "../../components/coupon-promo/booking-coupon";
 import { CustomHeader } from "../../components/molecules/header/header-1x";
+import CouponModal from "../../components/molecules/modals/coupon-modal";
+import ScheduleModal from "../../components/molecules/modals/schedule-modal";
+import { getData } from "../../localStorage";
 import Bold from "../../presentation/typography/bold-text";
 import Medium from "../../presentation/typography/medium-text";
 import Regular from "../../presentation/typography/regular-text";
-import SemiBold from "../../presentation/typography/semibold-text";
 import colors from "../../services/colors";
 import { mvs } from "../../services/metrices";
-import DIVIY_API from "../../store/api-calls";
 import { Styles as styles } from "./new-booking-details-styles";
-import { Warning } from "../../assets/images";
-import BookingDetailsHeader from "../../components/booking-details-header";
-import PickerModal from "../../components/molecules/modals/picker-model";
-import BookingCoupon from "../../components/coupon-promo/booking-coupon";
-import BookingPaymentView from "../../components/booking-payment-view";
-import CouponModal from "../../components/molecules/modals/coupon-modal";
-import ScheduleModal from "../../components/molecules/modals/schedule-modal";
-import moment from "moment";
-import { getData } from "../../localStorage";
-import { BaseURL } from "../../ApiServices";
-import alertService from "../../services/alert.service";
 
-const UnBookMessage = ({}) => {
+const UnBookMessage = ({ }) => {
   return (
     <Row style={{ alignItems: "center", marginTop: mvs(5) }}>
       <Image source={Warning} style={{ height: mvs(20), width: mvs(20) }} />
@@ -55,7 +42,7 @@ const UnBookMessage = ({}) => {
     </Row>
   );
 };
-const BookMessage = ({}) => {
+const BookMessage = ({ }) => {
   return (
     <Row style={{ alignItems: "center", marginTop: mvs(5) }}>
       <Image source={Warning} style={{ height: mvs(20), width: mvs(20) }} />
@@ -130,7 +117,7 @@ const NewBookingsDetails = ({ route, props }) => {
           if (!isSlotSet) return;
           setSlotBook(true);
           delayApi();
-          console.log(result);
+          // console.log(result);
         }
       })
       .catch((error) => {
@@ -277,15 +264,14 @@ const NewBookingsDetails = ({ route, props }) => {
                 <Bold label={"Date & time"} size={15} />
                 {selectedValue != undefined ? (
                   <Regular
-                    label={`${date?.format("DD MMMM YYYY")} ${
-                      selectedValue?.from[0] +
+                    label={`${date?.format("DD MMMM YYYY")} ${selectedValue?.from[0] +
                       ":" +
                       selectedValue?.from[1] +
                       "-" +
                       selectedValue?.to[0] +
                       ":" +
                       selectedValue?.to[1]
-                    }`}
+                      }`}
                     size={16}
                   />
                 ) : (
@@ -459,7 +445,6 @@ const NewBookingsDetails = ({ route, props }) => {
             setSlot(val);
             setSelectedValue(val);
             setFirstSlotText(null);
-            console.log("setSelectedValue======", selectedValue);
             setSlotSet(true);
           }}
         />

@@ -1,30 +1,30 @@
 import React, { useEffect, useState } from "react";
 import { FlatList, SafeAreaView, TouchableOpacity, View } from "react-native";
-import LinearGradient from "react-native-linear-gradient";
-import { createShimmerPlaceholder } from "react-native-shimmer-placeholder";
 import { connect } from "react-redux";
 import {
   Bell,
   Booking,
   TabOngoingIcon,
-  TotalHeader,
+  TotalHeader
 } from "../../../assets/common-icons";
 import BookingCard from "../../../components/atoms/booking-card";
 import PageLoader from "../../../components/atoms/page-loader";
 import { getData } from "../../../localStorage";
 import Bold from "../../../presentation/typography/bold-text";
+import Medium from "../../../presentation/typography/medium-text";
 import Regular from "../../../presentation/typography/regular-text";
 import alertService from "../../../services/alert.service";
 import allColors from "../../../services/colors";
 import { mvs } from "../../../services/metrices";
 import DIVIY_API from "../../../store/api-calls";
 import Row from "./../../../components/atoms/row";
-import SemiBold from "./../../../presentation/typography/semibold-text";
 import colors from "./../../../services/colors";
 import { Home_Styles as styles } from "./ongoing-styles";
 const OngoingTab = (props) => {
-  const { get_service_jobs, complete_job } = props;
+  const { get_service_jobs, complete_job, services } = props;
   //const businessId=3333;
+  const ser = services?.find(x => x?.selected);
+
   const [loading, setloading] = useState(true);
   const [isRefresh, setRefresh] = useState(false);
   const [btnLaoding, setbtnLaoding] = useState(false);
@@ -35,7 +35,7 @@ const OngoingTab = (props) => {
       setloading(true);
       var bId = await getData("BusinessId");
       setBussinessId(bId);
-      const response = await get_service_jobs(bId, 3333);
+      const response = await get_service_jobs(bId, ser?.id);
       console.log("Jobs Information===>", response?.data);
       // if (response?.data?.length > 0) {
       setData(response?.data);
@@ -79,10 +79,9 @@ const OngoingTab = (props) => {
       >
         <Row>
           <TabOngoingIcon />
-          <SemiBold
+          <Medium
             size={mvs(16)}
             label={"  Ongoing bookings"}
-            color={colors.B444251}
           />
         </Row>
         <Row style={{ width: mvs(65), alignItems: "center" }}>
@@ -137,7 +136,9 @@ const OngoingTab = (props) => {
               loading={!loading}
               item={item}
               showCheckout={true}
+              isOngoing
               onCheckout={() => complete_booking(item?.id)}
+              {...props}
             />
           )}
         /> :
@@ -154,7 +155,9 @@ const OngoingTab = (props) => {
     </SafeAreaView>
   );
 };
-const mapStateToProps = (store) => ({});
+const mapStateToProps = (store) => ({
+  services: store?.state?.services,
+});
 
 const mapDispatchToProps = {
   get_service_jobs: (bussinessId, serviceId) =>

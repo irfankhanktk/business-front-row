@@ -23,7 +23,6 @@ export const CustomHeader = ({
   isShowDelete = false,
   onPost,
   onPressDelete, titleStyle,
-  color = colors?.primary,
   size = 18
 }) => {
   const navigation = useNavigation();
@@ -40,7 +39,6 @@ export const CustomHeader = ({
                 <Medium
                   label={title}
                   style={{ ...styles.TITLE }}
-                  color={color}
                   size={size}
                 />
               </View>

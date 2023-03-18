@@ -3,6 +3,7 @@
  */
 const colors = {
   //new color scheme
+  reviewBg: '#ffedce',
   G6A728A: '#6A728A',
   DDDDDD: '#DDDDDD',
   G9EABBE: '#9EABBE',
@@ -41,8 +42,8 @@ const colors = {
   secondary: '#F2F2F2',//'#F2F2F2',
   label: '#9A9A9A',
   blue: "#2181F2",
-  lightBlue: "#C8DCF3",
-  lightGreen: "#D1F5E0",
+  lightBlue: "#C8DCF390",
+  lightGreen: "#D1F5E090",
   lightGreen1: "#F6FFFB",
   lightPink1: '#FCF1F2',
   primary0: '#0F6EF400',

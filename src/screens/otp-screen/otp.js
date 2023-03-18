@@ -58,7 +58,7 @@ const Otp = ({ navigation, route }, props) => {
           phone: route.params?.phone,
           code: value,
         });
-        console.log("result data=>", result?.data);
+        // console.log("result data=>", result?.data);
         storeData("token", result.data.token);
         storeData("user", JSON.stringify(result.data));
         storeData("customer_id", result.data.id.toString());

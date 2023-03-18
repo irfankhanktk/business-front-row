@@ -9,6 +9,7 @@ import { CustomAppHeader } from "../../components/molecules/header/custom-header
 import CouponModal from "../../components/molecules/modals/coupon-modal";
 import ScheduleModal from "../../components/molecules/modals/schedule-modal";
 import WorkerModal from "../../components/molecules/modals/worker-modal";
+import ReviewsRaing from "../../components/molecules/reviews-rating";
 import ActionButton from "../../components/review-schedule-items/action-button";
 import AlertMessage from "../../components/review-schedule-items/alert-message";
 import BillView from "../../components/review-schedule-items/bill-view";
@@ -64,7 +65,6 @@ const ReviewSchedule = (props) => {
   const [bussinessId, setBussinessId] = useState();
   const [selectedSlot, setSelectedSlot] = useState();
   const [worker, setWorker] = useState(null);
-  const [confirmLoading, setConfirmLoading] = useState(false);
   const [title, setTitle] = useState("Select Coupon");
   const [loaders, setLoaders] = React.useState({
     accept: false,
@@ -77,17 +77,21 @@ const ReviewSchedule = (props) => {
     discount: false,
     coupon: false,
     changeCoupon: false,
+    //life cycle buttons
+    complete: false,
+    checkin: false,
+    started: false,
+    noShow: false,
+    assignWorker: false,
+    getWorker: false,
   })
   const [isRefresh, setRefresh] = useState(false);
   const [loading, setLoading] = useState(true);
   const [paymentLoading, setPaymentLoading] = useState(false);
   useEffect(() => {
     inIt();
-    //setSelectedSlot(booking?.slot)
-    //setCoupon(booking?.discount)
   }, [isRefresh]);
   const inIt = async () => {
-    // setLoading(true);
     var bId = await getData("BusinessId");
     setBussinessId(bId);
     console.log("Booking id is====> ", bookingId);
@@ -101,14 +105,7 @@ const ReviewSchedule = (props) => {
       if (bookingResponse?.data?.discount) {
         var c = bookingResponse?.data?.discount;
         c.id = bookingResponse?.data?.discountId;
-        // if (bookingResponse?.data?.couponId) {
-        //   c = { ...c, id: bookingResponse?.data?.couponId }
-        // }
         setCoupon(c);
-      } else {
-        // var c = bookingResponse?.data?.discount;
-        // c.id = bookingResponse?.data?.discountId;
-        // setCoupon(c);
       }
       if (bookingResponse?.data?.worker) {
         var w = bookingResponse?.data?.worker;
@@ -118,12 +115,21 @@ const ReviewSchedule = (props) => {
     }
     setLoading(false);
   };
-  const getWorkers = async () => {
-    const workersReponse = await get_workers(bussinessId, bookingId);
-    console.log("Workers information===>", workersReponse?.data);
-    if (workersReponse?.data) {
-      setWorkers(workersReponse?.data);
-      setWorkerVisible(true);
+  const getWorkers = async (bool) => {
+    try {
+      setLoaders({ ...loaders, assignWorker: true, getWorker: bool })
+
+      const workersReponse = await get_workers(bussinessId, bookingId);
+      console.log("Workers information===>", workersReponse?.data);
+      if (workersReponse?.data) {
+        setWorkers(workersReponse?.data);
+        setWorkerVisible(true);
+      }
+    } catch (error) {
+      console.log('error=>', error);
+    } finally {
+      setLoaders({ ...loaders, assignWorker: false })
+
     }
   };
   const getSlots = async date => {
@@ -148,7 +154,6 @@ const ReviewSchedule = (props) => {
         setLoaders({ ...loaders, coupon: !isChange, changeCoupon: isChange })
         const couponReponse = await get_booking_coupons(bookingId, customerId);
         console.log("coupons information===>", couponReponse?.data);
-        // await inIt();
         if (couponReponse?.data) {
           setCoupons(couponReponse?.data);
           setCouponPickerVisible(true);
@@ -161,7 +166,6 @@ const ReviewSchedule = (props) => {
           setCoupons(couponReponse?.data);
           setCouponPickerVisible(true);
         }
-        // await inIt();
       }
     } catch (error) {
 
@@ -170,8 +174,16 @@ const ReviewSchedule = (props) => {
     }
   };
   const checkin_booking = async () => {
-    await checkin(bussinessId, bookingId);
-    await inIt();
+    try {
+      setLoaders({ ...loaders, checkin: true, })
+      await checkin(bussinessId, bookingId);
+      await inIt();
+
+    } catch (error) {
+      console.log('error=>', error);
+    } finally {
+      setLoaders({ ...loaders, checkin: false })
+    }
   };
   const complete_the_booking = async () => {
     try {
@@ -180,36 +192,56 @@ const ReviewSchedule = (props) => {
       await inIt();
       // props?.navigation?.pop(3);
     } catch (error) {
-
+      console.log('error=>', error);
     } finally {
       setLoaders({ ...loaders, confirm: false })
     }
-    // try {
-    //   setConfirmLoading(true);
-    //   await complete_my_booking(bookingId);
-    //   setRefresh(!isRefresh);
-    // } catch (error) {
-
-    // } finally {
-    //   setConfirmLoading(false);
-    // }
   };
   const complete_booking = async () => {
-    await complete_job(bussinessId, bookingId);
-    await inIt();
+    try {
+      setLoaders({ ...loaders, complete: true })
+      await complete_job(bussinessId, bookingId);
+      await inIt();
+    } catch (error) {
+      console.log('error=>', error);
+    } finally {
+      setLoaders({ ...loaders, complete: false })
+    }
   };
   const start_booking = async () => {
-    await start(bussinessId, bookingId);
-    await inIt();
+    try {
+      setLoaders({ ...loaders, started: true })
+      await start(bussinessId, bookingId);
+      await inIt();
+    } catch (error) {
+      console.log('error=>', error);
+    } finally {
+      setLoaders({ ...loaders, started: false })
+    }
   };
   const no_show_booking = async () => {
-    await no_show(bussinessId, bookingId);
-    await inIt();
+    try {
+      setLoaders({ ...loaders, noShow: true })
+      await no_show(bussinessId, bookingId);
+      await inIt();
+    } catch (error) {
+      console.log('error=>', error);
+    } finally {
+      setLoaders({ ...loaders, noShow: false })
+    }
   };
   const assign_booking_worker = async (id) => {
-    await assign_worker(bussinessId, bookingId, id);
-    await inIt();
-    setWorkerVisible(false);
+    try {
+      setLoaders({ ...loaders, modalLoading: true })
+      await assign_worker(bussinessId, bookingId, id);
+      await inIt();
+      setWorkerVisible(false);
+    } catch (error) {
+      console.log('error=>', error);
+    } finally {
+      setLoaders({ ...loaders, modalLoading: false })
+
+    }
   };
 
   const update_payment = async id => {
@@ -238,14 +270,9 @@ const ReviewSchedule = (props) => {
       setLoaders({ ...loaders, slotChange: false, accept: false })
     }
   };
-  // const update_booking_slot = async (id) => {
-  //   await update_slot(bookingId, id);
-  //   setSlotVisible(false);
-  //   setRefresh(!isRefresh);
-  // };
   const remove_booking_slot = async () => {
     await remove_slot(bookingId);
-    setRefresh(!isRefresh);
+    await inIt();
   };
   const remove_booking_discount = async () => {
     try {
@@ -316,7 +343,6 @@ const ReviewSchedule = (props) => {
               onRemoveClick={() => remove_booking_slot()}
               loaders={loaders}
             />
-
             <Row alignItems="center">
               <Medium
                 label={coupon?.view?.caption}
@@ -327,7 +353,7 @@ const ReviewSchedule = (props) => {
 
               {coupon?.view?.applyCoupon || coupon?.view?.applyDiscount ? (
                 <Row alignItems="center">
-                  <Medium label={"Apply "} color={colors.black} size={12} />
+                  <Regular label={"Apply  "} color={colors.black} size={12} />
                   {coupon?.view?.applyCoupon && (
                     <ActionButton
                       loading={loaders?.coupon}
@@ -335,7 +361,7 @@ const ReviewSchedule = (props) => {
                       bgColor={colors.lightGreen1}
                       borderColor={colors.green}
                       titleColor={colors.green}
-                      style={{ marginTop: 0, }}
+                      style={{ marginTop: 0, width: mvs(60), }}
                       onClick={() => getCoupons("Select Coupon")}
                     />
                   )}
@@ -347,7 +373,7 @@ const ReviewSchedule = (props) => {
                       bgColor={colors.lightGreen1}
                       borderColor={colors.green}
                       titleColor={colors.green}
-                      style={{ marginTop: 0, marginLeft: 4, }}
+                      style={{ marginTop: 0, marginLeft: mvs(10), width: mvs(60), }}
                       onClick={() => getCoupons("Select Discount")}
                     />
                   )}
@@ -356,53 +382,50 @@ const ReviewSchedule = (props) => {
             </Row>
             <Row style={styles.coupon_row}>
               <NewCouponItem
-                loading={!loading}
+                removeLoading={loaders?.removeDiscount}
+                isRemove={coupon?.view?.remove}
                 cover={coupon?.id ? coupon?.cover : null}
                 title={coupon?.title}
                 subTitle={coupon?.subTitle}
                 highlightedText={coupon?.highlight}
-                statusLine={coupon?.view?.message}
+                // statusLine={coupon?.view?.message}
+                statusLine={null}
                 isExpiring={coupon?.view?.remove}
                 showHighLighted={coupon?.view?.change}
               />
-              <View
-                style={{
-                  alignSelf:
-                    coupon?.view?.remove &&
-                      !coupon?.view?.applyCoupon &&
-                      !coupon?.view?.applyDiscount &&
-                      !coupon?.view?.changeCoupon &&
-                      !coupon?.view?.changeDiscount
-                      ? "flex-end"
-                      : "flex-start",
-                  // backgroundColor: 'red',
-                  // flex: 1
-                }}
-              >
-                {coupon?.view?.changeCoupon || coupon?.view?.changeDiscount ? (
-                  <ActionButton
-                    loading={loaders?.changeCoupon}
-                    title="Change"
-                    bgColor={colors.lightYellow}
-                    borderColor={colors.primary}
-                    titleColor={colors.primary}
-                    onClick={() => getCoupons(title, true)}
-                    style={{ alignSelf: 'flex-end' }}
-                  />
-                ) : null}
-                {coupon?.view?.remove ? (
-                  <View style={{ flex: 1, justifyContent: 'center' }}>
-                    <ActionButton
-                      loading={loaders?.removeDiscount}
-                      title="Remove"
-                      bgColor={colors.lightPink1}
-                      borderColor={colors.red}
-                      titleColor={colors.red}
-                      style={{ alignSelf: 'flex-end', marginTop: mvs(5) }}
-                      onClick={() => remove_booking_discount()}
-                    />
-                  </View>) : null}
-              </View>
+
+              {coupon?.view?.changeCoupon || coupon?.view?.changeDiscount ? (
+                <ActionButton
+                  loading={loaders?.changeCoupon}
+                  title="Change"
+                  bgColor={colors.lightYellow}
+                  borderColor={colors.primary}
+                  titleColor={colors.primary}
+                  onClick={() => getCoupons(title, true)}
+                  style={{ marginTop: mvs(0) }}
+                />
+              ) : null}
+
+            </Row>
+            <Row style={{
+              flex: 1, marginTop: mvs(10), alignItems: 'center', borderBottomColor: colors.gray,
+              borderBottomWidth: 0.2,
+              paddingBottom: mvs(15),
+            }}>
+              <Regular
+                style={{ flex: 1 }}
+                color={!coupon?.view?.remove ? colors.lightgrey1 : coupon?.view?.remove ? colors.red : colors.primary}
+                size={mvs(13)} label={coupon?.view?.message} numberOfLines={2} />
+              {coupon?.view?.remove ? (
+                <ActionButton
+                  loading={loaders?.removeDiscount}
+                  title="Remove"
+                  bgColor={colors.lightPink1}
+                  borderColor={colors.red}
+                  titleColor={colors.red}
+                  style={{ marginTop: mvs(0), marginLeft: mvs(5) }}
+                  onClick={() => remove_booking_discount()}
+                />) : null}
             </Row>
             <Medium
               label={"Payment Method"}
@@ -410,33 +433,11 @@ const ReviewSchedule = (props) => {
               size={16}
               style={{ marginTop: mvs(15) }}
             />
-            {loading ? <FlatList
-              showsHorizontalScrollIndicator={false}
-              horizontal
-              contentContainerStyle={{ paddingVertical: mvs(12) }}
-              data={[{}, {}, {}]}
-              renderItem={({ item, index }) => (
-                <PaymentCard
-                  item={item}
-                  loading={paymentLoading}
-                  key={index}
-                  title={item?.title}
-                  icon={item?.icon}
-                  borderColor={item?.color}
-                  selected={item?.selected}
-                  selectable={item?.selectable}
-                  onClick={() => {
-                    if (item?.selectable) {
-                      update_payment(item?.id);
-                    }
-                  }}
-                />
-              )}
-            />
-              : <FlatList
+            <View style={{ alignItems: 'center' }}>
+              <FlatList
                 showsHorizontalScrollIndicator={false}
                 horizontal
-                contentContainerStyle={{ paddingVertical: mvs(12) }}
+                contentContainerStyle={{ paddingVertical: mvs(12), }}
                 data={booking?.paymentOptions}
                 renderItem={({ item, index }) => (
                   <PaymentCard
@@ -455,7 +456,8 @@ const ReviewSchedule = (props) => {
                     }}
                   />
                 )}
-              />}
+              />
+            </View>
             <Regular
               label={booking?.payment?.view?.message}
               color={
@@ -465,33 +467,15 @@ const ReviewSchedule = (props) => {
             />
 
 
-            {worker != null && (
-              <Medium
-                label={"Worker"}
-                color={colors.black}
-                size={16}
-                style={{ marginVertical: mvs(15) }}
-              />
-            )}
-            {worker != null && (
-              <Row alignItems="center">
-                <WorkerItem item={worker} style={{ flex: 1 }} />
-                <ActionButton
-                  title={"Change Worker"}
-                  bgColor={colors.lightGreen1}
-                  borderColor={colors.green}
-                  titleColor={colors.green}
-                  onClick={() => getWorkers()}
-                />
-              </Row>
-            )}
+
 
             <BillView
               loading={!loading}
               invoice={booking?.invoice}
               bWidth={worker != null ? 0.3 : 0}
             />
-            {!booking?.lifecycle?.booked && <><Medium
+            <View style={styles.div} />
+            {booking?.lifecycle?.booked && <><Medium
               label={"Booking Lifecycle"}
               color={colors.black}
               size={16}
@@ -506,6 +490,7 @@ const ReviewSchedule = (props) => {
               )}
               {booking?.lifecycle?.cancelled && (
                 <LifeCycleItem
+
                   buttonText={"Cancel"}
                   item={booking?.lifecycle?.cancelled}
                   onClick={() => console.log("cancelled")}
@@ -513,6 +498,7 @@ const ReviewSchedule = (props) => {
               )}
               {booking?.lifecycle?.noshow && (
                 <LifeCycleItem
+                  loading={loaders?.noShow}
                   buttonText={"No show"}
                   item={booking?.lifecycle?.noshow}
                   onClick={() => no_show_booking()}
@@ -520,6 +506,7 @@ const ReviewSchedule = (props) => {
               )}
               {booking?.lifecycle?.checkin && (
                 <LifeCycleItem
+                  loading={loaders?.checkin}
                   buttonText={"Check in"}
                   item={booking?.lifecycle?.checkin}
                   onClick={() => checkin_booking()}
@@ -527,6 +514,8 @@ const ReviewSchedule = (props) => {
               )}
               {booking?.lifecycle?.started && (
                 <LifeCycleItem
+                  assignWorkerloading={loaders?.assignWorker}
+                  loading={loaders?.started}
                   buttonText={"Start"}
                   item={booking?.lifecycle?.started}
                   onClick={() => start_booking()}
@@ -536,12 +525,50 @@ const ReviewSchedule = (props) => {
               )}
               {booking?.lifecycle?.completed && (
                 <LifeCycleItem
+                  loading={loaders?.complete}
                   buttonText={"Complete"}
                   item={booking?.lifecycle?.completed}
                   onClick={() => complete_booking()}
                 />
               )}
             </>}
+            <View style={styles.div} />
+            {worker != null && (
+              <Medium
+                label={"Worker"}
+                size={16}
+                style={{ marginVertical: mvs(15) }}
+              />
+            )}
+            {worker != null && (
+              <Row alignItems="center">
+                <WorkerItem item={worker} style={{ flex: 1 }} />
+                {booking?.isCheckin ? <ActionButton
+                  title={"Change"}
+                  loading={loaders?.getWorker}
+                  bgColor={colors.lightGreen1}
+                  borderColor={colors.green}
+                  titleColor={colors.green}
+                  onClick={() => getWorkers(true)}
+                  style={{ width: mvs(80) }}
+                /> : null}
+              </Row>
+            )}
+            {booking?.review && (
+              <>
+                <View style={{ ...styles.div, marginTop: mvs(15), }} />
+                <Medium
+                  label={"Feedback"}
+                  size={16}
+                  style={{ marginVertical: mvs(15) }}
+                />
+              </>
+            )}
+            {booking?.review ? <ReviewsRaing
+              picsArray={[{}]}
+              ele={booking?.review}
+            // loading={loading}
+            /> : null}
           </ScrollView>
 
           <View style={styles.bottomView}>
@@ -612,6 +639,7 @@ const ReviewSchedule = (props) => {
           }}
         />
         <WorkerModal
+          loading={loaders?.modalLoading}
           items={workers}
           value={worker}
           setValue={(value) => {

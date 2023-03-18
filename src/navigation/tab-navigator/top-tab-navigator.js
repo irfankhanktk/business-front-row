@@ -6,6 +6,7 @@ import {
 } from "react-native";
 import { BaseURL } from "../../ApiServices";
 import { BookingActive, Floating } from "../../assets/common-icons";
+import Medium from "../../presentation/typography/medium-text";
 import SemiBold from "../../presentation/typography/semibold-text";
 import AfterNoon from "../../screens/activities/afternoon/after-noon";
 import Evening from "../../screens/activities/evening/evening";
@@ -70,10 +71,9 @@ const TopTabNavigator = () => {
       >
         <Row>
           <BookingActive />
-          <SemiBold
+          <Medium
             size={mvs(16)}
             label={"  My Bookings"}
-            color={colors.B444251}
           />
         </Row>
       </Row>
@@ -81,7 +81,7 @@ const TopTabNavigator = () => {
         tabBar={(props) => <MyTabBar {...props} />}
         screenOptions={{
           tabBarActiveTintColor: allColors.black,
-          tabBarStyle: { backgroundColor: "white", marginTop: mvs(14) },
+          // tabBarStyle: { backgroundColor: "white", marginTop: mvs(14), fontSize: mvs(10) },
           tabBarIndicatorStyle: {
             backgroundColor: allColors.primary,
           },

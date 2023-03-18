@@ -38,9 +38,9 @@ const Morning = (props) => {
     setLoading(true);
     var bId = await getData("BusinessId");
     setBussinessId(bId);
-    console.log("Booking Id Is ", bId);
+    // console.log("Booking Id Is ", bId);
     const res = await get_service_bookings(bId, 1);
-    console.log("Bookings Response ===> ", res?.data);
+    // console.log("Bookings Response ===> ", res?.data);
     if (res?.data) {
       setData(res?.data);
     }
@@ -52,7 +52,6 @@ const Morning = (props) => {
   const getWorkers = async (id) => {
     setbtnLoading(true);
     const workersReponse = await get_workers(bussinessId, id);
-    console.log("Workers information===>", workersReponse?.data);
     if (workersReponse?.data) {
       setWorkers(workersReponse?.data);
       setWorkerVisible(true);
@@ -139,6 +138,7 @@ const Morning = (props) => {
                   onCheckin={() => checkin_booking(item?.id)}
                   onStart={() => start_booking(item?.id)}
                   onNoShow={() => no_show_booking(item?.id)}
+                  {...props}
                 />
               )}
             />

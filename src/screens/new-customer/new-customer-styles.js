@@ -9,7 +9,7 @@ export const Styles = StyleSheet.create({
   },
   body: {
     flex: 1,
-    paddingHorizontal: mvs(25),
+    paddingHorizontal: mvs(18),
     paddingTop: mvs(15),
   },
   phoneContainer: {
@@ -37,9 +37,9 @@ export const Styles = StyleSheet.create({
     alignItems: "center",
     height: mvs(60),
     borderRadius: 10,
-    borderWidth: 1,
+    borderWidth: 0.7,
     borderColor: colors.gray,
-    ...colors.shadow,
+    // ...colors.shadow,
   },
   button: {
     marginTop: mvs(20),

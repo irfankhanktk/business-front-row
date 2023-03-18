@@ -14,14 +14,15 @@ import Row from "../../components/atoms/row";
 import { BaseURL } from "../../ApiServices";
 import Toast from "react-native-toast-message";
 import { getData, storeData } from "../../localStorage";
+import Medium from "../../presentation/typography/medium-text";
 const CustomerVehicle = ({ route, props }) => {
   const navigation = useNavigation();
   const { customerID } = route.params;
   const [loading, setLoading] = React.useState(false);
   const [fetchApi, setfetchApi] = useState(true);
-  const [VehicleName, setVehicleName] = React.useState([{id:1,name:"Sedan"}, {id:2,name:"Suzuki"}]);
-  const [VehicleType, setVehicleType] = React.useState([{id:1,name:"Toyota"}, {id:2,name:"Nissan"},{id:3,name:"Toyota"}]);
-  const [VehicleModel, setVehicleModel] = React.useState([{id:1,name:"Corolla"},{id:2,name:"Micra"},{id:3,name:"Altima"},{id:4,name:"Corolla"}]);
+  const [VehicleName, setVehicleName] = React.useState([{ id: 1, name: "Sedan" }, { id: 2, name: "Suzuki" }]);
+  const [VehicleType, setVehicleType] = React.useState([{ id: 1, name: "Toyota" }, { id: 2, name: "Nissan" }, { id: 3, name: "Toyota" }]);
+  const [VehicleModel, setVehicleModel] = React.useState([{ id: 1, name: "Corolla" }, { id: 2, name: "Micra" }, { id: 3, name: "Altima" }, { id: 4, name: "Corolla" }]);
   const [payload, setPayload] = React.useState({
     type: "",
     registration: "",
@@ -92,7 +93,7 @@ const CustomerVehicle = ({ route, props }) => {
       });
   };
   useEffect(() => {
-   // getVehicleDetails();
+    // getVehicleDetails();
   }, [fetchApi]);
   const addNewVehicle = async () => {
     if (payload.type === "") {
@@ -161,15 +162,14 @@ const CustomerVehicle = ({ route, props }) => {
     <SafeAreaView
       style={{ ...styles.container, backgroundColor: colors.background }}
     >
-      <CustomHeader colors={colors} title="" allowBackBtn />
+      <CustomHeader colors={colors} title="Customer Vehicle" allowBackBtn />
       <ScrollView
-        contentContainerStyle={{ flexGrow: 1, paddingHorizontal: mvs(16) }}
+        contentContainerStyle={{ flexGrow: 1, }}
       >
         <View style={styles.body}>
-          <Bold label={"Customer Vehicle"} style={{ fontSize: 24 }} />
+          <Medium label={"Customer Vehicle"} size={21} />
           <Regular
             label={"Add Customer vehicle to use our services"}
-            style={{ fontSize: 16 }}
           />
           <View style={styles.input_container}>
             <INPUT_FIELD.CustomDropDown

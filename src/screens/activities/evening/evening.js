@@ -41,7 +41,6 @@ const Evening = (props) => {
     setlaoding(true);
     var bId = await getData("BusinessId");
     setBussinessId(bId);
-    console.log("Booking Id Is ", bId);
     const res = await get_service_bookings(bId, 1);
     if (res?.data) {
       setData(res?.data);
@@ -165,6 +164,7 @@ const Evening = (props) => {
                   onCheckin={() => checkin_booking(item?.id)}
                   onStart={() => start_booking(item?.id)}
                   onNoShow={() => no_show_booking(item?.id)}
+                  {...props}
                 />
               )}
             />

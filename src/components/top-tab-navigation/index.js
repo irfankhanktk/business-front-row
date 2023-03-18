@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   StyleSheet
 } from "react-native";
+import Medium from "../../presentation/typography/medium-text";
 import { mvs } from "../../services/metrices";
 import colors from "./../../services/colors";
 import fonts from "./../../services/fonts";
@@ -65,15 +66,9 @@ function MyTabBar({ state, descriptors, navigation, position }) {
               borderColor: colors.primary,
             }}
           >
-            <Animated.Text
-              style={{
-                color: colors.B323232,
-                fontFamily: fonts.bold,
-                fontSize: mvs(17),
-              }}
-            >
-              {label}
-            </Animated.Text>
+            <Medium
+              label={label}
+            />
             <Animated.Text
               style={{
                 color: colors.G777373,

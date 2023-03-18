@@ -8,6 +8,7 @@ import colors from '../../services/colors';
 import { mvs } from '../../services/metrices';
 import SemiBold from './../../presentation/typography/semibold-text';
 import * as SVG from '../../assets/common-icons'
+import Medium from '../../presentation/typography/medium-text';
 type BProps = {
   title?: string;
   onClick?: () => void;
@@ -27,31 +28,31 @@ const ButtonPrimary: FC<BProps> = ({
   style,
   textStyle,
   loading,
-  icon="",
+  icon = "",
   disabled = false,
   ...props
 }) => {
-  const Icon=SVG[icon];
+  const Icon = SVG[icon];
   return (
     <TouchableOpacity
-      disabled={disabled||loading}
+      disabled={disabled || loading}
       {...props}
-      style={{...buttonStyles.buttonPrimary,backgroundColor:(disabled||loading)?`${colors.primary}50`:colors.primary, ...style}}
+      style={{ ...buttonStyles.buttonPrimary, backgroundColor: (disabled || loading) ? `${colors.primary}50` : colors.primary, ...style }}
       onPress={onClick}
       activeOpacity={0.5}>
       {loading ? (
         <ActivityIndicator color={colors.white} size={'small'} />
       ) : (
         <>
-         {Icon &&(<Icon/>)}
-         <SemiBold
-          {...props}
-          size={mvs(18)}
-          label={title}
-          style={{color: colors.white, ...textStyle}}
-        />
+          {Icon && (<Icon />)}
+          <Medium
+            {...props}
+            size={mvs(18)}
+            label={title}
+            style={{ color: colors.white, ...textStyle }}
+          />
         </>
-       
+
       )}
     </TouchableOpacity>
   );
@@ -69,7 +70,7 @@ const ButtonSecondary: FC<BProps> = ({
     <TouchableOpacity
       disabled={disabled}
       {...props}
-      style={{...buttonStyles.buttonSecondary, ...style}}
+      style={{ ...buttonStyles.buttonSecondary, ...style }}
       onPress={onClick}
       activeOpacity={0.5}>
       {loading ? (
@@ -79,7 +80,7 @@ const ButtonSecondary: FC<BProps> = ({
           {...props}
           size={mvs(18)}
           label={title}
-          style={{color: colors.headerTitle, ...textStyle}}
+          style={{ color: colors.headerTitle, ...textStyle }}
         />
       )}
     </TouchableOpacity>
@@ -100,22 +101,22 @@ const ButtonButton: FC<BProps> = ({
     <TouchableOpacity
       disabled={disabled}
       {...props}
-      style={{...buttonStyles.buttonButton,...containerStyle}}
+      style={{ ...buttonStyles.buttonButton, ...containerStyle }}
       onPress={onClick}
       activeOpacity={0.5}>
-        <View style={{paddingRight:mvs(10),width:'85%',}}>
+      <View style={{ paddingRight: mvs(10), width: '85%', }}>
         <SemiBold
           {...props}
           size={mvs(14)}
           label={title}
-          style={{color: colors.headerTitle,}}
+          style={{ color: colors.headerTitle, }}
         />
         <Regular size={mvs(12)} color={`${colors.B323232}34`} label={subTitle} />
-        </View>
-        <TouchableOpacity style={{height:mvs(40),justifyContent:'center',alignItems:'center',backgroundColor:`${colors.primary}10`,borderRadius:mvs(6),width:mvs(46),...style}}>
-         <Bold label={'1'} style={{...textStyle}}/>
-        </TouchableOpacity>
-    
+      </View>
+      <TouchableOpacity style={{ height: mvs(40), justifyContent: 'center', alignItems: 'center', backgroundColor: `${colors.primary}10`, borderRadius: mvs(6), width: mvs(46), ...style }}>
+        <Bold label={'1'} style={{ ...textStyle }} />
+      </TouchableOpacity>
+
     </TouchableOpacity>
   );
 };

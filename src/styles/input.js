@@ -36,9 +36,9 @@ export const INPUT_STYLES = StyleSheet.create({
     alignItems: 'center',
     height: mvs(60),
     borderRadius: 10,
-    borderWidth: 1,
+    borderWidth: 0.7,
     borderColor: colors.gray,
-    ...colors.shadow
+    // ...colors.shadow
 
   },
   DROPDOWN_INPUT: {

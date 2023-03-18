@@ -46,14 +46,12 @@ const NewBooking = (props) => {
   const [showButton, setshowButton] = useState(false);
   const [customerData, setcustomerData] = useState([]);
   const [serviceOffering, setserviceOffering] = useState([]);
-  console.log('ser=>>>>', ser);
   const getServiceOffering = async () => {
     var bId = await getData("BusinessId");
     var requestOptions = {
       method: "GET",
       redirect: "follow",
     };
-    console.log('`${BaseURL}b/om/businesses/${bId}/services/${ser?.id}/offerings`', `${BaseURL}b/om/businesses/${bId}/services/${ser?.id}/offerings`);
     await fetch(
       `${BaseURL}b/om/businesses/${bId}/services/${ser?.id}/offerings`,
       requestOptions
@@ -62,13 +60,11 @@ const NewBooking = (props) => {
       .then((result) => {
         if (result != null) {
           setserviceOffering(result);
-          console.log("getServiceOffering=====", result);
           setloading(false);
         }
       })
       .catch((error) => {
         setloading(false);
-        console.log("error getServiceOffering=======", error);
       });
   };
   useEffect(() => {
@@ -149,7 +145,6 @@ const NewBooking = (props) => {
             showToast("error", result?.message);
           } else {
             showToast("success", "Booking created successfully");
-            console.log("Booking Created", result);
             delayApi(result);
           }
         }

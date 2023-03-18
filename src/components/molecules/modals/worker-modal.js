@@ -7,12 +7,14 @@ import colors from "../../../services/colors";
 import { mvs, width } from "../../../services/metrices";
 import Row from "../../atoms/row";
 import WorkerItem from "../../service-offering/woker-item";
+import ModalLoader from "../modal-loader";
 const WorkerModal = ({
   value,
-  setValue = (arg) => {},
+  setValue = (arg) => { },
   visible,
   items = [],
-  onBackdropPress
+  onBackdropPress,
+  loading,
 }) => {
   // console.log(value)
   // console.log(items);
@@ -25,19 +27,18 @@ const WorkerModal = ({
       <View style={styles.container}>
         <>
           <Bold label={`Assign Worker`} />
-
           {items?.map((item, index) => (
             <TouchableOpacity
               key={index}
-              activeOpacity={item?.id == value?.id?1:0}
+              activeOpacity={item?.id == value?.id ? 1 : 0}
               style={{ width: "100%" }}
               onPress={() => {
-                if(item?.id != value?.id){
+                if (item?.id != value?.id) {
                   setValue(item);
                 }
               }}>
-               <Row style={{ ...styles.PAYMENTDROPDOWN }}>
-               <WorkerItem item={item} style={{flex:1}}/>
+              <Row style={{ ...styles.PAYMENTDROPDOWN }}>
+                <WorkerItem item={item} style={{ flex: 1 }} />
                 <View>
                   {item?.id === value?.id ? (
                     <SelectedCard />
@@ -49,6 +50,7 @@ const WorkerModal = ({
             </TouchableOpacity>
           ))}
         </>
+        {loading && <ModalLoader />}
       </View>
     </ReactNativeModal>
   );

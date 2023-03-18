@@ -39,11 +39,9 @@ const NewCustomer = (props) => {
     email: "",
   });
   const delayApi = (customerID) => {
-    setTimeout(() => {
-      navigation.navigate("CustomerVehicle", {
-        customerID,
-      });
-    }, 4000);
+    navigation.navigate("CustomerVehicle", {
+      customerID,
+    });
   };
   const addNewCustomer = async () => {
     if (userInfo.name === "") {
@@ -111,7 +109,7 @@ const NewCustomer = (props) => {
     >
       <CustomHeader
         title="Add New Customer"
-        titleStyle={{ fontSize: 15, fontWeight: "bold", color: colors.black }}
+        titleStyle={{ fontSize: 15, }}
         spacebetween
         allowBackBtn
       />
@@ -120,11 +118,10 @@ const NewCustomer = (props) => {
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ flexGrow: 1 }}
         >
-          <Bold label={"Customer Information"} size={21} />
-          <Bold
+          <Medium label={"Customer Information"} size={21} />
+          <Regular
             label={"Enter Customer Information below to register"}
             style={{ marginTop: mvs(15) }}
-            size={16}
             numberOfLines={2}
           />
           <View style={{ marginHorizontal: mvs(1), marginTop: mvs(25) }}>
@@ -139,7 +136,7 @@ const NewCustomer = (props) => {
               placeholder="john"
             />
 
-            <SemiBold
+            <Medium
               label={"PHONE NUMBER"}
               size={12}
               style={{ marginTop: mvs(20) }}
@@ -158,14 +155,14 @@ const NewCustomer = (props) => {
                 onChangeFormattedText={(text) => {
                   setuserInfo({ ...userInfo, mobile: text });
                 }}
-                onChangeText={(text) => {}}
+                onChangeText={(text) => { }}
               />
-              <Tick style={{}} />
+              {/* <Tick style={{}} /> */}
             </View>
             <INPUT_FIELD.InputSecondary
               value={""}
               leftIcon="Email"
-              rightIcon="Tick"
+              rightIcon=""
               labelStyle={{ marginTop: mvs(25) }}
               onChangeText={(t) => {
                 userInfo.email = t;

@@ -1,7 +1,7 @@
 //import liraries
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
-import { FlatList, SafeAreaView, StatusBar, View } from "react-native";
+import { FlatList, View } from "react-native";
 import { connect } from "react-redux";
 import BookingCard from "../../../components/atoms/booking-card";
 import PageLoader from "../../../components/atoms/page-loader";
@@ -39,7 +39,7 @@ const AfterNoon = (props) => {
   const getOngoingBooking = async () => {
     var bId = await getData("BusinessId");
     setBussinessId(bId);
-    console.log("Booking Id Is ", bId);
+    // console.log("Booking Id Is ", bId);
     const res = await get_service_bookings(bId, 1);
     if (res?.data) {
       setData(res?.data);
@@ -52,7 +52,6 @@ const AfterNoon = (props) => {
   const getWorkers = async (id) => {
     setbtnLoading(true);
     const workersReponse = await get_workers(bussinessId, id);
-    console.log("Workers information===>", workersReponse?.data);
     if (workersReponse?.data) {
       setWorkers(workersReponse?.data);
       setWorkerVisible(true);
@@ -134,6 +133,7 @@ const AfterNoon = (props) => {
                     onCheckin={() => checkin_booking(item?.id)}
                     onStart={() => start_booking(item?.id)}
                     onNoShow={() => no_show_booking(item?.id)}
+                    {...props}
                   />
                 )}
               />

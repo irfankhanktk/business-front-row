@@ -84,7 +84,7 @@ const ReviewAndSchedule = props => {
     const bookingResponse = await get_booking(bId, bookingId);
     if (bookingResponse?.data) {
       setBooking(bookingResponse?.data);
-      console.log("Booking information===>", bookingResponse?.data);
+      // console.log("Booking information===>", bookingResponse?.data);
       setSelectedSlot(bookingResponse?.data?.slot);
       //setCoupon(bookingResponse?.data?.discount)
       if (bookingResponse?.data?.discount) {

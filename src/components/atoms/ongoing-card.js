@@ -23,30 +23,6 @@ const OngoingCard = ({
 }) => {
   const [progress, setProgress] = useState(0.01);
   const [leftTime, setLeftTime] = useState(0.0);
-  useEffect(() => {
-    if (item?.isInprogress) {
-      calculateProgress();
-      setInterval(() => {
-        calculateProgress();
-      }, 1000 * 60)
-    }
-  }, [progress])
-  function calculateProgress() {
-    const startdate = item?.view?.start;
-    const minuts = item?.view?.minutes;
-    var t = moment(startdate).twix(new Date());
-    var completed = t.count('minutes') - 1;
-    var percentage = (completed / minuts);
-    var remTime = minuts - completed;
-    if (percentage >= 1) {
-      percentage = 1.0
-    }
-    if (remTime < 0) {
-      remTime = 0;
-    }
-    setLeftTime(remTime)
-    setProgress(percentage)
-  }
   return (
     <View style={styles.CONTAINER}>
       <Row style={{ ...styles.UPPERROW, ...styles.TIMETOPVIEW }}>

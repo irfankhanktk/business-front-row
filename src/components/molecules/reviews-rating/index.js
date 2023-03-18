@@ -1,86 +1,118 @@
+import moment from 'moment';
 import React from 'react';
-import {View, Text, ScrollView} from 'react-native';
-import {mvs, width} from '../../../services/metrices';
-import Row from './../../atoms/row';
+import { FlatList, StyleSheet, View } from 'react-native';
+import { CarOwner } from '../../../assets/images';
+import SERVICES from '../../../services/common-services';
+import fonts from '../../../services/fonts';
+import { mvs, width } from '../../../services/metrices';
+import Regular from './../../../presentation/typography/regular-text';
+import SemiBold from './../../../presentation/typography/semibold-text';
 import colors from './../../../services/colors';
 import ImagePlaceholder from './../../atoms/Placeholder';
-import SemiBold from './../../../presentation/typography/semibold-text';
+import Row from './../../atoms/row';
 import RatingStar from './../rating-star/index';
-import Regular from './../../../presentation/typography/regular-text';
-import {Bg} from '../../../assets/images';
 
-const ReviewsRaing = ({bg = `${colors.primary}70`, style}) => {
+const ReviewsRaing = ({ ele = {}, style }) => {
+  console.log('review=>>>', ele);
   return (
-    <View style={{marginTop: mvs(30), ...style}}>
-      <ScrollView
-        showsHorizontalScrollIndicator={false}
-        horizontal
-        contentContainerStyle={{paddingHorizontal: mvs(18)}}>
-        {[0, 1, 2, 3, 4].map((ele, index) => (
+    <View
+      style={styles.container}>
+      <Row justifyContent="space-between" alignItems="flex-start">
+        <Row>
+          <ImagePlaceholder
+            containerStyle={styles.img}
+            uri={
+              ele?.customer?.image
+                ? { uri: SERVICES._returnFile(ele?.customer?.image) }
+                : CarOwner
+            }
+          />
           <View
-            key={index}
             style={{
-              paddingHorizontal: mvs(12),
-              marginRight: mvs(16),
-              width: width - mvs(65),
-              paddingVertical: mvs(16),
-              backgroundColor: bg,
-              borderRadius: mvs(5),
+              marginLeft: mvs(10),
             }}>
-            <Row justifyContent="flex-start" style={{}}>
+            <SemiBold
+              size={mvs(12)}
+              color={colors.B1B1B1B}
+              label={ele?.customer?.name}
+            />
+            <RatingStar
+              ratingSelectedColor={colors.black}
+              ratingUnSelectedColor={colors.G9B9B9B}
+              size={10}
+              fill={colors.B323232}
+              rate={ele?.rate}
+              width={mvs(70)}
+              tintColor={'#ffedce'}
+            />
+          </View>
+        </Row>
+        <View style={{ marginRight: mvs(10) }}>
+          <Regular
+            style={styles.date}
+            label={moment(ele?.date).fromNow()}
+          />
+        </View>
+      </Row>
+      <Regular
+        style={styles.bottomText}
+        size={mvs(12)}
+        color={colors.filter_divider}
+        numberOfLines={5}
+        label={ele?.remark}
+      />
+      {ele?.pics?.length > 0 && (
+        <FlatList
+          nestedScrollEnabled
+          contentContainerStyle={{ paddingTop: mvs(10) }}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          data={ele?.pics}
+          renderItem={({ item, index }) => (
+            <View
+              key={index}
+              style={{
+                height: mvs(52),
+                width: mvs(52),
+                marginRight: mvs(10),
+              }}>
               <ImagePlaceholder
                 containerStyle={{
-                  height: mvs(33),
-                  width: mvs(33),
-                  borderRadius: mvs(17),
+                  height: '100%',
+                  width: '100%',
+                  borderRadius: mvs(7),
                 }}
-                uri={Bg}
+                uri={{ uri: SERVICES._returnFile(item) }}
               />
-              <View style={{marginLeft: mvs(10)}}>
-                <SemiBold
-                  size={mvs(14)}
-                  color={colors.B1B1B1B}
-                  label={'Garnet Bins '}
-                />
-                <RatingStar fill={colors.B323232} width={mvs(90)} />
-              </View>
-              <View style={{flex: 1}}>
-                <Regular
-                  style={{
-                    alignSelf: 'flex-end',
-                    color: colors.black,
-                    fontSize: mvs(12),
-                  }}
-                  label={'Yesterday 09:28'}
-                />
-              </View>
-            </Row>
-            <Regular
-              style={{marginVertical: mvs(15)}}
-              size={mvs(12)}
-              numberOfLines={2}
-              label={
-                'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam.'
-              }
-            />
-            <Row justifyContent={'space-between'}>
-              {[0, 1, 2, 3, 4].map((ele, index) => (
-                <View key={index} style={{height: mvs(52), width: mvs(52)}}>
-                  <ImagePlaceholder
-                    containerStyle={{
-                      height: '100%',
-                      width: '100%',
-                      borderRadius: mvs(16),
-                    }}
-                    uri={Bg}
-                  />
-                </View>
-              ))}
-            </Row>
-          </View>
-        ))}
-      </ScrollView>
+            </View>
+          )}
+          keyExtractor={item => item.id}
+        />
+      )}
     </View>
   );
 };
 export default ReviewsRaing;
+const styles = StyleSheet.create({
+  container: {
+    paddingHorizontal: mvs(12),
+    paddingVertical: mvs(16),
+    backgroundColor: colors.reviewBg,
+    borderRadius: mvs(5),
+  },
+  bottomText: {
+    marginTop: mvs(10),
+    fontFamily: fonts.medium,
+  },
+  date: {
+    alignSelf: 'flex-end',
+    fontFamily: fonts.medium,
+    color: colors.G9B9B9B,
+    fontSize: mvs(12),
+  },
+  img: {
+    height: mvs(33),
+    width: mvs(33),
+    borderRadius: mvs(17),
+  }
+});

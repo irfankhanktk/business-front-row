@@ -8,6 +8,7 @@ import SERVICES from '../../services/common-services';
 import { mvs } from '../../services/metrices';
 import ImagePlaceholder from '../atoms/Placeholder';
 import Row from '../atoms/row';
+import ActionButton from './action-button';
 const NewCouponItem =
   ({
     title = 'No Discount is Applied',
@@ -17,13 +18,13 @@ const NewCouponItem =
     statusLine = 'Booking at full price',
     showCoupon = false,
     showHighLighted = false,
-    loading,
+    removeLoading,
     isRemove,
     cover,
   }) => {
     return (
-      <View>
-        <Row style={{ marginTop: mvs(10), }}>
+      <View style={{ flex: 1 }}>
+        <Row style={{}}>
           <ImagePlaceholder
             containerStyle={styles.image}
             uri={cover ? { uri: SERVICES._returnFile(cover) } : NoCouponIcon}
@@ -33,9 +34,10 @@ const NewCouponItem =
             <Regular color={colors.lightgrey1} size={mvs(13)} label={subTitle} />
           </View>
         </Row>
-        <Regular
+        {statusLine ? <Regular
+          style={{ flex: 1 }}
           color={showCoupon & !isExpiring ? colors.lightgrey1 : isExpiring ? colors.red : colors.primary}
-          size={mvs(13)} label={statusLine} style={{ width: '99.99%' }} numberOfLines={2} />
+          size={mvs(13)} label={statusLine} numberOfLines={2} /> : null}
       </View>
 
     );
