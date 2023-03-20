@@ -25,6 +25,7 @@ import NewCustomer from "../../screens/new-customer/new-customer";
 import NewBookingDetails from "../../screens/new-booking-details/new-booking-details";
 import StartJob from "../../screens/start-job/start-job";
 import ReviewSchedule from "../../screens/review-schedule/review-schedule";
+import Notifications from "../../screens/notifications";
 const Stack = createStackNavigator();
 const horizontalAnimation = {
   headerShown: false,
@@ -64,6 +65,8 @@ export const MainNavigator = () => {
         <Stack.Screen name="ReviewSchedule" component={ReviewSchedule} />
         <Stack.Screen name="MoreDetails" component={MoreDetails} />
         <Stack.Screen name="ServiceDetails" component={ServiceDetails} />
+        <Stack.Screen name="Notifications" component={Notifications} />
+
         <Stack.Screen
           name="ServiceOfferingDetails"
           component={ServiceOfferingDetails}

@@ -36,6 +36,13 @@ const AfterNoon = (props) => {
   const [bussinessId, setBussinessId] = useState();
   const [worker, setWorker] = useState(null);
   const [data, setData] = useState();
+  const [loaders, setLoaders] = React.useState({
+    checkin: false,
+    assign: false,
+    start: false,
+    noshow: false,
+    checkout: false
+  })
   const getOngoingBooking = async () => {
     var bId = await getData("BusinessId");
     setBussinessId(bId);
@@ -58,51 +65,125 @@ const AfterNoon = (props) => {
     }
     setbtnLoading(false)
   };
+  // const checkin_booking = async (id) => {
+  //   setbtnLoading(true)
+  //   const res = await alertService.confirm(
+  //     "Are you sure you want to check in?",
+  //     "Yes",
+  //     "No"
+  //   );
+  //   if (res) {
+  //     await checkin(bussinessId, id);
+  //     setRefresh(!isRefresh);
+  //   }
+  //   setbtnLoading(false)
+  // };
+  // const start_booking = async (id) => {
+  //   setbtnLoading(true)
+  //   const res = await alertService.confirm(
+  //     "Are you sure you want to Start?",
+  //     "Yes",
+  //     "No"
+  //   );
+  //   if (res) {
+  //     await start(bussinessId, id);
+  //     setRefresh(!isRefresh);
+  //   }
+  //   setbtnLoading(false)
+  // };
+  // const no_show_booking = async (id) => {
+  //   setbtnLoading(true)
+  //   const res = await alertService.confirm(
+  //     "Are you sure you want to no show?",
+  //     "Yes",
+  //     "No"
+  //   );
+  //   if (res) {
+  //     await no_show(bussinessId, id);
+  //     setRefresh(!isRefresh);
+  //   }
+  //   setbtnLoading(false)
+  // };
+  // const assign_booking_worker = async (id) => {
+  //   await assign_worker(bussinessId, bookingId, id);
+  //   setWorkerVisible(false);
+  //   setRefresh(!isRefresh);
+  // };
+  useEffect(() => {
+    console.log("LOADER=====> ", loaders);
+  }, [loaders])
   const checkin_booking = async (id) => {
-    setbtnLoading(true)
-    const res = await alertService.confirm(
-      "Are you sure you want to check in?",
-      "Yes",
-      "No"
-    );
-    if (res) {
-      await checkin(bussinessId, id);
-      setRefresh(!isRefresh);
-    }
-    setbtnLoading(false)
-  };
+    try {
 
-  const start_booking = async (id) => {
-    setbtnLoading(true)
-    const res = await alertService.confirm(
-      "Are you sure you want to Start?",
-      "Yes",
-      "No"
-    );
-    if (res) {
-      await start(bussinessId, id);
-      setRefresh(!isRefresh);
+      const res = await alertService.confirm(
+        "Are you sure you want to check in?",
+        "Yes",
+        "No"
+      );
+      if (res) {
+        setLoaders({ ...loaders, checkin: id });
+        // setLoaders({ ...loaders, checkin: "asdf" });
+        await checkin(bussinessId, id);
+        await getOngoingBooking();
+        // setRefresh(!isRefresh);
+      }
+    } catch (error) {
+
+    } finally {
+      setLoaders({ ...loaders, checkin: false });
     }
-    setbtnLoading(false)
+  };
+  const start_booking = async (id) => {
+    try {
+      const res = await alertService.confirm(
+        "Are you sure you want to Start?",
+        "Yes",
+        "No"
+      );
+      if (res) {
+        setLoaders({ ...loaders, start: id });
+        await start(bussinessId, id);
+        await getOngoingBooking()
+      }
+    } catch (error) {
+
+    } finally {
+      setLoaders({ ...loaders, start: false });
+    }
   };
   const no_show_booking = async (id) => {
-    setbtnLoading(true)
-    const res = await alertService.confirm(
-      "Are you sure you want to no show?",
-      "Yes",
-      "No"
-    );
-    if (res) {
-      await no_show(bussinessId, id);
-      setRefresh(!isRefresh);
+    try {
+      const res = await alertService.confirm(
+        "Are you sure you want to no show?",
+        "Yes",
+        "No"
+      );
+      if (res) {
+        setLoaders({ ...loaders, noshow: id })
+        await no_show(bussinessId, id);
+        await getOngoingBooking()
+        // setRefresh(!isRefresh);
+      }
+    } catch (error) {
+
+    } finally {
+      setLoaders({ ...loaders, noshow: false })
     }
-    setbtnLoading(false)
   };
   const assign_booking_worker = async (id) => {
-    await assign_worker(bussinessId, bookingId, id);
-    setWorkerVisible(false);
-    setRefresh(!isRefresh);
+    try {
+      setLoaders({ ...loaders, assign: true })
+      await assign_worker(bussinessId, bookingId, id);
+      await getOngoingBooking();
+      setWorkerVisible(false);
+    } catch (error) {
+
+    } finally {
+      setLoaders({ ...loaders, assign: false })
+    }
   };
+
+
   return (
     <View style={styles.container}>
       {loading ?
@@ -121,6 +202,11 @@ const AfterNoon = (props) => {
                 data={data?.Afternoon?.bookings}
                 renderItem={({ item, index }) => (
                   <BookingCard
+                    checkinLoading={loaders.checkin === item?.id}
+                    checkoutLoading={loaders.checkout === item?.id}
+                    startLoading={loaders.start === item?.id}
+                    assignLoading={loaders.assign}
+                    noshowLoading={loaders.noshow === item?.id}
                     btnLoading={btnLoading}
                     key={index}
                     loading={true}

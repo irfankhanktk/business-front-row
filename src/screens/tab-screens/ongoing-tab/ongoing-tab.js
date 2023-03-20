@@ -30,9 +30,16 @@ const OngoingTab = (props) => {
   const [btnLaoding, setbtnLaoding] = useState(false);
   const [businessId, setBussinessId] = useState();
   const [data, setData] = useState([]);
+  const [loaders, setLoaders] = React.useState({
+    checkin: false,
+    assign: false,
+    start: false,
+    noshow: false,
+    checkout: false
+  })
   const getOnGoingBooking = async () => {
     try {
-      setloading(true);
+      // setloading(true);
       var bId = await getData("BusinessId");
       setBussinessId(bId);
       const response = await get_service_jobs(bId, ser?.id);
@@ -43,7 +50,7 @@ const OngoingTab = (props) => {
     } catch (error) {
       console.log('error=>', error);
     } finally {
-      setloading(false);
+      // setloading(false);
     }
   };
   useEffect(() => {
@@ -58,13 +65,15 @@ const OngoingTab = (props) => {
         "No"
       );
       if (res) {
+        setLoaders({ ...loaders, checkout: id });
         await complete_job(businessId, bookingId);
-        setRefresh(!isRefresh);
+        await getOnGoingBooking()
       }
     } catch (error) {
       console.log('error=>', error);
     } finally {
       setbtnLaoding(false);
+      setLoaders({ ...loaders, checkout: fasle });
     }
   };
   return (
@@ -131,6 +140,7 @@ const OngoingTab = (props) => {
           data={data}
           renderItem={({ item, index }) => (
             <BookingCard
+              checkoutLoading={loaders.checkout === item?.id}
               btnLaoding={btnLaoding}
               key={index}
               loading={!loading}

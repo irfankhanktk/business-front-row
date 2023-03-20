@@ -21,10 +21,11 @@ import { mvs } from "../../services/metrices";
 import TopTabNavigator from "../tab-navigator/top-tab-navigator";
 const BottomTab = createBottomTabNavigator();
 
-const TabNavigator = () => {
+const TabNavigator = (props) => {
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
       <BottomTab.Navigator
+      initialRouteName={props?.route?.params?.initialRouteName || 'Home'}
         // options={{tabBarHideOnKeyboard:true}}
         screenOptions={{ headerShown: false, tabBarHideOnKeyboard: true }}
         tabBar={(props) => <BottomMenu {...props} colors={colors} />}

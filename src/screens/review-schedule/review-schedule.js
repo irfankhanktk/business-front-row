@@ -1,3 +1,4 @@
+import { CommonActions } from "@react-navigation/native";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { FlatList, SafeAreaView, ScrollView, View } from "react-native";
@@ -190,6 +191,18 @@ const ReviewSchedule = (props) => {
       setLoaders({ ...loaders, confirm: true })
       await complete_my_booking(bookingId);
       await inIt();
+      props?.navigation?.dispatch(
+        CommonActions.reset({
+          index: 1,
+          routes: [
+            {
+              name: 'Main',
+              params: { initialRouteName: 'Booking' },
+            },
+            { name: 'ReviewSchedule', params: { bookingID, selected } },
+          ],
+        })
+      )
       // props?.navigation?.pop(3);
     } catch (error) {
       console.log('error=>', error);

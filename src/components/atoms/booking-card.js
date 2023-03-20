@@ -16,6 +16,11 @@ import * as Progress from "react-native-progress";
 import Row from "./row";
 const BookingCard = ({
   btnLaoding,
+  startLoading,
+  checkinLoading,
+  assignLoading,
+  noshowLoading,
+  checkoutLoading,
   loading,
   item,
   image,
@@ -98,9 +103,10 @@ const BookingCard = ({
             <Row style={{ ...styles.UPPERROW, ...styles.TIMETOPVIEW }}>
               <Row
                 style={{
-                  paddingLeft: mvs(15),
+                  // paddingLeft: mvs(15),
                   width: "50%",
                   alignItems: "center",
+                  
                 }}
               >
                 <Image
@@ -136,7 +142,7 @@ const BookingCard = ({
 
             </Row>
             <Row style={{ ...styles.UPPERROW, paddingVertical: mvs(7.5) }}>
-              <Row style={{ width: "50%" }} alignItems="center">
+              <Row style={{ width: "50%", }} alignItems="center">
                 <ImagePlaceholder
                   containerStyle={styles.BOTTOMIMG}
                   uri={item?.offering?.cover ? { uri: SERVICES._returnFile(item?.offering?.cover) } : IMGS.CarWash}
@@ -178,7 +184,7 @@ const BookingCard = ({
         <View>
           {showCheckout ? (
             <Buttons.ButtonPrimary
-              loading={btnLaoding}
+              loading={checkoutLoading}
               style={styles.CHKBUTTON}
               textStyle={styles.CHKBUTTONTEXT}
               onClick={onCheckout}
@@ -186,7 +192,7 @@ const BookingCard = ({
             />
           ) : item?.view?.startAction ? (
             <Buttons.ButtonPrimary
-              loading={btnLaoding}
+              loading={startLoading}
               style={styles.BUTTON}
               textStyle={styles.BUTTONTEXT}
               onClick={onStart}
@@ -194,7 +200,7 @@ const BookingCard = ({
             />
           ) : item?.view?.noshowAction ? (
             <Buttons.ButtonPrimary
-              loading={btnLaoding}
+              loading={noshowLoading}
               style={styles.BUTTON}
               textStyle={styles.BUTTONTEXT}
               onClick={onNoShow}
@@ -202,7 +208,7 @@ const BookingCard = ({
             />
           ) : item?.view?.checkinAction ? (
             <Buttons.ButtonPrimary
-              loading={btnLaoding}
+              loading={checkinLoading}
               style={styles.BUTTON}
               textStyle={styles.BUTTONTEXT}
               onClick={onCheckin}
@@ -210,7 +216,7 @@ const BookingCard = ({
             />
           ) : item?.view?.assignWorkerAction ? (
             <Buttons.ButtonPrimary
-              loading={btnLaoding}
+              loading={assignLoading}
               style={styles.BUTTON}
               textStyle={styles.BUTTONTEXT}
               onClick={onAssignWorker}
@@ -269,7 +275,7 @@ const styles = StyleSheet.create({
   },
   TIMETOPVIEW: {
     paddingVertical: mvs(14.5),
-    paddingHorizontal: mvs(3),
+    // paddingHorizontal: mvs(3),
     borderBottomColor: colors.gray,
     borderBottomWidth: 0.2,
   },

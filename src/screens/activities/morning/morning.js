@@ -25,7 +25,7 @@ const Morning = (props) => {
   } = props;
   //const bussinessId=3333;
   const [bookingId, setBookingId] = useState();
-  const [btnLoading, setbtnLoading] = useState(false);
+  const [btnLoading, setbtnLoading] = useState(true);
 
   const [loading, setLoading] = useState(true);
   const [isRefresh, setRefresh] = useState(false);
@@ -34,8 +34,15 @@ const Morning = (props) => {
   const [worker, setWorker] = useState(null);
   const [bussinessId, setBussinessId] = useState();
   const [data, setData] = useState();
+  const [loaders, setLoaders] = React.useState({
+    checkin: false,
+    assign: false,
+    start: false,
+    noshow: false,
+    checkout:false
+  })
   const getOngoingBooking = async () => {
-    setLoading(true);
+    // setLoading(true);
     var bId = await getData("BusinessId");
     setBussinessId(bId);
     // console.log("Booking Id Is ", bId);
@@ -59,52 +66,74 @@ const Morning = (props) => {
     setbtnLoading(false);
   };
   const checkin_booking = async (id) => {
-    setbtnLoading(true);
+    try {
+      setLoaders({ ...loaders, checkin: true });
+      const res = await alertService.confirm(
+        "Are you sure you want to check in?",
+        "Yes",
+        "No"
+      );
+      if (res) {
+        await checkin(bussinessId, id);
+        await getOngoingBooking();
+        // setRefresh(!isRefresh);
+      }
 
-    const res = await alertService.confirm(
-      "Are you sure you want to check in?",
-      "Yes",
-      "No"
-    );
-    if (res) {
-      await checkin(bussinessId, id);
-      setRefresh(!isRefresh);
+    } catch (error) {
+
+    } finally {
+      setLoaders({ ...loaders, checkin: false });
     }
-    setbtnLoading(false);
-
   };
 
   const start_booking = async (id) => {
-    setbtnLoading(true);
-    const res = await alertService.confirm(
-      "Are you sure you want to Start?",
-      "Yes",
-      "No"
-    );
-    if (res) {
-      await start(bussinessId, id);
-      setRefresh(!isRefresh);
-    }
-    setbtnLoading(false);
+    try {
+      setLoaders({ ...loaders, start: true });
+      const res = await alertService.confirm(
+        "Are you sure you want to Start?",
+        "Yes",
+        "No"
+      );
+      if (res) {
+        await start(bussinessId, id);
+        await getOngoingBooking()
+      }
+    } catch (error) {
 
+    } finally {
+      setLoaders({ ...loaders, start: false });
+    }
   };
   const no_show_booking = async (id) => {
-    setbtnLoading(true);
-    const res = await alertService.confirm(
-      "Are you sure you want to no show?",
-      "Yes",
-      "No"
-    );
-    if (res) {
-      await no_show(bussinessId, id);
-      setRefresh(!isRefresh);
+    try {
+      setLoaders({ ...loaders, noshow: true })
+      const res = await alertService.confirm(
+        "Are you sure you want to no show?",
+        "Yes",
+        "No"
+      );
+      if (res) {
+        await no_show(bussinessId, id);
+        // setRefresh(!isRefresh);
+        await getOngoingBooking()
+      }
+    } catch (error) {
+
+    } finally {
+      setLoaders({ ...loaders, noshow: false })
     }
-    setbtnLoading(false);
   };
   const assign_booking_worker = async (id) => {
-    await assign_worker(bussinessId, bookingId, id);
-    setWorkerVisible(false);
-    setRefresh(!isRefresh);
+    try {
+      setLoaders({ ...loaders, assign: true })
+      await assign_worker(bussinessId, bookingId, id);
+      await getOngoingBooking();
+      setWorkerVisible(false);
+    } catch (error) {
+
+    } finally {
+      setLoaders({ ...loaders, assign: false })
+    }
   };
 
   return (
@@ -126,9 +155,14 @@ const Morning = (props) => {
               data={data?.Morning?.bookings}
               renderItem={({ item, index }) => (
                 <BookingCard
-                  btnLoading={btnLoading}
+                  checkinLoading={loaders.checkin}
+                  checkoutLoading={loaders.checkout}
+                  startLoading={loaders.start}
+                  assignLoading={loaders.assign}
+                  noshowLoading={loaders.noshow}
+                  btnLaoding={false}
                   key={index}
-                  loading={!loading}
+                  // loading={!loading}
                   item={item}
                   onAssignWorker={() => {
                     setBookingId(item?.id);
@@ -156,6 +190,7 @@ const Morning = (props) => {
         </View>
       }
       <WorkerModal
+        loading={loaders.assign}
         items={workers}
         value={worker}
         setValue={(value) => {

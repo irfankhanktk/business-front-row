@@ -107,6 +107,7 @@ const Profile = (props) => {
           <ProfileAction
             value={value}
             onChange={setValue}
+            onPress={()=>props?.navigation?.navigate("Notifications")}
             label={"Push Notifications"}
             leftIcon={"PushNotify"}
             //rightIcon={'Arrow'}
