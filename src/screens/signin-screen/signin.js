@@ -72,9 +72,16 @@ const Signin = (props) => {
         console.log("ERROR User Sign Out: ", error)
       })
   }
+  const getToken =async ()=>{
+    console.log("GETTING TOKEN")
+    let token = await auth().currentUser.getIdToken()
+    console.log("GET USER TOKEN ID====> ", token)
+  }
   const signin = (email, password) => {
     auth().signInWithEmailAndPassword(email,password)
-      .then((res) => console.log('User logged in!========>', res))
+      .then((res) =>{ console.log('User logged in!========>', res)
+    getToken()
+    })
       .catch((error)=>{
         console.log("ERROR User login error: ", error)
       })
@@ -90,7 +97,7 @@ const Signin = (props) => {
     // storeData("BusinessId", "3333");
     // delayAPI();
     // signup("asad@gmail.com", "1234567890")
-    // signin("asad@gmail.com", "1234567890")
+    signin("asad@gmail.com", "1234567890")
   }, []);
   const onSigUp = async () => {
     setSelectedTab("signup");
