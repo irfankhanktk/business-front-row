@@ -6,7 +6,7 @@
     "android": "npx react-native run-android",
     "ios": "npx react-native run-ios",
     "start": "npx react-native start",
-    "pod":"cd ios && pod install --repo-update",
+    "pod": "cd ios && pod install --repo-update",
     "debug": "react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res",
     "clean": "cd android && ./gradlew clean",
     "apk": "cd android && ./gradlew assembleRelease -x bundleReleaseJsAndAssets",
@@ -19,6 +19,8 @@
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.17.6",
     "@react-native-community/datetimepicker": "3.5.2",
+    "@react-native-firebase/app": "^17.3.2",
+    "@react-native-firebase/auth": "^17.3.2",
     "@react-native-picker/picker": "^2.4.1",
     "@react-navigation/bottom-tabs": "^6.3.1",
     "@react-navigation/material-top-tabs": "^6.2.1",

@@ -14,6 +14,7 @@ import SERVICES from "../../services/common-services";
 import { mvs } from "../../services/metrices";
 import API_REQUESTS from "../../store/api-requests";
 import { Signin_Styles as styles } from "./signin-styles";
+import auth from '@react-native-firebase/auth';
 
 const Signin = (props) => {
   const navigation = useNavigation();
@@ -30,14 +31,66 @@ const Signin = (props) => {
     confirmPassword: "",
   });
   const { colors } = useTheme();
+  // FIREBASE
+  // Set an initializing state whilst Firebase connects
+  const [initializing, setInitializing] = useState(true);
+  const [user, setUser] = useState();
+
+  // Handle user state changes
+  function onAuthStateChanged(user) {
+    setUser(user);
+    if (initializing) setInitializing(false);
+  }
+
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber; // unsubscribe on unmount
+  }, []);
+  const signup = (email, password) => {
+    auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then((res) => {
+        console.log('User account created & signed in!=====> ',res );
+      })
+      .catch(error => {
+        if (error.code === 'auth/email-already-in-use') {
+          console.log('That email address is already in use!');
+        }
+
+        if (error.code === 'auth/invalid-email') {
+          console.log('That email address is invalid!');
+        }
+
+        console.error(error);
+      });
+  }
+  const signout = () => {
+    auth()
+      .signOut()
+      .then(() => console.log('User signed out!'))
+      .catch((error)=>{
+        console.log("ERROR User Sign Out: ", error)
+      })
+  }
+  const signin = (email, password) => {
+    auth().signInWithEmailAndPassword(email,password)
+      .then((res) => console.log('User logged in!========>', res))
+      .catch((error)=>{
+        console.log("ERROR User login error: ", error)
+      })
+  }
+  
 
   const onSigin = async () => {
     setSelectedTab("login");
   };
 
   useEffect(() => {
+    // auth()
     // storeData("BusinessId", "3333");
     // delayAPI();
+    // signup("asad@gmail.com", "1234567890")
+    // signin("asad@gmail.com", "1234567890")
   }, []);
   const onSigUp = async () => {
     setSelectedTab("signup");
