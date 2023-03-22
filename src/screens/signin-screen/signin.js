@@ -1,6 +1,6 @@
 import { useNavigation, useTheme } from "@react-navigation/native";
 import React, { useEffect, useRef, useState } from "react";
-import { ScrollView, View } from "react-native";
+import { ScrollView, TouchableOpacity, View } from "react-native";
 import PhoneInput from "react-native-phone-number-input";
 import Toast from "react-native-toast-message";
 import { Apple, Facebook, Google, Tick } from "../../assets/common-icons";
@@ -19,7 +19,7 @@ import auth from '@react-native-firebase/auth';
 const Signin = (props) => {
   const navigation = useNavigation();
   const [loading, setLoading] = React.useState(false);
-  const [selectedTab, setSelectedTab] = React.useState("");
+  const [selectedTab, setSelectedTab] = React.useState("login");
   const [isSignUpWithPhone, setPhoneSignUp] = React.useState(true);
   const [phoneNumber, setphoneNumber] = useState("818181");
   const phoneInput = useRef(null);
@@ -30,6 +30,9 @@ const Signin = (props) => {
     name: "",
     confirmPassword: "",
   });
+  useEffect(() => {
+    console.log("CREDIENTIALS====> ", payload)
+  }, [payload])
   const { colors } = useTheme();
   // FIREBASE
   // Set an initializing state whilst Firebase connects
@@ -50,7 +53,7 @@ const Signin = (props) => {
     auth()
       .createUserWithEmailAndPassword(email, password)
       .then((res) => {
-        console.log('User account created & signed in!=====> ',res );
+        console.log('User account created & signed in!=====> ', res);
       })
       .catch(error => {
         if (error.code === 'auth/email-already-in-use') {
@@ -68,28 +71,31 @@ const Signin = (props) => {
     auth()
       .signOut()
       .then(() => console.log('User signed out!'))
-      .catch((error)=>{
+      .catch((error) => {
         console.log("ERROR User Sign Out: ", error)
       })
   }
-  const getToken =async ()=>{
+  const getToken = async () => {
     console.log("GETTING TOKEN")
     let token = await auth().currentUser.getIdToken()
     console.log("GET USER TOKEN ID====> ", token)
   }
   const signin = (email, password) => {
-    auth().signInWithEmailAndPassword(email,password)
-      .then((res) =>{ console.log('User logged in!========>', res)
-    getToken()
-    })
-      .catch((error)=>{
+    auth().signInWithEmailAndPassword(email, password)
+      .then((res) => {
+        console.log('User logged in!========>', res)
+        getToken()
+      })
+      .catch((error) => {
         console.log("ERROR User login error: ", error)
       })
   }
-  
+
 
   const onSigin = async () => {
-    setSelectedTab("login");
+    // setSelectedTab("login");
+    signin(payload?.email, payload?.password)
+    // console.log("LOGIN PRESSED")
   };
 
   useEffect(() => {
@@ -97,7 +103,7 @@ const Signin = (props) => {
     // storeData("BusinessId", "3333");
     // delayAPI();
     // signup("asad@gmail.com", "1234567890")
-    signin("asad@gmail.com", "1234567890")
+    // signin("asad@gmail.com", "1234567890")
   }, []);
   const onSigUp = async () => {
     setSelectedTab("signup");
@@ -195,6 +201,13 @@ const Signin = (props) => {
                 label={"Continue With"}
                 style={styles.continueWithText}
               />
+              <TouchableOpacity onPress={() => { setSelectedTab("") }} style={styles.socialIconView}>
+                <Google />
+                <Regular
+                  label={"Sign in with Phone"}
+                  style={styles.socialIconText}
+                />
+              </TouchableOpacity>
               <View style={styles.socialIconView}>
                 <Google />
                 <Regular
@@ -328,6 +341,13 @@ const Signin = (props) => {
                 style={{ ...styles.button }}
                 title={"Continue"}
               />
+              <TouchableOpacity onPress={() => { setSelectedTab("login") }} style={styles.socialIconView}>
+                {/* <Google /> */}
+                <Regular
+                  label={"Sign in with Other Methods"}
+                  style={styles.socialIconText}
+                />
+              </TouchableOpacity>
             </>
           ) : null}
         </View>
