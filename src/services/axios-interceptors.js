@@ -14,17 +14,15 @@ client.interceptors.request.use(
   async (config) => {
     const token = await AsyncStorage.getItem("@token");
     config.headers = {
-      Accept: "application/json",
+      // Accept: "*/*",
       "Cache-Control": "no-cache",
-      "Content-Type": "application/json",
+      // "Content-Type": "application/json",
     };
 
     config.params = config.params || {};
-    config.cancelToken = source.token || {};
-    if (JSON.parse(token)) {
-      config.headers["Authorization"] =
-        `Bearer ` + JSON.parse(token)?.access_token;
-    }
+    // config.cancelToken = source.token || {};
+    config.headers["Authorization"] =
+      `Bearer ` + token;
     return config;
   },
   (error) => {

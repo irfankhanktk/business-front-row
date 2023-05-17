@@ -15,6 +15,9 @@ import { mvs } from "../../services/metrices";
 import API_REQUESTS from "../../store/api-requests";
 import { Signin_Styles as styles } from "./signin-styles";
 import auth from '@react-native-firebase/auth';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { getBusinessDetails } from "../../store/api-calls";
+import { useDispatch } from "react-redux";
 
 const Signin = (props) => {
   const navigation = useNavigation();
@@ -24,6 +27,7 @@ const Signin = (props) => {
   const [phoneNumber, setphoneNumber] = useState("818181");
   const phoneInput = useRef(null);
   const [formattedValue, setFormattedValue] = useState("818181");
+  const dispatch = useDispatch();
   const [payload, setPayload] = React.useState({
     email: "",
     password: "",
@@ -49,103 +53,55 @@ const Signin = (props) => {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
     return subscriber; // unsubscribe on unmount
   }, []);
-  const signup = (email, password) => {
-    auth()
-      .createUserWithEmailAndPassword(email, password)
-      .then((res) => {
-        console.log('User account created & signed in!=====> ', res);
-      })
-      .catch(error => {
-        if (error.code === 'auth/email-already-in-use') {
-          console.log('That email address is already in use!');
-        }
 
-        if (error.code === 'auth/invalid-email') {
-          console.log('That email address is invalid!');
-        }
+  const signin = async (email, password) => {
+    try {
+      dispatch(getBusinessDetails(props, email, password))
 
-        console.error(error);
-      });
-  }
-  const signout = () => {
-    auth()
-      .signOut()
-      .then(() => console.log('User signed out!'))
-      .catch((error) => {
-        console.log("ERROR User Sign Out: ", error)
-      })
-  }
-  const getToken = async () => {
-    console.log("GETTING TOKEN")
-    let token = await auth().currentUser.getIdToken()
-    console.log("GET USER TOKEN ID====> ", token)
-  }
-  const signin = (email, password) => {
-    auth().signInWithEmailAndPassword(email, password)
-      .then((res) => {
-        console.log('User logged in!========>', res)
-        getToken()
-      })
-      .catch((error) => {
-        console.log("ERROR User login error: ", error)
-      })
-  }
-
-
-  const onSigin = async () => {
-    // setSelectedTab("login");
-    signin(payload?.email, payload?.password)
-    // console.log("LOGIN PRESSED")
-  };
-
-  useEffect(() => {
-    // auth()
-    // storeData("BusinessId", "3333");
-    // delayAPI();
-    // signup("asad@gmail.com", "1234567890")
-    // signin("asad@gmail.com", "1234567890")
-  }, []);
-  const onSigUp = async () => {
-    setSelectedTab("signup");
-    setPhoneSignUp(false);
-  };
-  const onSigUpWithPhone = async () => {
-    setPhoneSignUp(true);
-  };
-
-  const delayAPI = (phone) => {
-    //navigation.navigate("Otp", { phone });
-    navigation.navigate("Main");
-  };
-  const getMobile = async () => {
-    if (formattedValue.length <= 0) {
-      return showToast("error", "Please Enter mobile number");
-    } else {
-      var phone = phoneInput?.current?.getCallingCode() + "-" + formattedValue; //"971-507285968";
-      console.log("Phone Number " + phone);
-      try {
-        setLoading(true);
-        const result = await API_REQUESTS.postData("users/login/business", {
-          phone: phone,
-          isBusiness: 1,
-        });
-        console.log('result=>', result?.data);
-        if (result?.data?.message === 'Invalid user') {
-          showToast("error", result?.data?.message);
-        } else {
-          storeData("BusinessId", result?.data?.customer_id + "");
-          delayAPI(phone, result?.data);
-          showToast("success", result.data);
-          delayAPI(phone);
-        }
-      } catch (error) {
-        console.log("error=>", error);
-        showToast("error", SERVICES._returnError(error));
-      } finally {
-        setLoading(false);
-      }
+    } catch (error) {
+      console.log('error=>>>', error);
     }
-  };
+  }
+
+
+
+  // const onSigUpWithPhone = async () => {
+  //   setPhoneSignUp(true);
+  // };
+
+  // const delayAPI = (phone) => {
+  //   //navigation.navigate("Otp", { phone });
+  //   navigation.navigate("Main");
+  // };
+  // const getMobile = async () => {
+  //   if (formattedValue.length <= 0) {
+  //     return showToast("error", "Please Enter mobile number");
+  //   } else {
+  //     var phone = phoneInput?.current?.getCallingCode() + "-" + formattedValue; //"971-507285968";
+  //     console.log("Phone Number " + phone);
+  //     try {
+  //       setLoading(true);
+  //       const result = await API_REQUESTS.postData("users/login/business", {
+  //         phone: phone,
+  //         isBusiness: 1,
+  //       });
+  //       console.log('result=>', result?.data);
+  //       if (result?.data?.message === 'Invalid user') {
+  //         showToast("error", result?.data?.message);
+  //       } else {
+  //         storeData("BusinessId", result?.data?.customer_id + "");
+  //         delayAPI(phone, result?.data);
+  //         showToast("success", result.data);
+  //         delayAPI(phone);
+  //       }
+  //     } catch (error) {
+  //       console.log("error=>", error);
+  //       showToast("error", SERVICES._returnError(error));
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   }
+  // };
 
   const showToast = (type, text1, text2) => {
     Toast.show({
@@ -161,47 +117,47 @@ const Signin = (props) => {
     <View style={{ ...styles.container, backgroundColor: colors.background }}>
       <ScrollView>
         <View style={styles.body}>
-          {selectedTab == "login" ? (
-            <>
-              <Bold label={"Welcome Back!"} style={styles.welcomeText} />
-              <Regular
-                label={"Please enter your email and password"}
-                style={styles.welcomeSubText}
+
+          <>
+            <Bold label={"Welcome Back!"} style={styles.welcomeText} />
+            <Regular
+              label={"Please enter your email and password"}
+              style={styles.welcomeSubText}
+            />
+            <Regular label={"to contiue"} style={styles.welcomeSubText} />
+            <View style={styles.input_container}>
+              <INPUT_FIELD.InputSecondary
+                value={payload.email}
+                leftIcon="User"
+                rightIcon=""
+                onChangeText={(t) => setPayload({ ...payload, email: t })}
+                label="EMAIL"
+                placeholder="lehieuds@gmail.com"
               />
-              <Regular label={"to contiue"} style={styles.welcomeSubText} />
-              <View style={styles.input_container}>
-                <INPUT_FIELD.InputSecondary
-                  value={payload.email}
-                  leftIcon="User"
-                  rightIcon=""
-                  onChangeText={(t) => setPayload({ ...payload, email: t })}
-                  label="EMAIL"
-                  placeholder="lehieuds@gmail.com"
-                />
-                <INPUT_FIELD.InputSecondary
-                  secureTextEntry
-                  leftIcon="User"
-                  rightIcon=""
-                  value={payload.password}
-                  onChangeText={(t) => setPayload({ ...payload, password: t })}
-                  label="PASSWORD"
-                  placeholder="Password"
-                />
-              </View>
-              <Bold label={"Forgot Password?"} style={styles.forgotText} />
-              <Buttons.ButtonPrimary
-                disabled={loading}
-                loading={loading}
-                onClick={onSigin}
-                textStyle={styles.buttonText}
-                style={{ ...styles.button }}
-                title={"Login"}
+              <INPUT_FIELD.InputSecondary
+                secureTextEntry
+                leftIcon="User"
+                rightIcon=""
+                value={payload.password}
+                onChangeText={(t) => setPayload({ ...payload, password: t })}
+                label="PASSWORD"
+                placeholder="Password"
               />
-              <Regular
+            </View>
+            {/* <Bold label={"Forgot Password?"} style={styles.forgotText} /> */}
+            <Buttons.ButtonPrimary
+              disabled={loading}
+              loading={loading}
+              onClick={() => signin(payload?.email, payload?.password)}
+              textStyle={styles.buttonText}
+              style={{ ...styles.button }}
+              title={"Login"}
+            />
+            {/* <Regular
                 label={"Continue With"}
                 style={styles.continueWithText}
               />
-              <TouchableOpacity onPress={() => { setSelectedTab("") }} style={styles.socialIconView}>
+               <TouchableOpacity onPress={() => { setSelectedTab("") }} style={styles.socialIconView}>
                 <Google />
                 <Regular
                   label={"Sign in with Phone"}
@@ -228,9 +184,9 @@ const Signin = (props) => {
                   label={"Sign in with Facebook"}
                   style={styles.socialIconText}
                 />
-              </View>
-            </>
-          ) : selectedTab == "signup" && isSignUpWithPhone == false ? (
+              </View> */}
+          </>
+          {/* ) : selectedTab == "signup" && isSignUpWithPhone == false ? (
             <>
               <Bold label={"Create Your Account"} style={styles.welcomeText} />
               <Regular
@@ -342,14 +298,13 @@ const Signin = (props) => {
                 title={"Continue"}
               />
               <TouchableOpacity onPress={() => { setSelectedTab("login") }} style={styles.socialIconView}>
-                {/* <Google /> */}
                 <Regular
                   label={"Sign in with Other Methods"}
                   style={styles.socialIconText}
                 />
               </TouchableOpacity>
             </>
-          ) : null}
+          ) : null} */}
         </View>
       </ScrollView>
       <Toast />

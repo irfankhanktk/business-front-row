@@ -1,9 +1,14 @@
-export const IP = 'http://124.29.208.60:8080';
+export const IP = 'http://52.43.78.34';
+
+// export const IP = 'http://124.29.208.60:8080';
 // export const IP='http://192.168.100.3:3000';
 export const URLS = {
   //    base_url:'http://192.168.100.3:3000/api/',
   base_url: `${IP}/api/`,
   image_url: `${IP}`,
+  auth: {
+    get_business_detail: 'users/detail/business',
+  },
   business: 'b/om/businesses/',
   booking: {
     create_booking: "p/public/bookings",

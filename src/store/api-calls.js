@@ -1,7 +1,49 @@
 import { SET_SERVICES } from "./action-types";
 import API_REQUESTS from "./api-requests";
 import { URLS } from "./api-urls";
+import Toast from 'react-native-toast-message';
+import auth from '@react-native-firebase/auth';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import SERVICES from "../services/common-services";
 
+const showToast = (type, text1, text2) => {
+  Toast.show({
+    type: type,
+    text1: text1,
+    text2: text2,
+    position: 'top',
+    autoHide: true,
+    visibilityTime: 3000,
+  });
+};
+const getToken = async () => {
+  console.log("GETTING TOKEN")
+  let token = await auth().currentUser.getIdToken()
+  await AsyncStorage.setItem('@token', token);
+  console.log("GET USER TOKEN ID====> ", token)
+}
+export const getBusinessDetails = (props, email, password) => {
+  return async (dispatch, getState) => {
+    try {
+      await auth().signInWithEmailAndPassword(email, password)
+      await getToken();
+      const response = await API_REQUESTS.getData(URLS.auth.get_business_detail);
+      console.log('response=>>>:::', response?.data);
+      // const data = response?.data;
+      // dispatch(addUserData(data));
+      // if (data?.requireInfo) {
+      //   props?.navigation?.navigate('About', { phone: props?.route?.params?.phone });
+      // } else if (data?.requireVehicle) {
+      //   props?.navigation?.navigate('MyVehicle');
+      // } else {
+      //   SERVICES.resetStack(props, 'BottomTab')
+      // }
+    } catch (error) {
+      console.log('error getBusinessDetails=>>>:::', error?.response);
+      showToast('error', SERVICES._returnError(error));
+    }
+  };
+};
 const get_booking = (bookingId, businessId) => {
   return async (dispatch, getState) => {
     try {
