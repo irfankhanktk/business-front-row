@@ -22,9 +22,10 @@ const getToken = async () => {
   await AsyncStorage.setItem('@token', token);
   console.log("GET USER TOKEN ID====> ", token)
 }
-export const getBusinessDetails = (props, email, password) => {
+export const getBusinessDetails = (props, email, password, setLoading = (bool) => { }) => {
   return async (dispatch, getState) => {
     try {
+      setLoading(true);
       await auth().signInWithEmailAndPassword(email, password)
       await getToken();
       const response = await API_REQUESTS.getData(URLS.auth.get_business_detail);
@@ -36,11 +37,13 @@ export const getBusinessDetails = (props, email, password) => {
       // } else if (data?.requireVehicle) {
       //   props?.navigation?.navigate('MyVehicle');
       // } else {
-      //   SERVICES.resetStack(props, 'BottomTab')
+      SERVICES.resetStack(props, 'Main');
       // }
     } catch (error) {
       console.log('error getBusinessDetails=>>>:::', error?.response);
       showToast('error', SERVICES._returnError(error));
+    } finally {
+      setLoading(false);
     }
   };
 };

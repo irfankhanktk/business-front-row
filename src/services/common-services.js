@@ -3,6 +3,7 @@ import { Alert, PermissionsAndroid, Platform, Share, } from "react-native";
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 
 import { IP, URLS } from "../store/api-urls";
+import { CommonActions } from "@react-navigation/native";
 const createShareLink = refId => {
   let shareLink = '';
   try {
@@ -37,6 +38,19 @@ const SERVICES = {
     const formData = new FormData();
     Object.keys(object).forEach((key) => formData.append(key, object[key]));
     return formData;
+  },
+  resetStack: (props, routeName, params) => {
+    props?.navigation.dispatch(
+      CommonActions.reset({
+        index: 1,
+        routes: [
+          {
+            name: routeName,
+            params: params,
+          },
+        ],
+      }),
+    );
   },
   _returnError: error => {
     if (error?.response?.request) {

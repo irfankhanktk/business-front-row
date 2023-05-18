@@ -56,7 +56,7 @@ const Signin = (props) => {
 
   const signin = async (email, password) => {
     try {
-      dispatch(getBusinessDetails(props, email, password))
+      dispatch(getBusinessDetails(props, email, password, setLoading))
 
     } catch (error) {
       console.log('error=>>>', error);
