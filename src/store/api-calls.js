@@ -1,10 +1,11 @@
-import { SET_SERVICES } from "./action-types";
+import { SET_SERVICES, SET_USER_INFO } from "./action-types";
 import API_REQUESTS from "./api-requests";
 import { URLS } from "./api-urls";
 import Toast from 'react-native-toast-message';
 import auth from '@react-native-firebase/auth';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import SERVICES from "../services/common-services";
+import { setUserInfo } from "./actions";
 
 const showToast = (type, text1, text2) => {
   Toast.show({
@@ -30,15 +31,9 @@ export const getBusinessDetails = (props, email, password, setLoading = (bool) =
       await getToken();
       const response = await API_REQUESTS.getData(URLS.auth.get_business_detail);
       console.log('response=>>>:::', response?.data);
-      // const data = response?.data;
-      // dispatch(addUserData(data));
-      // if (data?.requireInfo) {
-      //   props?.navigation?.navigate('About', { phone: props?.route?.params?.phone });
-      // } else if (data?.requireVehicle) {
-      //   props?.navigation?.navigate('MyVehicle');
-      // } else {
+      AsyncStorage.setItem('BusinessId', `${response?.data?.business?.id}`);
+      dispatch(setUserInfo(response?.data));
       SERVICES.resetStack(props, 'Main');
-      // }
     } catch (error) {
       console.log('error getBusinessDetails=>>>:::', error?.response);
       showToast('error', SERVICES._returnError(error));
