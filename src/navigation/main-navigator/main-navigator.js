@@ -1,10 +1,11 @@
 // In App.js in a new project
 
 import { createStackNavigator } from "@react-navigation/stack";
-import * as React from "react";
+import React, { useState, useEffect } from 'react';
 import { StatusBar, SafeAreaView } from "react-native";
 import HomeScreen from "../../screens/home-screen";
 import Otp from "../../screens/otp-screen/otp";
+import messaging from '@react-native-firebase/messaging'
 import Splash from "../../screens/splash-screen/splash";
 import Onboarding from "./../../screens/onboarding-screen/onboarding";
 import Signin from "./../../screens/signin-screen/signin";
@@ -26,6 +27,7 @@ import NewBookingDetails from "../../screens/new-booking-details/new-booking-det
 import StartJob from "../../screens/start-job/start-job";
 import ReviewSchedule from "../../screens/review-schedule/review-schedule";
 import Notifications from "../../screens/notifications";
+import { useNavigation } from "@react-navigation/native";
 const Stack = createStackNavigator();
 const horizontalAnimation = {
   headerShown: false,
@@ -46,11 +48,44 @@ const horizontalAnimation = {
   },
 };
 export const MainNavigator = () => {
+  const navigation = useNavigation();
+  const [loading, setLoading] = useState(true);
+  const [initialRoute, setInitialRoute] = useState('Splash');
+
+  useEffect(() => {
+    // Assume a message-notification contains a "type" property in the data payload of the screen to open
+
+    messaging().onNotificationOpenedApp(remoteMessage => {
+      console.log(
+        'Notification caused app to open from background state:',
+        remoteMessage.notification,
+      );
+      navigation.navigate(remoteMessage.data.type);
+    });
+
+    // Check whether an initial notification is available
+    messaging()
+      .getInitialNotification()
+      .then(remoteMessage => {
+        if (remoteMessage) {
+          console.log(
+            'Notification caused app to open from quit state:',
+            remoteMessage.notification,
+          );
+          setInitialRoute(remoteMessage.data.type); // e.g. "Settings"
+        }
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) {
+    return null;
+  }
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <StatusBar barStyle={"dark-content"} backgroundColor={colors.white} />
       <Stack.Navigator
-        initialRouteName="Splash"
+        initialRouteName={initialRoute || "Splash"}
         screenOptions={horizontalAnimation}
       >
         <Stack.Screen name="Splash" component={Splash} />

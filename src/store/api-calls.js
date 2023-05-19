@@ -6,6 +6,7 @@ import auth from '@react-native-firebase/auth';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import SERVICES from "../services/common-services";
 import { setUserInfo } from "./actions";
+import { getFcmToken } from "../services/push-notifications";
 
 const showToast = (type, text1, text2) => {
   Toast.show({
@@ -29,6 +30,8 @@ export const getBusinessDetails = (props, email, password, setLoading = (bool) =
       setLoading(true);
       await auth().signInWithEmailAndPassword(email, password)
       await getToken();
+      const fcm = await getFcmToken();
+      console.log('fcm token--->>', fcm);
       const response = await API_REQUESTS.getData(URLS.auth.get_business_detail);
       console.log('response=>>>:::', response?.data);
       AsyncStorage.setItem('BusinessId', `${response?.data?.business?.id}`);
