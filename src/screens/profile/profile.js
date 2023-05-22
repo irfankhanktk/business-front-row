@@ -25,6 +25,7 @@ import styles from "./profile.styles";
 import { createShimmerPlaceholder } from "react-native-shimmer-placeholder";
 import LinearGradient from "react-native-linear-gradient";
 import { removeData } from "../../localStorage";
+import { deleteToken } from "../../store/api-calls";
 const ShimmerPlaceholder = createShimmerPlaceholder(LinearGradient);
 // create a component
 const Profile = (props) => {
@@ -107,7 +108,7 @@ const Profile = (props) => {
           <ProfileAction
             value={value}
             onChange={setValue}
-            onPress={()=>props?.navigation?.navigate("Notifications")}
+            onPress={() => props?.navigation?.navigate("Notifications")}
             label={"Push Notifications"}
             leftIcon={"PushNotify"}
             //rightIcon={'Arrow'}
@@ -176,9 +177,14 @@ const Profile = (props) => {
                 },
                 {
                   text: "Logout",
-                  onPress: () => {
-                    removeData("token");
-                    delayApi();
+                  onPress: async () => {
+                    try {
+                      await deleteToken();
+                      removeData("token");
+                      delayApi();
+                    } catch (error) {
+                      console.log('error logout', error);
+                    }
                   },
                 },
               ])

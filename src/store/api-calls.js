@@ -22,6 +22,9 @@ const showToast = (type, text1, text2) => {
     visibilityTime: 3000,
   });
 };
+export const deleteToken = () => {
+  return API_REQUESTS.getData(URLS.auth.delete_token);
+}
 const getToken = async () => {
   console.log("GETTING TOKEN");
   let token = await auth().currentUser.getIdToken();
