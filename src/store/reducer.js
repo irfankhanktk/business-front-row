@@ -1,9 +1,10 @@
-import * as Actions from './action-types';
-import images from './../services/images';
+import * as Actions from "./action-types";
+import images from "./../services/images";
 
 const INITIAL_STATE = {
   user_info: null,
-  services: []
+  services: [],
+  notification: [],
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -18,8 +19,14 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         user_info: action.payload,
       };
+    case Actions.SET_USER_NOTIFICATION:
+      return {
+        ...state,
+        notification: action.payload,
+      };
     case Actions.SET_LOGOUT:
       return INITIAL_STATE;
+
     default:
       return state;
   }
