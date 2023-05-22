@@ -9,12 +9,8 @@ import Toast from "react-native-toast-message";
 import auth from "@react-native-firebase/auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import SERVICES from "../services/common-services";
-<<<<<<< HEAD
-import { ACTIONS, setUserInfo } from "./actions";
-=======
 import { setUserInfo } from "./actions";
 import { getFcmToken } from "../services/push-notifications";
->>>>>>> a17f8db3ab911ef3932d6ba1485f9b51172f77e3
 
 const showToast = (type, text1, text2) => {
   Toast.show({
@@ -36,26 +32,18 @@ export const getBusinessDetails = (
   props,
   email,
   password,
-  setLoading = (bool) => {}
+  setLoading = (bool) => { }
 ) => {
   return async (dispatch, getState) => {
     try {
       setLoading(true);
       await auth().signInWithEmailAndPassword(email, password);
       await getToken();
-<<<<<<< HEAD
-      const response = await API_REQUESTS.getData(
-        URLS.auth.get_business_detail
-      );
-      console.log("response=>>>:::", response?.data);
-      AsyncStorage.setItem("BusinessId", `${response?.data?.business?.id}`);
-=======
       const fcm = await getFcmToken();
       console.log('fcm token--->>', fcm);
       const response = await API_REQUESTS.getData(URLS.auth.get_business_detail);
       console.log('response=>>>:::', response?.data);
       AsyncStorage.setItem('BusinessId', `${response?.data?.business?.id}`);
->>>>>>> a17f8db3ab911ef3932d6ba1485f9b51172f77e3
       dispatch(setUserInfo(response?.data));
       SERVICES.resetStack(props, "Main");
     } catch (error) {
