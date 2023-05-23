@@ -39,7 +39,13 @@ const Profile = (props) => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor={"white"} barStyle="dark-content" />
-      <ImageBackground source={Bg} style={{ width: "100%", height: mvs(152) }}>
+      <ImageBackground
+        source={Bg}
+        style={{
+          width: "100%",
+          height: mvs(152),
+        }}
+      >
         <Row style={styles.info_view}>
           <ShimmerPlaceholder shimmerStyle={styles.imageView} visible={apiData}>
             <View style={styles.imageView}>
@@ -107,7 +113,7 @@ const Profile = (props) => {
           <ProfileAction
             value={value}
             onChange={setValue}
-            onPress={()=>props?.navigation?.navigate("Notifications")}
+            onPress={() => props?.navigation?.navigate("Notifications")}
             label={"Push Notifications"}
             leftIcon={"PushNotify"}
             //rightIcon={'Arrow'}

@@ -34,7 +34,7 @@ import DIVIY_API from "../../store/api-calls";
 import { Styles as styles } from "./new-booking-styles";
 const NewBooking = (props) => {
   const { services } = props;
-  const ser = services?.find(x => x?.selected);
+  const ser = services?.find((x) => x?.selected);
   const navigation = useNavigation();
   const [phoneSelected, setPhoneSelected] = useState(true);
   const phoneInput = useRef(null);
@@ -170,16 +170,18 @@ const NewBooking = (props) => {
     >
       <CustomHeader
         title="New Walk In Booking"
-        titleStyle={{
-          fontSize: 15,
-          fontWeight: "bold",
-          color: colors.black,
-        }}
+        // titleStyle={{
+        //   fontSize: 15,
+        //   fontWeight: "bold",
+        //   // color: colors.black,
+        // }}
         spacebetween
         allowBackBtn
       />
       <View style={styles.body}>
-        {loading ? <PageLoader /> :
+        {loading ? (
+          <PageLoader />
+        ) : (
           <ScrollView
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{ flexGrow: 1 }}
@@ -202,9 +204,7 @@ const NewBooking = (props) => {
               numberOfLines={2}
               style={{ marginVertical: mvs(10) }}
             />
-            <Row
-              style={{ justifyContent: "flex-start", alignItems: "center" }}
-            >
+            <Row style={{ justifyContent: "flex-start", alignItems: "center" }}>
               <Row style={{ alignItems: "center" }}>
                 <TouchableOpacity onPress={() => setPhoneSelected(true)}>
                   {phoneSelected ? (
@@ -251,8 +251,7 @@ const NewBooking = (props) => {
                 containerStyle={styles.phoneContainer}
                 textContainerStyle={styles.textInput}
                 textInputStyle={{ fontSize: 13 }}
-                onChangeFormattedText={(text) => {
-                }}
+                onChangeFormattedText={(text) => {}}
                 onChangeText={(text) => {
                   setmobile(text);
                 }}
@@ -351,7 +350,7 @@ const NewBooking = (props) => {
               </View>
             )}
           </ScrollView>
-        }
+        )}
       </View>
       <Toast />
     </SafeAreaView>
@@ -363,8 +362,7 @@ const mapStateToProps = (store) => ({
 });
 
 const mapDispatchToProps = {
-  get_services: (bussinessId) =>
-    DIVIY_API.get_services(bussinessId),
-  setServices: (services) => ACTIONS.setServices(services)
+  get_services: (bussinessId) => DIVIY_API.get_services(bussinessId),
+  setServices: (services) => ACTIONS.setServices(services),
 };
 export default connect(mapStateToProps, mapDispatchToProps)(NewBooking);

@@ -1,15 +1,15 @@
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import ToggleSwitch from 'toggle-switch-react-native';
-import colors from '../../services/colors';
-import { mvs } from '../../services/metrices';
+import React from "react";
+import { StyleSheet, View } from "react-native";
+import ToggleSwitch from "toggle-switch-react-native";
+import colors from "../../services/colors";
+import { mvs } from "../../services/metrices";
 const CustomSwitch = ({
   style = {},
   thumbOnStyle = {},
   thumbOffStyle = {},
   trackOnStyle = {},
   trackOffStyle = {},
-  label = '',
+  label = "",
   value = true,
   onChange = (val: any) => {},
   textStyle = {},
@@ -37,7 +37,7 @@ const CustomSwitch = ({
           ...trackOffStyle,
         }}
         offColor={colors.white}
-        size={'small'}
+        size={"small"}
         onToggle={onChange}
       />
     </View>
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
   },
   thumbOff: {
-    backgroundColor:colors.white,
+    backgroundColor: colors.white,
     width: mvs(24),
     height: mvs(24),
     borderRadius: 12,
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     width: mvs(52),
   },
   trackOff: {
-    backgroundColor:`#C5C5C5`,
+    backgroundColor: `#C5C5C5`,
     borderWidth: 0,
     height: mvs(28),
     // height: mvs(24),

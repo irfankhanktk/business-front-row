@@ -1,29 +1,29 @@
-import React from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {Edit} from '../../assets/common-icons';
-import Regular from '../../presentation/typography/regular-text';
-import SemiBold from '../../presentation/typography/semibold-text';
-import colors from '../../services/colors';
-import fonts from '../../services/fonts';
-import {mvs} from '../../services/metrices';
-import Row from './row';
-import * as SVG from '../../assets/common-icons';
-import CustomSwitch from './Switch';
+import React from "react";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Edit } from "../../assets/common-icons";
+import Regular from "../../presentation/typography/regular-text";
+import SemiBold from "../../presentation/typography/semibold-text";
+import colors from "../../services/colors";
+import fonts from "../../services/fonts";
+import { mvs } from "../../services/metrices";
+import Row from "./row";
+import * as SVG from "../../assets/common-icons";
+import CustomSwitch from "./Switch";
 const ProfileAction = ({
   selected = true,
   onChange,
   value = true,
   label,
-  subLabel = '',
+  subLabel = "",
   labelStyle,
   style,
   onPress,
   subLabelStyle,
-  leftIcon = 'Coupon',
-  rightIcon = 'Arrow',
+  leftIcon = "Coupon",
+  rightIcon = "Arrow",
 }) => {
-  const LeftSvg = SVG[leftIcon + (selected == true ? 's' : '')];
-  const RightSvg = SVG[rightIcon + (selected == true ? 's' : '')];
+  const LeftSvg = SVG[leftIcon + (selected == true ? "s" : "")];
+  const RightSvg = SVG[rightIcon + (selected == true ? "s" : "")];
   return (
     <Row
       style={{
@@ -31,9 +31,10 @@ const ProfileAction = ({
         ...style,
 
         backgroundColor: selected ? colors.primary : colors.white,
-      }}>
+      }}
+    >
       {LeftSvg && (
-        <LeftSvg style={{color: selected ? colors.white : colors.primary}} />
+        <LeftSvg style={{ color: selected ? colors.white : colors.primary }} />
       )}
       <TouchableOpacity onPress={onPress} style={styles.CENTERVIEW}>
         <SemiBold
@@ -54,12 +55,12 @@ const ProfileAction = ({
           }}
         />
       </TouchableOpacity>
-      {leftIcon === 'PushNotify' && (
+      {leftIcon === "PushNotify" && (
         <CustomSwitch value={value} onChange={onChange} />
       )}
-      {RightSvg && leftIcon != 'PushNotify' && (
+      {RightSvg && leftIcon != "PushNotify" && (
         <RightSvg
-          style={{tintColor: selected ? colors.white : colors.primary}}
+          style={{ tintColor: selected ? colors.white : colors.primary }}
         />
       )}
     </Row>
@@ -72,8 +73,8 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderWidth: 1,
     borderColor: colors.gray,
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    justifyContent: "space-between",
+    alignItems: "center",
     backgroundColor: colors.white,
     height: mvs(58),
     paddingHorizontal: mvs(10),
@@ -81,7 +82,7 @@ const styles = StyleSheet.create({
   },
   CENTERVIEW: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
 
     marginHorizontal: mvs(10),
   },

@@ -32,7 +32,7 @@ export const getBusinessDetails = (
   props,
   email,
   password,
-  setLoading = (bool) => { }
+  setLoading = (bool) => {}
 ) => {
   return async (dispatch, getState) => {
     try {
@@ -40,10 +40,13 @@ export const getBusinessDetails = (
       await auth().signInWithEmailAndPassword(email, password);
       await getToken();
       const fcm = await getFcmToken();
-      console.log('fcm token--->>', fcm);
-      const response = await API_REQUESTS.getData(URLS.auth.get_business_detail);
-      console.log('response=>>>:::', response?.data);
-      AsyncStorage.setItem('BusinessId', `${response?.data?.business?.id}`);
+      console.log("fcm token--->>", fcm);
+      const response = await API_REQUESTS.getData(
+        URLS.auth.get_business_detail
+      );
+      console.log("response=>>>:::", response?.data);
+      AsyncStorage.setItem("BusinessId", `${response?.data?.business?.id}`);
+      AsyncStorage.setItem("@user", JSON.stringify(response?.data));
       dispatch(setUserInfo(response?.data));
       SERVICES.resetStack(props, "Main");
     } catch (error) {

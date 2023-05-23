@@ -1,42 +1,43 @@
-import { useTheme } from '@react-navigation/native';
-import moment from 'moment';
-import React, { FC, useState } from 'react';
+import { useTheme } from "@react-navigation/native";
+import moment from "moment";
+import React, { FC, useState } from "react";
 import {
-  KeyboardTypeOptions, TextInput,
+  KeyboardTypeOptions,
+  TextInput,
   TouchableOpacity,
-  View
-} from 'react-native';
-import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import PhoneInput from 'react-native-phone-input';
-import SelectDropdown from 'react-native-select-dropdown';
-import Icon from 'react-native-vector-icons/Entypo';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import * as SVGS from '../../assets/common-icons';
-import Medium from '../../presentation/typography/medium-text';
-import Regular from '../../presentation/typography/regular-text';
-import SemiBold from '../../presentation/typography/semibold-text';
-import colors from '../../services/colors';
-import { mvs } from '../../services/metrices';
-import { INPUT_STYLES } from '../../styles/input';
-import Bold from './../../presentation/typography/bold-text';
-import PickerModal from './../molecules/modals/picker-model';
-import ServiceModal from './../molecules/modals/service-modal';
-import { OtpInput } from './../molecules/otp-input/otp-input';
-import Buttons from './Button';
-import Row from './row';
+  View,
+} from "react-native";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+import PhoneInput from "react-native-phone-input";
+import SelectDropdown from "react-native-select-dropdown";
+import Icon from "react-native-vector-icons/Entypo";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
+import * as SVGS from "../../assets/common-icons";
+import Medium from "../../presentation/typography/medium-text";
+import Regular from "../../presentation/typography/regular-text";
+import SemiBold from "../../presentation/typography/semibold-text";
+import colors from "../../services/colors";
+import { mvs } from "../../services/metrices";
+import { INPUT_STYLES } from "../../styles/input";
+import Bold from "./../../presentation/typography/bold-text";
+import PickerModal from "./../molecules/modals/picker-model";
+import ServiceModal from "./../molecules/modals/service-modal";
+import { OtpInput } from "./../molecules/otp-input/otp-input";
+import Buttons from "./Button";
+import Row from "./row";
 const countries = [
-  'Egypt',
-  'Canada',
-  'Australia',
-  'Ireland',
-  'Brazil',
-  'England',
-  'Dubai',
-  'France',
-  'Germany',
-  'Saudi Arabia',
-  'Argentina',
-  'India',
+  "Egypt",
+  "Canada",
+  "Australia",
+  "Ireland",
+  "Brazil",
+  "England",
+  "Dubai",
+  "France",
+  "Germany",
+  "Saudi Arabia",
+  "Argentina",
+  "India",
 ];
 type IProps = {
   label?: string | number;
@@ -57,43 +58,40 @@ type IProps = {
   isMatch?: boolean;
   leftIcon: string;
   rightIcon: string;
-  ref: any,
+  ref: any;
   setValue?: (arg: any) => void;
 };
 
 const InputSecondary: FC<IProps> = ({
-  label = '',
-  value = '',
+  label = "",
+  value = "",
   onChangeText,
-  placeholder = 'placeholder',
+  placeholder = "placeholder",
   containerStyle,
   labelStyle,
   secureTextEntry,
   maxLength,
   keyboardType,
   style,
-  leftIcon = 'User',
-  rightIcon = 'User',
+  leftIcon = "User",
+  rightIcon = "User",
   editable = true,
 }) => {
   const [eye, setEye] = React.useState(true);
-  const { colors }: any = useTheme();
   const LIcon = SVGS[leftIcon as keyof typeof SVGS];
   const RIcon = SVGS[rightIcon as keyof typeof SVGS];
   return (
     <View style={[{ marginBottom: mvs(18) }, containerStyle]}>
-      <Medium
-        label={label}
-        style={{ marginBottom: mvs(10), ...labelStyle }}
-      />
+      <Medium label={label} style={{ marginBottom: mvs(10), ...labelStyle }} />
       <View
         style={{
           ...INPUT_STYLES.SECONDARY_INPUT,
           backgroundColor: colors.white,
           ...style,
-        }}>
+        }}
+      >
         <LIcon
-          name={eye ? 'eye' : 'eye-with-line'}
+          name={eye ? "eye" : "eye-with-line"}
           color={colors.text}
           size={mvs(20)}
         />
@@ -111,7 +109,7 @@ const InputSecondary: FC<IProps> = ({
             padding: mvs(5),
             ...style,
             flex: 1,
-            borderLeftWidth: 2,
+            borderLeftWidth: 1,
             borderLeftColor: colors.gray,
             marginLeft: mvs(10),
             paddingLeft: mvs(10),
@@ -120,58 +118,59 @@ const InputSecondary: FC<IProps> = ({
 
         {secureTextEntry ? (
           <TouchableOpacity
-            onPress={() => setEye(f => !f)}
+            onPress={() => setEye((f) => !f)}
             style={{
               right: mvs(10),
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
             <Icon
-              name={eye ? 'eye' : 'eye-with-line'}
+              name={eye ? "eye" : "eye-with-line"}
               color={colors.text}
               size={mvs(20)}
             />
           </TouchableOpacity>
-        ) : (
-          rightIcon ? <View
+        ) : rightIcon ? (
+          <View
             style={{
               right: mvs(10),
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <RIcon
-            />
-          </View> : null
-        )}
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <RIcon />
+          </View>
+        ) : null}
       </View>
     </View>
   );
 };
 const ServiceDropDown: FC<IProps> = ({
   label,
-  value = '',
-  title = '',
+  value = "",
+  title = "",
   onChangeText,
-  placeholder = 'This month',
+  placeholder = "This month",
   style,
   dropdownStyle,
   items = [],
 }) => {
-
   const [eye, setEye] = React.useState(true);
   const [visible, setVisible] = React.useState(false);
 
   return (
     <TouchableOpacity
       onPress={() => setVisible(true)}
-      style={{ ...INPUT_STYLES.DROPDOWN_INPUT, ...style }}>
-      {label && (
-        <Regular label={label} />
-      )}
-      <Row style={{ paddingHorizontal: mvs(20) }} alignItems='center'>
+      style={{ ...INPUT_STYLES.DROPDOWN_INPUT, ...style }}
+    >
+      {label && <Regular label={label} />}
+      <Row style={{ paddingHorizontal: mvs(20) }} alignItems="center">
         <>
-          <Regular label={!value ? placeholder : value} style={{ flex: 1, }} />
-          <SVGS.Caret style={{ marginLeft: mvs(10), transform: [{ translateY: mvs(1) }] }} />
+          <Regular label={!value ? placeholder : value} style={{ flex: 1 }} />
+          <SVGS.Caret
+            style={{ marginLeft: mvs(10), transform: [{ translateY: mvs(1) }] }}
+          />
         </>
       </Row>
       <ServiceModal
@@ -182,37 +181,35 @@ const ServiceDropDown: FC<IProps> = ({
         items={items}
         visible={visible}
       />
-
     </TouchableOpacity>
-
   );
 };
 
 const InputDropDown: FC<IProps> = ({
   label,
-  value = '',
-  title = '',
+  value = "",
+  title = "",
   onChangeText,
-  placeholder = 'This month',
+  placeholder = "This month",
   style,
   dropdownStyle,
   items = [],
 }) => {
-
   const [eye, setEye] = React.useState(true);
   const [visible, setVisible] = React.useState(false);
 
   return (
     <TouchableOpacity
       onPress={() => setVisible(true)}
-      style={{ ...INPUT_STYLES.DROPDOWN_INPUT, ...style }}>
-      {label && (
-        <Regular label={label} />
-      )}
-      <Row style={{ paddingHorizontal: mvs(20) }} alignItems='center'>
+      style={{ ...INPUT_STYLES.DROPDOWN_INPUT, ...style }}
+    >
+      {label && <Regular label={label} />}
+      <Row style={{ paddingHorizontal: mvs(20) }} alignItems="center">
         <>
-          <Regular label={!value ? placeholder : value} style={{ flex: 1, }} />
-          <SVGS.Caret style={{ marginLeft: mvs(10), transform: [{ translateY: mvs(1) }] }} />
+          <Regular label={!value ? placeholder : value} style={{ flex: 1 }} />
+          <SVGS.Caret
+            style={{ marginLeft: mvs(10), transform: [{ translateY: mvs(1) }] }}
+          />
         </>
       </Row>
       <PickerModal
@@ -223,17 +220,15 @@ const InputDropDown: FC<IProps> = ({
         items={items}
         visible={visible}
       />
-
     </TouchableOpacity>
-
   );
 };
 const CustomDropDown: FC<IProps> = ({
-  label = '',
-  value = '',
-  title = '',
+  label = "",
+  value = "",
+  title = "",
   onChangeText,
-  placeholder = 'This month',
+  placeholder = "This month",
   style,
   dropdownStyle,
   items = [],
@@ -243,11 +238,14 @@ const CustomDropDown: FC<IProps> = ({
   return (
     <TouchableOpacity
       onPress={() => setVisible(true)}
-      style={{ ...INPUT_STYLES.DROPDOWN_INPUT, ...INPUT_STYLES.CUSTOM_DROPDOWN, ...style }}>
-      {label && (
-        <Regular label={label} style={{}} />
-      )}
-      <Row style={{ marginTop: mvs(4) }} alignItems='center'>
+      style={{
+        ...INPUT_STYLES.DROPDOWN_INPUT,
+        ...INPUT_STYLES.CUSTOM_DROPDOWN,
+        ...style,
+      }}
+    >
+      {label && <Regular label={label} style={{}} />}
+      <Row style={{ marginTop: mvs(4) }} alignItems="center">
         <>
           <Medium label={!value ? placeholder : value} style={{ flex: 1 }} />
           <SVGS.Caret style={{ transform: [{ translateY: mvs(1) }] }} />
@@ -266,21 +264,24 @@ const CustomDropDown: FC<IProps> = ({
   );
 };
 const InputDropDown2: FC<IProps> = ({
-  label = '',
-  value = '',
+  label = "",
+  value = "",
   onChangeText,
-  placeholder = 'placeholder',
-  style
+  placeholder = "placeholder",
+  style,
 }) => {
   const [eye, setEye] = React.useState(true);
   const { colors }: any = useTheme();
 
   return (
-    <View
-      style={{ ...INPUT_STYLES.DROPDOWN_INPUT, ...style }}>
+    <View style={{ ...INPUT_STYLES.DROPDOWN_INPUT, ...style }}>
       <SemiBold
         label={label}
-        style={{ color: colors.text, marginBottom: mvs(10), marginLeft: mvs(17) }}
+        style={{
+          color: colors.text,
+          marginBottom: mvs(10),
+          marginLeft: mvs(17),
+        }}
       />
       <SelectDropdown
         data={countries}
@@ -296,45 +297,59 @@ const InputDropDown2: FC<IProps> = ({
         }}
         buttonStyle={INPUT_STYLES.dropdown1BtnStyle}
         buttonTextStyle={INPUT_STYLES.dropdown1BtnTxtStyle}
-        renderDropdownIcon={isOpened => {
-          return <FontAwesome name={isOpened ? 'chevron-up' : 'chevron-down'} color={'#444'} size={10} />;
+        renderDropdownIcon={(isOpened) => {
+          return (
+            <FontAwesome
+              name={isOpened ? "chevron-up" : "chevron-down"}
+              color={"#444"}
+              size={10}
+            />
+          );
         }}
-        dropdownIconPosition={'right'}
+        dropdownIconPosition={"right"}
         dropdownStyle={INPUT_STYLES.dropdown1DropdownStyle}
         rowStyle={INPUT_STYLES.dropdown1RowStyle}
         rowTextStyle={INPUT_STYLES.dropdown1RowTxtStyle}
-
       />
-
     </View>
-
   );
 };
 const InputView: FC<IProps> = ({
-  label = '',
-  value = '',
+  label = "",
+  value = "",
   onChangeText,
-  placeholder = 'placeholder',
-  style
+  placeholder = "placeholder",
+  style,
 }) => {
-
   const { colors }: any = useTheme();
 
   return (
     <View
-      style={{ ...INPUT_STYLES.DROPDOWN_INPUT, ...INPUT_STYLES.CUSTOM_DROPDOWN, height: mvs(90), paddingHorizontal: mvs(20), ...style }}>
-      <Medium
-        label={label}
+      style={{
+        ...INPUT_STYLES.DROPDOWN_INPUT,
+        ...INPUT_STYLES.CUSTOM_DROPDOWN,
+        height: mvs(90),
+        paddingHorizontal: mvs(20),
+        ...style,
+      }}
+    >
+      <Medium label={label} />
+      <TextInput
+        style={{
+          ...INPUT_STYLES.TXTINPUT,
+          marginBottom: mvs(10),
+          paddingLeft: 0,
+        }}
+        placeholder={placeholder}
+        onChangeText={onChangeText}
       />
-      <TextInput style={{ ...INPUT_STYLES.TXTINPUT, marginBottom: mvs(10), paddingLeft: 0 }} placeholder={placeholder} onChangeText={onChangeText} />
     </View>
-
   );
 };
 const ReviewInput: FC<IProps> = ({
-  label = 'Write a Review',
-  value = '',
-  placeholder = '',
+  label = "Write a Review",
+  value = "",
+  placeholder = "",
   style,
   containerStyle,
   children,
@@ -358,9 +373,9 @@ const ReviewInput: FC<IProps> = ({
 const CustomOtpInput: FC<IProps> = ({ value, setValue, isMatch = true }) => {
   const { colors }: any = useTheme();
   return (
-    <View style={{ height: mvs(85), marginTop: mvs(28), alignItems: 'center' }}>
+    <View style={{ height: mvs(85), marginTop: mvs(28), alignItems: "center" }}>
       <Regular
-        label={'Verification Code'}
+        label={"Verification Code"}
         style={{ color: colors.primary, marginBottom: mvs(7) }}
       />
       <OtpInput isMatch={isMatch} value={value} setValue={setValue} />
@@ -372,24 +387,25 @@ const PhoneTextInput: FC<IProps> = ({ onChangeText, ref, containerStyle }) => {
     <View
       style={[
         {
-          width: '80%',
-          backgroundColor: 'red',
-          alignSelf: 'center',
+          width: "80%",
+          backgroundColor: "red",
+          alignSelf: "center",
           height: mvs(59),
-          alignItems: 'center',
-          justifyContent: 'center',
+          alignItems: "center",
+          justifyContent: "center",
           paddingHorizontal: mvs(15),
           borderRadius: mvs(15),
         },
         containerStyle,
-      ]}>
+      ]}
+    >
       <PhoneInput
         ref={ref}
-        initialCountry={'gb'}
+        initialCountry={"gb"}
         // initialValue={'92xx xxxxxxx'}
         textProps={{
-          placeholder: 'xxxx xxxxxxx',
-          placeholderTextColor: 'blue',
+          placeholder: "xxxx xxxxxxx",
+          placeholderTextColor: "blue",
         }}
         onChangePhoneNumber={onChangeText}
       />
@@ -397,7 +413,7 @@ const PhoneTextInput: FC<IProps> = ({ onChangeText, ref, containerStyle }) => {
   );
 };
 
-const DatePicker: FC<IProps> = ({ onChangeText = () => { }, value }) => {
+const DatePicker: FC<IProps> = ({ onChangeText = () => {}, value }) => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -410,15 +426,16 @@ const DatePicker: FC<IProps> = ({ onChangeText = () => { }, value }) => {
   const handleConfirm = (date: any) => {
     // console.log('date::', date);
 
-    onChangeText(moment(date).format('lll'));
+    onChangeText(moment(date).format("lll"));
     hideDatePicker();
   };
   return (
     <View
       style={{
-        width: '100%',
-      }}>
-      <Regular label={'Select time'} style={{ marginBottom: mvs(10) }} />
+        width: "100%",
+      }}
+    >
+      <Regular label={"Select time"} style={{ marginBottom: mvs(10) }} />
       <Buttons.ButtonPrimary
         title={value}
         onClick={() => setDatePickerVisibility(true)}
@@ -427,12 +444,12 @@ const DatePicker: FC<IProps> = ({ onChangeText = () => { }, value }) => {
       />
       <DateTimePickerModal
         isVisible={isDatePickerVisible}
-        mode={'datetime'}
+        mode={"datetime"}
         date={new Date()}
         onConfirm={handleConfirm}
         onCancel={hideDatePicker}
-      // maximumDate={new Date(moment().subtract(18, 'years'))}
-      // minimumDate={new Date(moment().subtract(50, 'years'))}
+        // maximumDate={new Date(moment().subtract(18, 'years'))}
+        // minimumDate={new Date(moment().subtract(50, 'years'))}
       />
     </View>
   );
@@ -448,5 +465,5 @@ export const INPUT_FIELD = {
   InputView,
   ServiceDropDown,
   InputDropDown2,
-  CustomDropDown
+  CustomDropDown,
 };

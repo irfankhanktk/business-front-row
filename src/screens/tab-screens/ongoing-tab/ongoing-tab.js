@@ -5,7 +5,7 @@ import {
   Bell,
   Booking,
   TabOngoingIcon,
-  TotalHeader
+  TotalHeader,
 } from "../../../assets/common-icons";
 import BookingCard from "../../../components/atoms/booking-card";
 import PageLoader from "../../../components/atoms/page-loader";
@@ -23,7 +23,7 @@ import { Home_Styles as styles } from "./ongoing-styles";
 const OngoingTab = (props) => {
   const { get_service_jobs, complete_job, services } = props;
   //const businessId=3333;
-  const ser = services?.find(x => x?.selected);
+  const ser = services?.find((x) => x?.selected);
 
   const [loading, setloading] = useState(true);
   const [isRefresh, setRefresh] = useState(false);
@@ -35,8 +35,8 @@ const OngoingTab = (props) => {
     assign: false,
     start: false,
     noshow: false,
-    checkout: false
-  })
+    checkout: false,
+  });
   const getOnGoingBooking = async () => {
     try {
       // setloading(true);
@@ -48,9 +48,9 @@ const OngoingTab = (props) => {
       setData(response?.data);
       // }
     } catch (error) {
-      console.log('error=>', error);
+      console.log("error=>", error);
     } finally {
-      // setloading(false);
+      setloading(false);
     }
   };
   useEffect(() => {
@@ -58,7 +58,7 @@ const OngoingTab = (props) => {
   }, [isRefresh]);
   const complete_booking = async (bookingId) => {
     try {
-      setbtnLaoding(true)
+      setbtnLaoding(true);
       const res = await alertService.confirm(
         "Are you sure you want to check out?",
         "Yes",
@@ -67,10 +67,10 @@ const OngoingTab = (props) => {
       if (res) {
         setLoaders({ ...loaders, checkout: id });
         await complete_job(businessId, bookingId);
-        await getOnGoingBooking()
+        await getOnGoingBooking();
       }
     } catch (error) {
-      console.log('error=>', error);
+      console.log("error=>", error);
     } finally {
       setbtnLaoding(false);
       setLoaders({ ...loaders, checkout: fasle });
@@ -88,13 +88,11 @@ const OngoingTab = (props) => {
       >
         <Row>
           <TabOngoingIcon />
-          <Medium
-            size={mvs(16)}
-            label={"  Ongoing bookings"}
-          />
+          <Medium size={mvs(16)} label={"  Ongoing bookings"} />
         </Row>
         <Row style={{ width: mvs(65), alignItems: "center" }}>
           <TouchableOpacity
+            onPress={() => props?.navigation?.navigate("Notifications")}
             style={{
               width: mvs(30),
               height: mvs(30),
@@ -126,10 +124,10 @@ const OngoingTab = (props) => {
           <TotalHeader />
         </Row>
       </Row>
-      {loading ?
+      {loading ? (
         <PageLoader />
-        :
-        !loading && data?.length > 0 ? <FlatList
+      ) : !loading && data?.length > 0 ? (
+        <FlatList
           contentContainerStyle={{
             flexGrow: 1,
             paddingBottom: mvs(60),
@@ -151,17 +149,18 @@ const OngoingTab = (props) => {
               {...props}
             />
           )}
-        /> :
-          <View style={styles.body1}>
-            <Booking />
-            <Bold label={"No Bookings"} style={styles.welcomeText} />
-            <Regular
-              label={"Your all ongoing bookings will show here."}
-              numberOfLines={2}
-              style={styles.welcomeSubText}
-            />
-          </View>
-      }
+        />
+      ) : (
+        <View style={styles.body1}>
+          <Booking />
+          <Bold label={"No Bookings"} style={styles.welcomeText} />
+          <Regular
+            label={"Your all ongoing bookings will show here."}
+            numberOfLines={2}
+            style={styles.welcomeSubText}
+          />
+        </View>
+      )}
     </SafeAreaView>
   );
 };

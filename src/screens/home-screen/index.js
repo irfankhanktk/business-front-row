@@ -32,18 +32,16 @@ import { ACTIONS } from "../../store/actions";
 const ShimmerPlaceholder = createShimmerPlaceholder(LinearGradient);
 const BusinessProfile = (props) => {
   const { get_services, services, setServices } = props;
-  const ser = services?.find(x => x?.selected);
+  const ser = services?.find((x) => x?.selected);
   const [apiData, setapiData] = React.useState(true);
   const [picker, setPicker] = React.useState(false);
   React.useEffect(() => {
     (async () => {
       try {
         await get_services();
-      } catch (error) {
-
-      }
-    })()
-  }, [])
+      } catch (error) {}
+    })();
+  }, []);
   return (
     <SafeAreaView style={styles.container}>
       <Row
@@ -59,19 +57,22 @@ const BusinessProfile = (props) => {
           <SemiBold size={mvs(16)} label={"  Home"} color={colors.B444251} />
         </Row>
         <TouchableOpacity
-          onPress={() => { setPicker(true) }}
-          style={{
+          onPress={() => {
+            setPicker(true);
           }}
+          style={{}}
         >
           <Row>
             <Regular label={ser?.title} />
             <ImagePlaceholder
               containerStyle={{ height: mvs(20), width: mvs(30) }}
-              uri={{ uri: SERVICES._returnFile(ser?.icon) }} />
+              uri={{ uri: SERVICES._returnFile(ser?.icon) }}
+            />
           </Row>
         </TouchableOpacity>
         <Row style={{ width: mvs(65), alignItems: "center" }}>
           <TouchableOpacity
+            onPress={() => props?.navigation?.navigate("Notifications")}
             style={{
               width: mvs(30),
               height: mvs(30),
@@ -411,9 +412,13 @@ const BusinessProfile = (props) => {
         </ScrollView>
       </View>
       <ServicePickerModal
-        onChangeService={(newServices) => { setServices(newServices); setPicker(false) }}
+        onChangeService={(newServices) => {
+          setServices(newServices);
+          setPicker(false);
+        }}
         items={services}
-        visible={picker} />
+        visible={picker}
+      />
     </SafeAreaView>
   );
 };
@@ -423,9 +428,7 @@ const mapStateToProps = (store) => ({
 });
 
 const mapDispatchToProps = {
-  get_services: (bussinessId) =>
-    DIVIY_API.get_services(bussinessId),
-  setServices: (services) => ACTIONS.setServices(services)
+  get_services: (bussinessId) => DIVIY_API.get_services(bussinessId),
+  setServices: (services) => ACTIONS.setServices(services),
 };
 export default connect(mapStateToProps, mapDispatchToProps)(BusinessProfile);
-
