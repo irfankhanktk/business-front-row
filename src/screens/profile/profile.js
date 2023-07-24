@@ -189,7 +189,7 @@ const Profile = (props) => {
                       removeData("token");
                       delayApi();
                     } catch (error) {
-                      console.log('error logout', error);
+                      console.log("error logout", error);
                     }
                   },
                 },
