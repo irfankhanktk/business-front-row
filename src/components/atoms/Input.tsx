@@ -102,7 +102,7 @@ const InputSecondary: FC<IProps> = ({
           secureTextEntry={secureTextEntry ? eye : false}
           // value={value}
           placeholder={placeholder}
-          placeholderTextColor={colors.black}
+          placeholderTextColor={colors.G777373}
           onChangeText={onChangeText}
           style={{
             color: colors.black,
@@ -413,7 +413,7 @@ const PhoneTextInput: FC<IProps> = ({ onChangeText, ref, containerStyle }) => {
   );
 };
 
-const DatePicker: FC<IProps> = ({ onChangeText = () => {}, value }) => {
+const DatePicker: FC<IProps> = ({ onChangeText = () => { }, value }) => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -448,8 +448,8 @@ const DatePicker: FC<IProps> = ({ onChangeText = () => {}, value }) => {
         date={new Date()}
         onConfirm={handleConfirm}
         onCancel={hideDatePicker}
-        // maximumDate={new Date(moment().subtract(18, 'years'))}
-        // minimumDate={new Date(moment().subtract(50, 'years'))}
+      // maximumDate={new Date(moment().subtract(18, 'years'))}
+      // minimumDate={new Date(moment().subtract(50, 'years'))}
       />
     </View>
   );
