@@ -24,7 +24,7 @@ const showToast = (type, text1, text2) => {
 };
 export const deleteToken = () => {
   return API_REQUESTS.getData(URLS.auth.delete_token);
-}
+};
 const getToken = async () => {
   console.log("GETTING TOKEN");
   let token = await auth().currentUser.getIdToken();
@@ -40,9 +40,14 @@ export const getBusinessDetails = (
   return async (dispatch, getState) => {
     try {
       setLoading(true);
+      let fcm = "12345";
       await auth().signInWithEmailAndPassword(email, password);
       await getToken();
-      const fcm = await getFcmToken();
+      try {
+        fcm = await getFcmToken();
+      } catch (error) {
+        console.log("error in fcm token--->>", error);
+      }
       console.log("fcm token--->>", fcm);
       const response = await API_REQUESTS.getData(
         URLS.auth.get_business_detail

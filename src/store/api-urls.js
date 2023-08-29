@@ -9,7 +9,7 @@ export const URLS = {
   auth: {
     get_business_detail: "users/detail/business",
     get_notifications: "users/",
-    delete_token: 'delete'
+    delete_token: "delete",
   },
   business: "b/om/businesses/",
   booking: {
