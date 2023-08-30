@@ -53,6 +53,10 @@ const NewBooking = (props) => {
       method: "GET",
       redirect: "follow",
     };
+    console.log(
+      "`${BaseURL}b/om/businesses/${bId}/services/${ser?.id}/offerings`,",
+      `${BaseURL}b/om/businesses/${bId}/services/${ser?.id}/offerings`
+    );
     await fetch(
       `${BaseURL}b/om/businesses/${bId}/services/${ser?.id}/offerings`,
       requestOptions

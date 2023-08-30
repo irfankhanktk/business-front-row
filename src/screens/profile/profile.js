@@ -33,9 +33,7 @@ const Profile = (props) => {
   const [value, setValue] = React.useState(true);
   const [apiData, setapiData] = React.useState(true);
   const delayApi = () => {
-    setTimeout(() => {
-      navigation.navigate("Signin");
-    }, 2000);
+    navigation.navigate("Signin");
   };
   return (
     <SafeAreaView style={styles.container}>
@@ -185,7 +183,7 @@ const Profile = (props) => {
                   text: "Logout",
                   onPress: async () => {
                     try {
-                      await deleteToken();
+                      // await deleteToken();
                       removeData("token");
                       delayApi();
                     } catch (error) {

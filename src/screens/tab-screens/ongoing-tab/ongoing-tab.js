@@ -65,7 +65,7 @@ const OngoingTab = (props) => {
         "No"
       );
       if (res) {
-        setLoaders({ ...loaders, checkout: id });
+        setLoaders({ ...loaders, checkout: bookingId });
         await complete_job(businessId, bookingId);
         await getOnGoingBooking();
       }
@@ -73,7 +73,7 @@ const OngoingTab = (props) => {
       console.log("error=>", error);
     } finally {
       setbtnLaoding(false);
-      setLoaders({ ...loaders, checkout: fasle });
+      setLoaders({ ...loaders, checkout: false });
     }
   };
   return (
