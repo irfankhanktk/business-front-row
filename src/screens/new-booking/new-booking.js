@@ -32,6 +32,7 @@ import { mvs } from "../../services/metrices";
 import { ACTIONS } from "../../store/actions";
 import DIVIY_API from "../../store/api-calls";
 import { Styles as styles } from "./new-booking-styles";
+import { TextInput } from "react-native";
 const NewBooking = (props) => {
   const { services } = props;
   const ser = services?.find((x) => x?.selected);
@@ -44,6 +45,7 @@ const NewBooking = (props) => {
   const [selected, setSelected] = useState(0);
   const [searchcustomer, setsearchcustomer] = useState(false);
   const [mobile, setmobile] = useState("");
+  const [number, setNumber] = useState("");
   const [showButton, setshowButton] = useState(false);
   const [customerData, setcustomerData] = useState([]);
   const [serviceOffering, setserviceOffering] = useState([]);
@@ -76,10 +78,12 @@ const NewBooking = (props) => {
     getServiceOffering();
   }, [loading, 1]);
   const searchCustomer = async () => {
-    console.log("Mobile number is ==>", mobile);
     var bId = await getData("BusinessId");
-    if (mobile.length == 0) {
+    if (mobile.length == 0 && phoneSelected) {
       showToast("error", "Enter mobile for search customer");
+      return;
+    } else if (number.length == 0 && !phoneSelected) {
+      showToast("error", "Enter Registration number please");
       return;
     } else {
       setsearchcustomer(true);
@@ -87,11 +91,14 @@ const NewBooking = (props) => {
         method: "GET",
         redirect: "follow",
       };
-
-      await fetch(
-        `${BaseURL}b/om/businesses/${bId}/customers/find?mobile=${mobile}`,
-        requestOptions
-      )
+      let url = `${BaseURL}b/om/businesses/${bId}/customers/find?`;
+      if (phoneSelected) {
+        url = `${url}mobile=${mobile}`;
+      } else {
+        url = `${url}registration=${number}`;
+      }
+      console.log("url", url);
+      await fetch(url, requestOptions)
         .then((response) => response.json())
         .then((result) => {
           if (!result.length > 0) {
@@ -172,16 +179,7 @@ const NewBooking = (props) => {
     <SafeAreaView
       style={{ ...styles.conntainer, backgroundColor: colors.background }}
     >
-      <CustomHeader
-        title="New Walk In Booking"
-        // titleStyle={{
-        //   fontSize: 15,
-        //   fontWeight: "bold",
-        //   // color: colors.black,
-        // }}
-        spacebetween
-        allowBackBtn
-      />
+      <CustomHeader title="New Walk In Booking" spacebetween allowBackBtn />
       <View style={styles.body}>
         {loading ? (
           <PageLoader />
@@ -210,7 +208,12 @@ const NewBooking = (props) => {
             />
             <Row style={{ justifyContent: "flex-start", alignItems: "center" }}>
               <Row style={{ alignItems: "center" }}>
-                <TouchableOpacity onPress={() => setPhoneSelected(true)}>
+                <TouchableOpacity
+                  onPress={() => {
+                    setsearchcustomer(false);
+                    setPhoneSelected(true);
+                  }}
+                >
                   {phoneSelected ? (
                     <SelectedRadioButton />
                   ) : (
@@ -224,7 +227,12 @@ const NewBooking = (props) => {
                 />
               </Row>
               <Row style={{ marginLeft: mvs(8), alignItems: "center" }}>
-                <TouchableOpacity onPress={() => setPhoneSelected(false)}>
+                <TouchableOpacity
+                  onPress={() => {
+                    setsearchcustomer(false);
+                    setPhoneSelected(false);
+                  }}
+                >
                   {!phoneSelected ? (
                     <SelectedRadioButton />
                   ) : (
@@ -239,27 +247,36 @@ const NewBooking = (props) => {
               </Row>
             </Row>
             <SemiBold
-              label={"PHONE NUMBER"}
+              label={phoneSelected ? "PHONE NUMBER" : "REGISTRATION NUMBER"}
               size={12}
               style={{ marginTop: mvs(5) }}
             />
             <View style={{ ...styles.phoneNumberView, marginTop: mvs(5) }}>
-              <PhoneInput
-                ref={phoneInput}
-                defaultValue=""
-                defaultCode="AE"
-                layout="first"
-                placeholder="Phone Number"
-                flagButtonStyle={{ width: mvs(60), height: mvs(40) }}
-                codeTextStyle={{ marginBottom: 1, fontSize: 13 }}
-                containerStyle={styles.phoneContainer}
-                textContainerStyle={styles.textInput}
-                textInputStyle={{ fontSize: 13 }}
-                onChangeFormattedText={(text) => {}}
-                onChangeText={(text) => {
-                  setmobile(text);
-                }}
-              />
+              {!phoneSelected ? (
+                <TextInput
+                  placeholder="Registration Number"
+                  style={{ flex: 1 }}
+                  value={number}
+                  onChangeText={setNumber}
+                />
+              ) : (
+                <PhoneInput
+                  ref={phoneInput}
+                  defaultValue=""
+                  defaultCode="AE"
+                  layout="first"
+                  placeholder="Phone Number"
+                  flagButtonStyle={{ width: mvs(60), height: mvs(40) }}
+                  codeTextStyle={{ marginBottom: 1, fontSize: 13 }}
+                  containerStyle={styles.phoneContainer}
+                  textContainerStyle={styles.textInput}
+                  textInputStyle={{ fontSize: 13 }}
+                  onChangeFormattedText={(text) => {}}
+                  onChangeText={(text) => {
+                    setmobile(text);
+                  }}
+                />
+              )}
               <TouchableOpacity onPress={searchCustomer}>
                 <SearchTwo style={{}} />
               </TouchableOpacity>
@@ -273,10 +290,12 @@ const NewBooking = (props) => {
                 />
                 <FlatList
                   data={customerData}
+                  keyExtractor={(_, index) => index?.toString()}
                   showsVerticalScrollIndicator={false}
                   contentContainerStyle={{}}
                   renderItem={({ item, index }) => (
                     <WorkerItem
+                      isRegistration={!phoneSelected}
                       key={index}
                       showSelect={true}
                       item={item}

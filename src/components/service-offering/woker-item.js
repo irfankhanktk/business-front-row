@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet,TouchableOpacity } from "react-native";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { SelectedCard, UnSelectedCard } from "../../assets/common-icons";
 import { CarOwner, User } from "../../assets/images";
 import Medium from "../../presentation/typography/medium-text";
@@ -9,24 +9,41 @@ import { mvs } from "../../services/metrices";
 import ImagePlaceholder from "../atoms/Placeholder";
 import Row from "../atoms/row";
 
-const WorkerItem = ({ item ,style,showSelect=false,selected,onSelected}) => {
+const WorkerItem = ({
+  isRegistration,
+  item,
+  style,
+  showSelect = false,
+  selected,
+  onSelected,
+}) => {
   return (
-    <View style={{...styles.conntainer,...style}}>
+    <View style={{ ...styles.conntainer, ...style }}>
       <Row style={{ alignItems: "center" }}>
-        <ImagePlaceholder
-          uri={CarOwner}
-          containerStyle={styles.profileImage}
-        />
+        <ImagePlaceholder uri={CarOwner} containerStyle={styles.profileImage} />
         <View style={{ flex: 1, marginLeft: mvs(9) }}>
-         {item?.title && ( <Medium label={item?.title} size={16} color={colors.black}/>)}
-         {item?.name && ( <Medium label={item?.name} size={16} color={colors.black}/>)}
-          {item?.phone &&(<Regular label={item?.phone} size={13} color={colors.lightgrey1}/>)}
-          {item?.mobile &&(<Regular label={item?.mobile} size={13} color={colors.lightgrey1}/>)}
+          {item?.title && (
+            <Medium label={item?.title} size={16} color={colors.black} />
+          )}
+          {item?.name && (
+            <Medium label={item?.name} size={16} color={colors.black} />
+          )}
+          {item?.phone && (
+            <Regular label={item?.phone} size={13} color={colors.lightgrey1} />
+          )}
+          {item?.mobile && (
+            <Regular
+              label={isRegistration ? item?.registration : item?.mobile}
+              size={13}
+              color={colors.lightgrey1}
+            />
+          )}
         </View>
-       {showSelect &&
-       (<TouchableOpacity onPress={onSelected}>
-          {selected ? <SelectedCard /> : <UnSelectedCard />}
-        </TouchableOpacity>)}
+        {showSelect && (
+          <TouchableOpacity onPress={onSelected}>
+            {selected ? <SelectedCard /> : <UnSelectedCard />}
+          </TouchableOpacity>
+        )}
       </Row>
     </View>
   );
@@ -38,7 +55,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     justifyContent: "center",
     borderRadius: mvs(8),
-    paddingVertical: mvs(8)
+    paddingVertical: mvs(8),
   },
   profileImage: {
     alignSelf: "center",

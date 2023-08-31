@@ -24,8 +24,9 @@ import { mvs } from "../../services/metrices";
 import styles from "./profile.styles";
 import { createShimmerPlaceholder } from "react-native-shimmer-placeholder";
 import LinearGradient from "react-native-linear-gradient";
-import { removeData } from "../../localStorage";
+import { clearData, removeData } from "../../localStorage";
 import { deleteToken } from "../../store/api-calls";
+import { resetStack } from "../../navigation/navigation-ref";
 const ShimmerPlaceholder = createShimmerPlaceholder(LinearGradient);
 // create a component
 const Profile = (props) => {
@@ -33,7 +34,7 @@ const Profile = (props) => {
   const [value, setValue] = React.useState(true);
   const [apiData, setapiData] = React.useState(true);
   const delayApi = () => {
-    navigation.navigate("Signin");
+    resetStack("Signin");
   };
   return (
     <SafeAreaView style={styles.container}>
@@ -183,8 +184,7 @@ const Profile = (props) => {
                   text: "Logout",
                   onPress: async () => {
                     try {
-                      // await deleteToken();
-                      removeData("token");
+                      clearData();
                       delayApi();
                     } catch (error) {
                       console.log("error logout", error);

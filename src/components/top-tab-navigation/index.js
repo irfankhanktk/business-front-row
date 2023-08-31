@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  Animated,
-  View,
-  TouchableOpacity,
-  StyleSheet
-} from "react-native";
+import { Animated, View, TouchableOpacity, StyleSheet } from "react-native";
 import Medium from "../../presentation/typography/medium-text";
 import { mvs } from "../../services/metrices";
 import colors from "./../../services/colors";
@@ -19,8 +14,8 @@ function MyTabBar({ state, descriptors, navigation, position }) {
           options.tabBarLabel !== undefined
             ? options.tabBarLabel
             : options.title !== undefined
-              ? options.title
-              : route.name;
+            ? options.title
+            : route.name;
         const title = options.title;
         const isFocused = state.index === index;
         //  console.log('label::',label);
@@ -52,6 +47,7 @@ function MyTabBar({ state, descriptors, navigation, position }) {
 
         return (
           <TouchableOpacity
+            key={index}
             accessibilityRole="button"
             accessibilityState={isFocused ? { selected: true } : {}}
             accessibilityLabel={options.tabBarAccessibilityLabel}
@@ -66,9 +62,7 @@ function MyTabBar({ state, descriptors, navigation, position }) {
               borderColor: colors.primary,
             }}
           >
-            <Medium
-              label={label}
-            />
+            <Medium label={label} />
             <Animated.Text
               style={{
                 color: colors.G777373,

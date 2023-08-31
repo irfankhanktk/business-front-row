@@ -100,7 +100,7 @@ const InputSecondary: FC<IProps> = ({
           keyboardType={keyboardType}
           maxLength={maxLength}
           secureTextEntry={secureTextEntry ? eye : false}
-          // value={value}
+          value={value}
           placeholder={placeholder}
           placeholderTextColor={colors.G777373}
           onChangeText={onChangeText}
@@ -247,7 +247,7 @@ const CustomDropDown: FC<IProps> = ({
       {label && <Regular label={label} style={{}} />}
       <Row style={{ marginTop: mvs(4) }} alignItems="center">
         <>
-          <Medium label={!value ? placeholder : value} style={{ flex: 1 }} />
+          <Medium label={!value ? placeholder : value} color={placeholder ? colors.G777373 : colors.B323232} style={{ flex: 1, }} />
           <SVGS.Caret style={{ transform: [{ translateY: mvs(1) }] }} />
         </>
       </Row>

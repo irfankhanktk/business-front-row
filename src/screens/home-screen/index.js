@@ -63,9 +63,16 @@ const BusinessProfile = (props) => {
           style={{}}
         >
           <Row>
-            <Regular label={ser?.title} />
+            {/* <Regular label={ser?.title} /> */}
             <ImagePlaceholder
-              containerStyle={{ height: mvs(20), width: mvs(30) }}
+              resizeMode={"contain"}
+              containerStyle={{
+                width: mvs(30),
+                height: mvs(30),
+                borderRadius: mvs(30 / 2),
+                padding: mvs(2),
+                backgroundColor: colors.FBF8F8,
+              }}
               uri={{ uri: SERVICES._returnFile(ser?.icon) }}
             />
           </Row>
@@ -416,6 +423,7 @@ const BusinessProfile = (props) => {
           setServices(newServices);
           setPicker(false);
         }}
+        setVisible={() => setPicker(false)}
         items={services}
         visible={picker}
       />

@@ -28,7 +28,7 @@ const ImagePlaceholder: FC<IProps> = ({ containerStyle, style, isUser = false, b
           justifyContent: 'flex-end',
           position: 'absolute', ...imageStyle
         }}
-      // resizeMode={resizeMode}
+        resizeMode={resizeMode}
       />
     </ImageBackground>
   );

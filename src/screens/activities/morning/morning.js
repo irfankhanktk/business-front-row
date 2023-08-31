@@ -13,6 +13,7 @@ import allColors from "../../../services/colors";
 import { mvs } from "../../../services/metrices";
 import DIVIY_API from "../../../store/api-calls";
 import styles from "./booking-styles";
+import { useIsFocused } from "@react-navigation/native";
 // createa component
 const Morning = (props) => {
   const {
@@ -26,7 +27,7 @@ const Morning = (props) => {
   //const bussinessId=3333;
   const [bookingId, setBookingId] = useState();
   const [btnLoading, setbtnLoading] = useState(true);
-
+  const isFocused = useIsFocused();
   const [loading, setLoading] = useState(true);
   const [isRefresh, setRefresh] = useState(false);
   const [workerVisible, setWorkerVisible] = useState(false);
@@ -39,8 +40,8 @@ const Morning = (props) => {
     assign: false,
     start: false,
     noshow: false,
-    checkout:false
-  })
+    checkout: false,
+  });
   const getOngoingBooking = async () => {
     // setLoading(true);
     var bId = await getData("BusinessId");
@@ -54,8 +55,10 @@ const Morning = (props) => {
     setLoading(false);
   };
   useEffect(() => {
-    getOngoingBooking();
-  }, [isRefresh]);
+    if (isFocused) {
+      getOngoingBooking();
+    }
+  }, [isRefresh, isFocused]);
   const getWorkers = async (id) => {
     setbtnLoading(true);
     const workersReponse = await get_workers(bussinessId, id);
@@ -78,9 +81,7 @@ const Morning = (props) => {
         await getOngoingBooking();
         // setRefresh(!isRefresh);
       }
-
     } catch (error) {
-
     } finally {
       setLoaders({ ...loaders, checkin: false });
     }
@@ -96,17 +97,16 @@ const Morning = (props) => {
       );
       if (res) {
         await start(bussinessId, id);
-        await getOngoingBooking()
+        await getOngoingBooking();
       }
     } catch (error) {
-
     } finally {
       setLoaders({ ...loaders, start: false });
     }
   };
   const no_show_booking = async (id) => {
     try {
-      setLoaders({ ...loaders, noshow: true })
+      setLoaders({ ...loaders, noshow: true });
       const res = await alertService.confirm(
         "Are you sure you want to no show?",
         "Yes",
@@ -115,32 +115,31 @@ const Morning = (props) => {
       if (res) {
         await no_show(bussinessId, id);
         // setRefresh(!isRefresh);
-        await getOngoingBooking()
+        await getOngoingBooking();
       }
     } catch (error) {
-
     } finally {
-      setLoaders({ ...loaders, noshow: false })
+      setLoaders({ ...loaders, noshow: false });
     }
   };
   const assign_booking_worker = async (id) => {
     try {
-      setLoaders({ ...loaders, assign: true })
+      setLoaders({ ...loaders, assign: true });
       await assign_worker(bussinessId, bookingId, id);
       await getOngoingBooking();
       setWorkerVisible(false);
     } catch (error) {
-
     } finally {
-      setLoaders({ ...loaders, assign: false })
+      setLoaders({ ...loaders, assign: false });
     }
   };
 
   return (
     <View style={styles.container}>
-      {loading ?
+      {loading ? (
         <PageLoader />
-        : <View
+      ) : (
+        <View
           style={{
             flex: 1,
             backgroundColor: allColors.tabBackground,
@@ -149,7 +148,7 @@ const Morning = (props) => {
           }}
         >
           {/* {data?.Morning?.bookings?.length > 0 ? ( */}
-          {!loading & data?.Morning?.bookings?.length > 0 ? (
+          {!loading & (data?.Morning?.bookings?.length > 0) ? (
             <FlatList
               showsVerticalScrollIndicator={false}
               data={data?.Morning?.bookings}
@@ -181,14 +180,16 @@ const Morning = (props) => {
               <Booking />
               <Bold label={"No Bookings"} style={styles.welcomeText} />
               <Regular
-                label={"Wait for the booking. Your all bookings will show here."}
+                label={
+                  "Wait for the booking. Your all bookings will show here."
+                }
                 numberOfLines={2}
                 style={styles.welcomeSubText}
               />
             </View>
           )}
         </View>
-      }
+      )}
       <WorkerModal
         loading={loaders.assign}
         items={workers}

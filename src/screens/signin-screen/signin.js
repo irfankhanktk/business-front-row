@@ -14,7 +14,7 @@ import SERVICES from "../../services/common-services";
 import { mvs } from "../../services/metrices";
 import API_REQUESTS from "../../store/api-requests";
 import { Signin_Styles as styles } from "./signin-styles";
-import auth from '@react-native-firebase/auth';
+import auth from "@react-native-firebase/auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getBusinessDetails } from "../../store/api-calls";
 import { useDispatch } from "react-redux";
@@ -35,8 +35,8 @@ const Signin = (props) => {
     confirmPassword: "",
   });
   useEffect(() => {
-    console.log("CREDIENTIALS====> ", payload)
-  }, [payload])
+    console.log("CREDIENTIALS====> ", payload);
+  }, [payload]);
   const { colors } = useTheme();
   // FIREBASE
   // Set an initializing state whilst Firebase connects
@@ -55,15 +55,14 @@ const Signin = (props) => {
   }, []);
 
   const signin = async (email, password) => {
-    try {
-      dispatch(getBusinessDetails(props, email, password, setLoading))
-
-    } catch (error) {
-      console.log('error=>>>', error);
+    if (!email?.trim()) {
+      return showToast("error", "Email is required");
     }
-  }
-
-
+    if (!password?.trim()) {
+      return showToast("error", "Password is required");
+    }
+    dispatch(getBusinessDetails(props, email, password, setLoading));
+  };
 
   // const onSigUpWithPhone = async () => {
   //   setPhoneSignUp(true);
@@ -117,7 +116,6 @@ const Signin = (props) => {
     <View style={{ ...styles.container, backgroundColor: colors.background }}>
       <ScrollView>
         <View style={styles.body}>
-
           <>
             <Bold label={"Welcome Back!"} style={styles.welcomeText} />
             <Regular
@@ -130,7 +128,9 @@ const Signin = (props) => {
                 value={payload.email}
                 leftIcon="User"
                 rightIcon=""
-                onChangeText={(t) => setPayload({ ...payload, email: t })}
+                onChangeText={(t) =>
+                  setPayload({ ...payload, email: t?.toLowerCase() })
+                }
                 label="EMAIL"
                 placeholder="lehieuds@gmail.com"
               />
@@ -139,7 +139,9 @@ const Signin = (props) => {
                 leftIcon="User"
                 rightIcon=""
                 value={payload.password}
-                onChangeText={(t) => setPayload({ ...payload, password: t })}
+                onChangeText={(t) =>
+                  setPayload({ ...payload, password: t?.toLowerCase() })
+                }
                 label="PASSWORD"
                 placeholder="Password"
               />

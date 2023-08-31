@@ -1,31 +1,31 @@
-import React, { useEffect, useState } from 'react';
-import { FlatList, ScrollView, View } from 'react-native';
-import { connect } from 'react-redux';
-import Row from '../../components/atoms/row';
+import React, { useEffect, useState } from "react";
+import { FlatList, ScrollView, View } from "react-native";
+import { connect } from "react-redux";
+import Row from "../../components/atoms/row";
 // import ActionButton from "../../components/review-schedule-items/action-button";
-import moment from 'moment';
-import Buttons from '../../components/atoms/Button';
-import PageLoader from '../../components/atoms/page-loader';
-import { CustomHeader } from '../../components/molecules/header/header-1x';
-import CouponModal from '../../components/molecules/modals/coupon-modal';
-import ScheduleModal from '../../components/molecules/modals/schedule-modal';
-import WorkerModal from '../../components/molecules/modals/worker-modal';
-import ActionButton from '../../components/review-schedule-items/action-button';
-import AlertMessage from '../../components/review-schedule-items/alert-message';
-import BillView from '../../components/review-schedule-items/bill-view';
-import BussinessCustomer from '../../components/review-schedule-items/bussiness-customer';
-import LifeCycleItem from '../../components/review-schedule-items/lifecycle-item';
-import NewCouponItem from '../../components/review-schedule-items/new-coupon-item';
-import PaymentCard from '../../components/review-schedule-items/payment-card';
-import SlotItem from '../../components/review-schedule-items/slot-item';
-import { getData } from '../../localStorage';
-import Medium from '../../presentation/typography/medium-text';
-import Regular from '../../presentation/typography/regular-text';
-import colors from '../../services/colors';
-import { mvs } from '../../services/metrices';
-import DIVIY_API from '../../store/api-calls';
-import { Styles as styles } from './style';
-const ReviewAndSchedule = props => {
+import moment from "moment";
+import Buttons from "../../components/atoms/Button";
+import PageLoader from "../../components/atoms/page-loader";
+import { CustomHeader } from "../../components/molecules/header/header-1x";
+import CouponModal from "../../components/molecules/modals/coupon-modal";
+import ScheduleModal from "../../components/molecules/modals/schedule-modal";
+import WorkerModal from "../../components/molecules/modals/worker-modal";
+import ActionButton from "../../components/review-schedule-items/action-button";
+import AlertMessage from "../../components/review-schedule-items/alert-message";
+import BillView from "../../components/review-schedule-items/bill-view";
+import BussinessCustomer from "../../components/review-schedule-items/bussiness-customer";
+import LifeCycleItem from "../../components/review-schedule-items/lifecycle-item";
+import NewCouponItem from "../../components/review-schedule-items/new-coupon-item";
+import PaymentCard from "../../components/review-schedule-items/payment-card";
+import SlotItem from "../../components/review-schedule-items/slot-item";
+import { getData } from "../../localStorage";
+import Medium from "../../presentation/typography/medium-text";
+import Regular from "../../presentation/typography/regular-text";
+import colors from "../../services/colors";
+import { mvs } from "../../services/metrices";
+import DIVIY_API from "../../store/api-calls";
+import { Styles as styles } from "./style";
+const ReviewAndSchedule = (props) => {
   const {
     get_booking,
     get_available_slots,
@@ -49,7 +49,7 @@ const ReviewAndSchedule = props => {
   // const customerId = 3333; //selected;
   const bookingId = bookingID;
   const customerId = selected;
-  const date = moment(new Date()).format('YYYY-MM-DD');
+  const date = moment(new Date()).format("YYYY-MM-DD");
   const [couponPickerVisible, setCouponPickerVisible] = useState(false);
   const [slotVisible, setSlotVisible] = useState(false);
   const [workerVisible, setWorkerVisible] = useState(false);
@@ -67,7 +67,7 @@ const ReviewAndSchedule = props => {
     remove: false,
     confirm: false,
     removeDiscount: false,
-  })
+  });
   const [isRefresh, setRefresh] = useState(false);
   const [loading, setLoading] = useState(true);
   const [paymentLoading, setPaymentLoading] = useState(false);
@@ -144,7 +144,6 @@ const ReviewAndSchedule = props => {
       await complete_my_booking(bookingId);
       setRefresh(!isRefresh);
     } catch (error) {
-
     } finally {
       setConfirmLoading(false);
     }
@@ -202,275 +201,283 @@ const ReviewAndSchedule = props => {
     <View style={styles.conntainer}>
       <CustomHeader
         colors={colors}
-        title={'Review & Schedule'}
+        title={"Review & Schedule"}
         titleStyle={{ color: colors.black }}
         allowBackBtn
         spacebetween
       />
-      {loading ? <PageLoader /> : <View style={styles.body}>
-        <ScrollView
-          contentContainerStyle={{
-            paddingHorizontal: mvs(20),
-            paddingBottom: mvs(20),
-          }}>
-          <BussinessCustomer loading={!loading} item={booking} />
-          <SlotItem
-            loading={!loading}
-            showAccept={selectedSlot?.view?.accept}
-            showChange={selectedSlot?.view?.change}
-            showFind={selectedSlot?.view?.find}
-            noSlot={selectedSlot?.view?.find}
-            showRemove={selectedSlot?.view?.remove}
-            noMore={selectedSlot?.view?.remove}
-            slotText={selectedSlot?.view?.title}
-            details={selectedSlot?.view?.message}
-            onChangeClick={() => getSlots(selectedSlot?.date)}
-            onAcceptClick={() => update_booking_slot(selectedSlot?.id)}
-            onFindClick={() => getSlots(date)}
-            onRemoveClick={() => remove_booking_slot()}
-            loaders={loaders}
-          />
-          <Row style={{ marginBottom: mvs(10), alignItems: 'center' }}>
-            <Medium
-              label={coupon?.view?.caption}
-              color={colors.black}
-              size={16}
-            />
-            {coupon?.view?.applyCoupon && (
-              <ActionButton
-                style={{ marginTop: 0 }}
-                title="Apply Coupon"
-                onClick={getCoupons}
-                bgColor={colors.lightGreen1}
-                borderColor={colors.green}
-                titleColor={colors.green}
-              />
-            )}
-          </Row>
-          <Row style={styles.coupon_row}>
-            <NewCouponItem
+      {loading ? (
+        <PageLoader />
+      ) : (
+        <View style={styles.body}>
+          <ScrollView
+            contentContainerStyle={{
+              paddingHorizontal: mvs(20),
+              paddingBottom: mvs(20),
+            }}
+          >
+            <BussinessCustomer loading={!loading} item={booking} />
+            <SlotItem
               loading={!loading}
-              cover={coupon?.id ? coupon?.cover : null}
-              title={coupon?.title}
-              subTitle={coupon?.subTitle}
-              highlightedText={coupon?.highlight}
-              statusLine={coupon?.view?.message}
-              isExpiring={coupon?.view?.remove}
-              showHighLighted={coupon?.view?.change}
+              showAccept={selectedSlot?.view?.accept}
+              showChange={selectedSlot?.view?.change}
+              showFind={selectedSlot?.view?.find}
+              noSlot={selectedSlot?.view?.find}
+              showRemove={selectedSlot?.view?.remove}
+              noMore={selectedSlot?.view?.remove}
+              slotText={selectedSlot?.view?.title}
+              details={selectedSlot?.view?.message}
+              onChangeClick={() => getSlots(selectedSlot?.date)}
+              onAcceptClick={() => update_booking_slot(selectedSlot?.id)}
+              onFindClick={() => getSlots(date)}
+              onRemoveClick={() => remove_booking_slot()}
+              loaders={loaders}
             />
-            <View
-              style={{
-                alignSelf:
-                  coupon?.view?.remove &&
+            <Row style={{ marginBottom: mvs(10), alignItems: "center" }}>
+              <Medium
+                label={coupon?.view?.caption}
+                color={colors.black}
+                size={16}
+              />
+              {coupon?.view?.applyCoupon && (
+                <ActionButton
+                  style={{ marginTop: 0 }}
+                  title="Apply Coupon"
+                  onClick={getCoupons}
+                  bgColor={colors.lightGreen1}
+                  borderColor={colors.green}
+                  titleColor={colors.green}
+                />
+              )}
+            </Row>
+            <Row style={styles.coupon_row}>
+              <NewCouponItem
+                loading={!loading}
+                cover={coupon?.id ? coupon?.cover : null}
+                title={coupon?.title}
+                subTitle={coupon?.subTitle}
+                highlightedText={coupon?.highlight}
+                statusLine={coupon?.view?.message}
+                isExpiring={coupon?.view?.remove}
+                showHighLighted={coupon?.view?.change}
+              />
+              <View
+                style={{
+                  alignSelf:
+                    coupon?.view?.remove &&
                     !coupon?.view?.applyCoupon &&
                     !coupon?.view?.applyDiscount &&
                     !coupon?.view?.changeCoupon &&
                     !coupon?.view?.changeDiscount
-                    ? 'flex-end'
-                    : 'flex-start',
+                      ? "flex-end"
+                      : "flex-start",
 
-                // flex: 1,
-              }}>
-              {coupon?.view?.change ? (
-                <ActionButton
-                  loading={loading}
-                  title="Change"
-                  bgColor={colors.lightYellow}
-                  borderColor={colors.primary}
-                  titleColor={colors.primary}
-                  onClick={() => getCoupons()}
-                  style={{ alignSelf: 'flex-end' }}
-                />
-              ) : null}
-              {coupon?.view?.remove ? (
-                <ActionButton
-                  loading={loaders?.removeDiscount}
-                  title="Remove"
-                  bgColor={colors.lightPink1}
-                  borderColor={colors.red}
-                  titleColor={colors.red}
-                  style={{ alignSelf: 'flex-end', }}
-                  onClick={() => remove_booking_discount()}
-                />
-              ) : null}
-            </View>
-          </Row>
+                  // flex: 1,
+                }}
+              >
+                {coupon?.view?.change ? (
+                  <ActionButton
+                    loading={loading}
+                    title="Change"
+                    bgColor={colors.lightYellow}
+                    borderColor={colors.primary}
+                    titleColor={colors.primary}
+                    onClick={() => getCoupons()}
+                    style={{ alignSelf: "flex-end" }}
+                  />
+                ) : null}
+                {coupon?.view?.remove ? (
+                  <ActionButton
+                    loading={loaders?.removeDiscount}
+                    title="Remove"
+                    bgColor={colors.lightPink1}
+                    borderColor={colors.red}
+                    titleColor={colors.red}
+                    style={{ alignSelf: "flex-end" }}
+                    onClick={() => remove_booking_discount()}
+                  />
+                ) : null}
+              </View>
+            </Row>
 
-          <Medium
-            label={'Payment Method'}
-            size={16}
-            style={{ marginTop: mvs(15) }}
-          />
-          <FlatList
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{ paddingVertical: mvs(12) }}
-            data={booking?.paymentOptions}
-            renderItem={({ item, index }) => (
-              <PaymentCard
-                item={item}
-                loading={paymentLoading}
-                key={index}
-                title={item?.title}
-                icon={item?.icon}
-                borderColor={item?.color}
-                selected={item?.selected}
-                selectable={item?.selectable}
-                onClick={() => {
-                  if (item?.selectable) {
-                    update_payment(item?.id);
-                  }
+            <Medium
+              label={"Payment Method"}
+              size={16}
+              style={{ marginTop: mvs(15) }}
+            />
+            <FlatList
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={{ paddingVertical: mvs(12) }}
+              data={booking?.paymentOptions}
+              renderItem={({ item, index }) => (
+                <PaymentCard
+                  item={item}
+                  loading={paymentLoading}
+                  key={index}
+                  title={item?.title}
+                  icon={item?.icon}
+                  borderColor={item?.color}
+                  selected={item?.selected}
+                  selectable={item?.selectable}
+                  onClick={() => {
+                    if (item?.selectable) {
+                      update_payment(item?.id);
+                    }
+                  }}
+                />
+              )}
+            />
+
+            <Regular
+              numberOfLines={null}
+              label={booking?.payment?.view?.message}
+              color={
+                booking?.payment?.view?.error ? colors.red : colors.lightgrey1
+              }
+              size={14}
+              style={{ fontStyle: "italic" }}
+            />
+
+            <BillView loading={!loading} invoice={booking?.invoice} />
+            {booking?.lifecycle?.booked && (
+              <Medium
+                label={"Booking Lifecycle"}
+                color={colors.black}
+                size={16}
+                style={{
+                  paddingTop: mvs(15),
+                  borderTopWidth: 0.2,
+                  borderColor: colors.lightgrey1,
                 }}
               />
             )}
-          />
-
-          <Regular
-            numberOfLines={null}
-            label={booking?.payment?.view?.message}
-            color={
-              booking?.payment?.view?.error ? colors.red : colors.lightgrey1
-            }
-            size={14}
-            style={{ fontStyle: 'italic' }}
-          />
-
-          <BillView loading={!loading} invoice={booking?.invoice} />
-          {booking?.lifecycle?.booked && <Medium
-            label={'Booking Lifecycle'}
-            color={colors.black}
-            size={16}
-            style={{
-              paddingTop: mvs(15),
-              borderTopWidth: 0.2,
-              borderColor: colors.lightgrey1,
-            }}
-          />}
-          {booking?.lifecycle?.booked && (
-            <LifeCycleItem
-              buttonText={'Book'}
-              item={booking?.lifecycle?.booked}
-              onClick={() => console.log('Booked')}
-            />
-          )}
-          {booking?.lifecycle?.cancelled && (
-            <LifeCycleItem
-              buttonText={'Cancel'}
-              item={booking?.lifecycle?.cancelled}
-              onClick={() => console.log('cancelled')}
-            />
-          )}
-          {booking?.lifecycle?.noshow && (
-            <LifeCycleItem
-              buttonText={'No show'}
-              item={booking?.lifecycle?.noshow}
-            />
-          )}
-          {booking?.lifecycle?.checkin && (
-            <LifeCycleItem
-              buttonText={'Check in'}
-              item={booking?.lifecycle?.checkin}
-            />
-          )}
-          {booking?.lifecycle?.started && (
-            <LifeCycleItem
-              buttonText={'Start'}
-              item={booking?.lifecycle?.started}
-              assignWorker={false}
-            />
-          )}
-          {booking?.lifecycle?.completed && (
-            <LifeCycleItem
-              buttonText={'Complete'}
-              item={booking?.lifecycle?.completed}
-            />
-          )}
-        </ScrollView>
-
-        <View style={styles.bottomView}>
-          {booking?.view?.continue ? (
-            <View style={{ height: mvs(70) }}>
-              <Buttons.ButtonPrimary
-                loading={loaders?.confirm}
-                title="Confirm"
-                onClick={finish_booking}
+            {booking?.lifecycle?.booked && (
+              <LifeCycleItem
+                buttonText={"Book"}
+                item={booking?.lifecycle?.booked}
+                onClick={() => console.log("Booked")}
               />
-            </View>
-          ) : (
-            <AlertMessage
-              view={booking?.view}
-              color={booking?.view?.message?.color}
-              title={booking?.view?.message?.message}
-              loading={false}
-              bgColor={
-                booking?.view?.message?.color == 'green'
-                  ? colors.lightGreen1
-                  : booking?.view?.message?.color == 'red'
+            )}
+            {booking?.lifecycle?.cancelled && (
+              <LifeCycleItem
+                buttonText={"Cancel"}
+                item={booking?.lifecycle?.cancelled}
+                onClick={() => console.log("cancelled")}
+              />
+            )}
+            {booking?.lifecycle?.noshow && (
+              <LifeCycleItem
+                buttonText={"No show"}
+                item={booking?.lifecycle?.noshow}
+              />
+            )}
+            {booking?.lifecycle?.checkin && (
+              <LifeCycleItem
+                buttonText={"Check in"}
+                item={booking?.lifecycle?.checkin}
+              />
+            )}
+            {booking?.lifecycle?.started && (
+              <LifeCycleItem
+                buttonText={"Start"}
+                item={booking?.lifecycle?.started}
+                assignWorker={false}
+              />
+            )}
+            {booking?.lifecycle?.completed && (
+              <LifeCycleItem
+                buttonText={"Complete"}
+                item={booking?.lifecycle?.completed}
+              />
+            )}
+          </ScrollView>
+
+          <View style={styles.bottomView}>
+            {booking?.view?.continue ? (
+              <View style={{ height: mvs(70) }}>
+                <Buttons.ButtonPrimary
+                  loading={loaders?.confirm}
+                  title="Confirm"
+                  onClick={finish_booking}
+                />
+              </View>
+            ) : (
+              <AlertMessage
+                view={booking?.view}
+                color={booking?.view?.message?.color}
+                title={booking?.view?.message?.message}
+                loading={false}
+                bgColor={
+                  booking?.view?.message?.color == "green"
+                    ? colors.lightGreen1
+                    : booking?.view?.message?.color == "red"
                     ? colors.lightPink1
-                    : booking?.view?.message?.color == 'blue'
-                      ? colors.lightBlue
-                      : booking?.view?.message?.color == 'grey'
-                        ? colors.lightgrey
-                        : null
-              }
-              fillColor={
-                booking?.view?.message?.color == 'green'
-                  ? colors.green
-                  : booking?.view?.message?.color == 'red'
+                    : booking?.view?.message?.color == "blue"
+                    ? colors.lightBlue
+                    : booking?.view?.message?.color == "grey"
+                    ? colors.lightgrey
+                    : null
+                }
+                fillColor={
+                  booking?.view?.message?.color == "green"
+                    ? colors.green
+                    : booking?.view?.message?.color == "red"
                     ? colors.red
-                    : booking?.view?.message?.color == 'blue'
-                      ? colors.blue
-                      : booking?.view?.message?.color == 'grey'
-                        ? colors.lightgrey1
-                        : null
-              }
-            />
-          )}
+                    : booking?.view?.message?.color == "blue"
+                    ? colors.blue
+                    : booking?.view?.message?.color == "grey"
+                    ? colors.lightgrey1
+                    : null
+                }
+              />
+            )}
+          </View>
+          <CouponModal
+            title={"Select Coupon"}
+            value={coupon}
+            visible={couponPickerVisible}
+            onBackdropPress={() => setCouponPickerVisible(false)}
+            items={coupons}
+            setValue={(value) => {
+              setCoupon(value);
+              apply_booking_discount(value?.id);
+              setCouponPickerVisible(false);
+            }}
+          />
+          <ScheduleModal
+            slotItem={slotItem}
+            visible={slotVisible}
+            value={selectedSlot}
+            setValue={(item) => {
+              setSelectedSlot(item);
+              update_booking_slot(item?.id);
+            }}
+            updateSlot={() => {
+              setSlotVisible(false);
+            }}
+            onBackdropPress={() => setSlotVisible(false)}
+            setDate={(date) => {
+              getSlots(moment(date).format("YYYY-MM-DD"));
+            }}
+          />
+          <WorkerModal
+            items={workers}
+            value={worker}
+            setValue={(value) => {
+              setWorker(value);
+              assign_booking_worker(value?.id);
+            }}
+            visible={workerVisible}
+            onBackdropPress={() => setWorkerVisible(false)}
+          />
         </View>
-        <CouponModal
-          title={'Select Coupon'}
-          value={coupon}
-          visible={couponPickerVisible}
-          onBackdropPress={() => setCouponPickerVisible(false)}
-          items={coupons}
-          setValue={value => {
-            setCoupon(value);
-            apply_booking_discount(value?.id);
-            setCouponPickerVisible(false)
-          }}
-        />
-        <ScheduleModal
-          slotItem={slotItem}
-          visible={slotVisible}
-          value={selectedSlot}
-          setValue={item => {
-            setSelectedSlot(item);
-            update_booking_slot(item?.id);
-          }}
-          updateSlot={() => {
-            setSlotVisible(false);
-          }}
-          onBackdropPress={() => setSlotVisible(false)}
-          setDate={date => {
-            getSlots(moment(date).format('YYYY-MM-DD'));
-          }}
-        />
-        <WorkerModal
-          items={workers}
-          value={worker}
-          setValue={value => {
-            setWorker(value);
-            assign_booking_worker(value?.id);
-          }}
-          visible={workerVisible}
-          onBackdropPress={() => setWorkerVisible(false)}
-        />
-      </View>}
+      )}
     </View>
   );
 };
 
-const mapStateToProps = store => ({});
+const mapStateToProps = (store) => ({});
 
 const mapDispatchToProps = {
   get_booking: (businessId, bookingId) =>
@@ -491,11 +498,11 @@ const mapDispatchToProps = {
   update_booking_payment: (bookingId, method, reference) =>
     DIVIY_API.update_booking_payment(bookingId, method, reference),
   update_slot: (bookingId, slotId) => DIVIY_API.update_slot(bookingId, slotId),
-  remove_slot: bookingId => DIVIY_API.remove_slot(bookingId),
+  remove_slot: (bookingId) => DIVIY_API.remove_slot(bookingId),
   remove_discount: (bookingId, businessId) =>
     DIVIY_API.remove_discount(bookingId, businessId),
   apply_coupon: (bookingId, couponId, customerId) =>
     DIVIY_API.apply_coupon(bookingId, couponId, customerId),
-  complete_booking: bookingId => DIVIY_API.complete_booking(bookingId),
+  complete_booking: (bookingId) => DIVIY_API.complete_booking(bookingId),
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ReviewAndSchedule);

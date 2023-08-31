@@ -1,28 +1,36 @@
 import { useNavigation, useTheme } from "@react-navigation/native";
-import React, { useState, useEffect } from "react";
-import { ScrollView, SafeAreaView, View } from "react-native";
-import { CustomHeader } from "../../components/molecules/header/header-1x";
-import Buttons from "../../components/atoms/Button";
-import allColors from "../../services/colors";
-import { mvs } from "../../services/metrices";
-import DIVIY_API from "../../store/api-calls";
-import { INPUT_FIELD } from "../../components/atoms";
-import { Vehicle_Styles as styles } from "./customer-vehicle-styles";
-import Bold from "../../presentation/typography/bold-text";
-import Regular from "../../presentation/typography/regular-text";
-import Row from "../../components/atoms/row";
-import { BaseURL } from "../../ApiServices";
+import React, { useEffect, useState } from "react";
+import { SafeAreaView, ScrollView, View } from "react-native";
 import Toast from "react-native-toast-message";
-import { getData, storeData } from "../../localStorage";
+import { BaseURL } from "../../ApiServices";
+import { INPUT_FIELD } from "../../components/atoms";
+import Buttons from "../../components/atoms/Button";
+import Row from "../../components/atoms/row";
+import { CustomHeader } from "../../components/molecules/header/header-1x";
+import { storeData } from "../../localStorage";
 import Medium from "../../presentation/typography/medium-text";
+import Regular from "../../presentation/typography/regular-text";
+import { Vehicle_Styles as styles } from "./customer-vehicle-styles";
 const CustomerVehicle = ({ route, props }) => {
   const navigation = useNavigation();
   const { customerID } = route.params;
   const [loading, setLoading] = React.useState(false);
   const [fetchApi, setfetchApi] = useState(true);
-  const [VehicleName, setVehicleName] = React.useState([{ id: 1, name: "Sedan" }, { id: 2, name: "Suzuki" }]);
-  const [VehicleType, setVehicleType] = React.useState([{ id: 1, name: "Toyota" }, { id: 2, name: "Nissan" }, { id: 3, name: "Toyota" }]);
-  const [VehicleModel, setVehicleModel] = React.useState([{ id: 1, name: "Corolla" }, { id: 2, name: "Micra" }, { id: 3, name: "Altima" }, { id: 4, name: "Corolla" }]);
+  const [VehicleName, setVehicleName] = React.useState([
+    { id: 1, name: "Sedan" },
+    { id: 2, name: "Suzuki" },
+  ]);
+  const [VehicleType, setVehicleType] = React.useState([
+    { id: 1, name: "Toyota" },
+    { id: 2, name: "Nissan" },
+    { id: 3, name: "Toyota" },
+  ]);
+  const [VehicleModel, setVehicleModel] = React.useState([
+    { id: 1, name: "Corolla" },
+    { id: 2, name: "Micra" },
+    { id: 3, name: "Altima" },
+    { id: 4, name: "Corolla" },
+  ]);
   const [payload, setPayload] = React.useState({
     type: "",
     registration: "",
@@ -35,9 +43,7 @@ const CustomerVehicle = ({ route, props }) => {
   const { colors } = useTheme();
 
   const delayApi = () => {
-    setTimeout(() => {
-      navigation.navigate("Congratulation");
-    }, 4000);
+    navigation.navigate("Congratulation");
   };
   const showToast = (type, text1, text2) => {
     Toast.show({
@@ -102,18 +108,20 @@ const CustomerVehicle = ({ route, props }) => {
     } else if (payload.registration == "") {
       showToast("error", "Enter registration Number");
       return;
-    } else if (payload.make === "") {
-      showToast("error", "Making year is required");
-      return;
-    } else if (payload.modal == "") {
+    }
+    // else if (payload.make === "") {
+    //   showToast("error", "Making year is required");
+    //   return;
+    // }
+    else if (!!payload.make && payload.modal == "") {
       showToast("error", "Vehicle modal is required");
       return;
     } else if (payload.year === "") {
-      showToast("error", "Select making year");
-      return;
-    } else if (payload.color == "") {
-      showToast("error", "Choose color of vehicle ");
-      return;
+      //   showToast("error", "Select making year");
+      //   return;
+      // } else if (payload.color == "") {
+      //   showToast("error", "Choose color of vehicle ");
+      //   return;
     } else {
       setLoading(true);
       var myHeaders = new Headers();
@@ -163,14 +171,10 @@ const CustomerVehicle = ({ route, props }) => {
       style={{ ...styles.container, backgroundColor: colors.background }}
     >
       <CustomHeader colors={colors} title="Customer Vehicle" allowBackBtn />
-      <ScrollView
-        contentContainerStyle={{ flexGrow: 1, }}
-      >
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <View style={styles.body}>
           <Medium label={"Customer Vehicle"} size={21} />
-          <Regular
-            label={"Add Customer vehicle to use our services"}
-          />
+          <Regular label={"Add Customer vehicle to use our services"} />
           <View style={styles.input_container}>
             <INPUT_FIELD.CustomDropDown
               value={payload.type}

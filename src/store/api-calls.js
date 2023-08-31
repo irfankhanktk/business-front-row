@@ -48,7 +48,6 @@ export const getBusinessDetails = (
       } catch (error) {
         console.log("error in fcm token--->>", error);
       }
-      console.log("fcm token--->>", fcm);
       const response = await API_REQUESTS.getData(
         URLS.auth.get_business_detail
       );
@@ -58,8 +57,18 @@ export const getBusinessDetails = (
       dispatch(setUserInfo(response?.data));
       SERVICES.resetStack(props, "Main");
     } catch (error) {
-      console.log("error getBusinessDetails=>>>:::", error?.response);
-      showToast("error", SERVICES._returnError(error));
+      console.log("error getBusinessDetails=>>>:::", error?.code);
+      let message = SERVICES._returnError(error);
+      if (
+        error?.code === "auth/wrong-password" ||
+        error?.code === "auth/user-not-found"
+      ) {
+        message = "Email or Password is Wrong";
+      }
+      // else if (error?.code === "auth/user-not-found") {
+      //   message = "Email or Password is Wrong";
+      // }
+      showToast("error", message);
     } finally {
       setLoading(false);
     }

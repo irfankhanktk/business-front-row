@@ -23,8 +23,8 @@ import colors from "./../../../services/colors";
 import Row from "./../../atoms/row";
 
 const ScheduleModal = ({
-  setDate = (arg) => { },
-  setValue = () => { },
+  setDate = (arg) => {},
+  setValue = () => {},
   visible,
   slotItem,
   onBackdropPress,
@@ -126,7 +126,8 @@ const ScheduleModal = ({
                     <Bold
                       size={15}
                       style={{ flex: 1, marginHorizontal: mvs(8) }}
-                      label={`${item?.start[0]} : ${item?.start[1]} AM - ${item?.end[0]} : ${item?.end[1]} AM`}
+                      label={`${item?.view?.title}`}
+                      // label={`${item?.start[0]} : ${item?.start[1]} AM - ${item?.end[0]} : ${item?.end[1]} AM`}
                     />
                     <View>
                       {item?.view?.selected ? (
@@ -184,7 +185,8 @@ const ScheduleModal = ({
                     <Bold
                       size={15}
                       style={{ flex: 1, marginHorizontal: mvs(8) }}
-                      label={`${item?.start[0]} : ${item?.start[1]} AM - ${item?.end[0]} : ${item?.end[1]} PM`}
+                      label={`${item?.view?.title}`}
+                      // label={`${item?.start[0]} : ${item?.start[1]} AM - ${item?.end[0]} : ${item?.end[1]} PM`}
                     />
                     <View>
                       {item?.view?.selected ? (
@@ -241,7 +243,8 @@ const ScheduleModal = ({
                     <Bold
                       size={15}
                       style={{ flex: 1, marginHorizontal: mvs(8) }}
-                      label={`${item?.start[0]} : ${item?.start[1]} AM - ${item?.end[0]} : ${item?.end[1]} PM`}
+                      label={`${item?.view?.title}`}
+                      // label={`${item?.start[0]} : ${item?.start[1]} AM - ${item?.end[0]} : ${item?.end[1]} PM`}
                     />
                     <View>
                       {item?.view?.selected ? (

@@ -26,6 +26,7 @@ import Regular from "../../presentation/typography/regular-text";
 import { PrivateValueStore, useNavigation } from "@react-navigation/native";
 import Toast from "react-native-toast-message";
 import { BaseURL } from "../../ApiServices";
+import { getData } from "../../localStorage";
 const NewCustomer = (props) => {
   const { route } = props;
   const { countryCode, phoneNumber } = route?.params;
@@ -35,7 +36,7 @@ const NewCustomer = (props) => {
   const [loading, setloading] = useState(false);
   const [userInfo, setuserInfo] = useState({
     name: "",
-    mobile: "",
+    mobile: phoneNumber || "",
     email: "",
   });
   const delayApi = (customerID) => {
@@ -50,10 +51,8 @@ const NewCustomer = (props) => {
     } else if (userInfo.mobile.length == 0) {
       showToast("error", "Mobile is required");
       return;
-    } else if (userInfo.email === "") {
-      showToast("error", "Email is required");
-      return;
     } else if (
+      !!userInfo?.email &&
       !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(userInfo.email)
     ) {
       showToast("error", "Email formate not correct");
@@ -75,8 +74,8 @@ const NewCustomer = (props) => {
         body: raw,
         redirect: "follow",
       };
-
-      await fetch(`${BaseURL}b/om/businesses/3333/customers`, requestOptions)
+      var bId = await getData("BusinessId");
+      await fetch(`${BaseURL}b/om/businesses/${bId}/customers`, requestOptions)
         .then((response) => response.json())
         .then((result) => {
           if (result != null) {
@@ -109,7 +108,7 @@ const NewCustomer = (props) => {
     >
       <CustomHeader
         title="Add New Customer"
-        titleStyle={{ fontSize: 15, }}
+        titleStyle={{ fontSize: 15 }}
         spacebetween
         allowBackBtn
       />
@@ -132,6 +131,7 @@ const NewCustomer = (props) => {
                 //  console.log("user name", t);
                 setuserInfo({ ...userInfo, name: t });
               }}
+              value={userInfo?.name}
               label="FULL NAME"
               placeholder="john"
             />
@@ -155,21 +155,21 @@ const NewCustomer = (props) => {
                 onChangeFormattedText={(text) => {
                   setuserInfo({ ...userInfo, mobile: text });
                 }}
-                onChangeText={(text) => { }}
+                onChangeText={(text) => {}}
               />
               {/* <Tick style={{}} /> */}
             </View>
             <INPUT_FIELD.InputSecondary
-              value={""}
               leftIcon="Email"
               rightIcon=""
               labelStyle={{ marginTop: mvs(25) }}
               onChangeText={(t) => {
-                userInfo.email = t;
+                userInfo.email = t?.toLowerCase();
                 setuserInfo({
                   ...userInfo,
                 });
               }}
+              value={userInfo?.email}
               label="EMAIL"
               placeholder="lehieuds@gmail.com"
             />
