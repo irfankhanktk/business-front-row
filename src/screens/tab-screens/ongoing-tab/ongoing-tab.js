@@ -20,11 +20,12 @@ import DIVIY_API from "../../../store/api-calls";
 import Row from "./../../../components/atoms/row";
 import colors from "./../../../services/colors";
 import { Home_Styles as styles } from "./ongoing-styles";
+import { useIsFocused } from "@react-navigation/native";
 const OngoingTab = (props) => {
   const { get_service_jobs, complete_job, services } = props;
   //const businessId=3333;
   const ser = services?.find((x) => x?.selected);
-
+  const isFocus = useIsFocused();
   const [loading, setloading] = useState(true);
   const [isRefresh, setRefresh] = useState(false);
   const [btnLaoding, setbtnLaoding] = useState(false);
@@ -54,8 +55,8 @@ const OngoingTab = (props) => {
     }
   };
   useEffect(() => {
-    getOnGoingBooking();
-  }, [isRefresh]);
+    if (isFocus) getOnGoingBooking();
+  }, [isRefresh, isFocus]);
   const complete_booking = async (bookingId) => {
     try {
       setbtnLaoding(true);

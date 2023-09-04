@@ -77,9 +77,9 @@ const NewBooking = (props) => {
   useEffect(() => {
     getServiceOffering();
   }, [loading, 1]);
-  const searchCustomer = async () => {
+  const searchCustomer = async (text) => {
     var bId = await getData("BusinessId");
-    if (mobile.length == 0 && phoneSelected) {
+    if (!text && !mobile && phoneSelected) {
       showToast("error", "Enter mobile for search customer");
       return;
     } else if (number.length == 0 && !phoneSelected) {
@@ -93,7 +93,7 @@ const NewBooking = (props) => {
       };
       let url = `${BaseURL}b/om/businesses/${bId}/customers/find?`;
       if (phoneSelected) {
-        url = `${url}mobile=${mobile}`;
+        url = `${url}mobile=${text || mobile}`;
       } else {
         url = `${url}registration=${number}`;
       }
@@ -107,7 +107,6 @@ const NewBooking = (props) => {
             setcustomerData([]);
           } else {
             setcustomerData(result);
-            console.log("customer Data=======", result);
           }
         })
         .catch((error) => {
@@ -258,6 +257,7 @@ const NewBooking = (props) => {
                   style={{ flex: 1 }}
                   value={number}
                   onChangeText={setNumber}
+                  onBlur={() => searchCustomer()}
                 />
               ) : (
                 <PhoneInput
@@ -274,10 +274,25 @@ const NewBooking = (props) => {
                   onChangeFormattedText={(text) => {}}
                   onChangeText={(text) => {
                     setmobile(text);
+                    if (!!text) {
+                      searchCustomer(text);
+                    } else {
+                      setcustomerData([]);
+                    }
                   }}
                 />
+                // <Row style={{ flex: 1 }} alignItems="center">
+                //   <Regular label={"+971"} />
+                //   <TextInput
+                //     placeholder="XXXXXXXX"
+                //     style={{ flex: 1 }}
+                //     value={`${mobile}`}
+                //     onChangeText={setmobile}
+                //     onBlur={() => searchCustomer()}
+                //   />
+                // </Row>
               )}
-              <TouchableOpacity onPress={searchCustomer}>
+              <TouchableOpacity onPress={() => searchCustomer()}>
                 <SearchTwo style={{}} />
               </TouchableOpacity>
             </View>

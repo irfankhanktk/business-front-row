@@ -2,7 +2,7 @@ import SERVICES from "../services/common-services";
 
 const postData = async (url, data) => {
   console.log("Url is ", url);
-  console.log("data is", data);
+  console.log("data:", data);
   const response = await client.post(url, data);
   return response;
 };

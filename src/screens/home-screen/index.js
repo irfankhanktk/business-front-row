@@ -56,28 +56,42 @@ const BusinessProfile = (props) => {
           <HomeActive />
           <SemiBold size={mvs(16)} label={"  Home"} color={colors.B444251} />
         </Row>
-        <TouchableOpacity
-          onPress={() => {
-            setPicker(true);
+
+        <Row
+          style={{
+            flex: 1,
+            justifyContent: "flex-end",
+            alignItems: "center",
           }}
-          style={{}}
         >
-          <Row>
-            {/* <Regular label={ser?.title} /> */}
-            <ImagePlaceholder
-              resizeMode={"contain"}
-              containerStyle={{
-                width: mvs(30),
-                height: mvs(30),
-                borderRadius: mvs(30 / 2),
-                padding: mvs(2),
-                backgroundColor: colors.FBF8F8,
-              }}
-              uri={{ uri: SERVICES._returnFile(ser?.icon) }}
-            />
-          </Row>
-        </TouchableOpacity>
-        <Row style={{ width: mvs(65), alignItems: "center" }}>
+          <TouchableOpacity
+            onPress={() => {
+              setPicker(true);
+            }}
+            style={{
+              width: mvs(30),
+              height: mvs(30),
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: colors.FBF8F8,
+              borderRadius: mvs(15),
+              overflow: "hidden",
+              marginHorizontal: mvs(4),
+            }}
+          >
+            <Row>
+              {/* <Regular label={ser?.title} /> */}
+              <ImagePlaceholder
+                resizeMode={"contain"}
+                containerStyle={{
+                  width: mvs(15),
+                  height: mvs(15),
+                  // borderRadius: mvs(30 / 2),
+                }}
+                uri={{ uri: SERVICES._returnFile(ser?.icon) }}
+              />
+            </Row>
+          </TouchableOpacity>
           <TouchableOpacity
             onPress={() => props?.navigation?.navigate("Notifications")}
             style={{
@@ -85,6 +99,7 @@ const BusinessProfile = (props) => {
               height: mvs(30),
               backgroundColor: colors.FBF8F8,
               borderRadius: mvs(15),
+              marginHorizontal: mvs(4),
             }}
           >
             <View
@@ -108,7 +123,7 @@ const BusinessProfile = (props) => {
               <Bell />
             </View>
           </TouchableOpacity>
-          <TotalHeader />
+          <TotalHeader style={{ marginHorizontal: mvs(4) }} />
         </Row>
       </Row>
       <View style={styles.body}>

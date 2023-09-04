@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: mvs(18),
     borderBottomLeftRadius: mvs(20),
     borderBottomRightRadius: mvs(20),
-    zIndex: 1,
+    // zIndex: 1,
   },
   TITLE: {
     fontSize: mvs(15),

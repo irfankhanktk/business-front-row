@@ -64,10 +64,9 @@ export const getBusinessDetails = (
         error?.code === "auth/user-not-found"
       ) {
         message = "Email or Password is Wrong";
+      } else if (error?.code === "auth/invalid-email") {
+        message = "Email is invalid";
       }
-      // else if (error?.code === "auth/user-not-found") {
-      //   message = "Email or Password is Wrong";
-      // }
       showToast("error", message);
     } finally {
       setLoading(false);
@@ -395,6 +394,8 @@ const get_service_jobs = (businessId, serviceId) => {
     }
   };
 };
+const get_vehicle_lookup = () => API_REQUESTS.getData(`${URLS.lookup}`);
+
 const DIVIY_API = {
   get_booking,
   get_available_slots,
@@ -417,6 +418,7 @@ const DIVIY_API = {
   get_service_jobs,
   complete_booking,
   get_booking_discounts,
+  get_vehicle_lookup,
 };
 
 export default DIVIY_API;

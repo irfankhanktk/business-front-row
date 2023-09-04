@@ -12,6 +12,7 @@ export const URLS = {
     delete_token: "delete",
   },
   business: "b/om/businesses/",
+  lookup: "client/vehicle/lookup",
   booking: {
     create_booking: "p/public/bookings",
     get_booking: "b/om/businesses/", //attach booking id at end

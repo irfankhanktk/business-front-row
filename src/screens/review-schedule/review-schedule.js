@@ -99,13 +99,7 @@ const ReviewSchedule = (props) => {
     const bookingResponse = await get_booking(bId, bookingId);
     if (bookingResponse?.data) {
       setBooking(bookingResponse?.data);
-      console.log("Booking information===>", bookingResponse?.data);
       setSelectedSlot(bookingResponse?.data?.slot);
-      console.log(
-        "bookingResponse?.data?.discount=>>>>::",
-        bookingResponse?.data?.couponId
-      );
-      // console.log('bookingResponse?.data?.coupon', bookingResponse?.data?.coupon);
       if (bookingResponse?.data?.discount) {
         var c = bookingResponse?.data?.discount;
         c.id = bookingResponse?.data?.discountId;
@@ -675,7 +669,7 @@ const ReviewSchedule = (props) => {
           slotItem={slotItem}
           visible={slotVisible}
           value={selectedSlot}
-          slotLoading={loaders?.modalLoading}
+          slotLoading={loaders?.modalLoading || loaders?.slotChange}
           setValue={(item) => {
             // setSelectedSlot(item);
             update_booking_slot(item?.id);

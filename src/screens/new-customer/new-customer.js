@@ -1,32 +1,20 @@
-import React, { useEffect, useRef, useState } from "react";
-import {
-  TouchableOpacity,
-  SafeAreaView,
-  ScrollView,
-  View,
-  FlatList,
-  Image,
-} from "react-native";
-import { connect } from "react-redux";
-import DIVIY_API from "../../store/api-calls";
-import { CustomHeader } from "../../components/molecules/header/header-1x";
-import { Styles as styles } from "./new-customer-styles";
-import colors from "../../services/colors";
-import Medium from "../../presentation/typography/medium-text";
-import Bold from "../../presentation/typography/bold-text";
-import { Warning } from "../../assets/images";
-import Buttons from "../../components/atoms/Button";
-import Row from "../../components/atoms/row";
-import { INPUT_FIELD } from "../../components/atoms";
-import { mvs } from "../../services/metrices";
+import { useNavigation } from "@react-navigation/native";
+import React, { useRef, useState } from "react";
+import { Image, SafeAreaView, ScrollView, View } from "react-native";
 import PhoneInput from "react-native-phone-number-input";
-import { Tick } from "../../assets/common-icons";
-import SemiBold from "../../presentation/typography/semibold-text";
-import Regular from "../../presentation/typography/regular-text";
-import { PrivateValueStore, useNavigation } from "@react-navigation/native";
 import Toast from "react-native-toast-message";
 import { BaseURL } from "../../ApiServices";
+import { Warning } from "../../assets/images";
+import { INPUT_FIELD } from "../../components/atoms";
+import Buttons from "../../components/atoms/Button";
+import Row from "../../components/atoms/row";
+import { CustomHeader } from "../../components/molecules/header/header-1x";
 import { getData } from "../../localStorage";
+import Medium from "../../presentation/typography/medium-text";
+import Regular from "../../presentation/typography/regular-text";
+import colors from "../../services/colors";
+import { mvs } from "../../services/metrices";
+import { Styles as styles } from "./new-customer-styles";
 const NewCustomer = (props) => {
   const { route } = props;
   const { countryCode, phoneNumber } = route?.params;
@@ -44,6 +32,14 @@ const NewCustomer = (props) => {
       customerID,
     });
   };
+  function isValidUAEMobileNumber(number) {
+    console.log("number ::::", number);
+    // Define the regex pattern
+    const pattern = /^(?:\+971)[56789]\d{7}$/;
+
+    // Use the test method to check if the pattern matches the string
+    return pattern.test(number);
+  }
   const addNewCustomer = async () => {
     if (userInfo.name === "") {
       showToast("error", "Name is required");
@@ -51,18 +47,21 @@ const NewCustomer = (props) => {
     } else if (userInfo.mobile.length == 0) {
       showToast("error", "Mobile is required");
       return;
+    } else if (!isValidUAEMobileNumber(userInfo.mobile)) {
+      showToast("error", "Mobile number is invalid");
+      return;
     } else if (
       !!userInfo?.email &&
       !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(userInfo.email)
     ) {
-      showToast("error", "Email formate not correct");
+      showToast("error", "Email is invalid");
       return;
     } else {
       setloading(true);
 
       var raw = JSON.stringify({
         name: userInfo.name,
-        mobile: userInfo.mobile,
+        mobile: `+971${userInfo.mobile}`,
         email: userInfo.email,
       });
 
@@ -76,7 +75,13 @@ const NewCustomer = (props) => {
       };
       var bId = await getData("BusinessId");
       await fetch(`${BaseURL}b/om/businesses/${bId}/customers`, requestOptions)
-        .then((response) => response.json())
+        .then((response) => {
+          if (response?.ok) return response.json();
+          else if (response?.status == 400) {
+            throw new Error("Same mobile already exists");
+          }
+          throw response;
+        })
         .then((result) => {
           if (result != null) {
             setloading(false);
@@ -87,7 +92,7 @@ const NewCustomer = (props) => {
         })
         .catch((error) => {
           setloading(false);
-          showToast("error", "Something Went wrong");
+          showToast("error", `${error?.message}`);
           // console.log("error", error);
         });
     }

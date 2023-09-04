@@ -1,32 +1,20 @@
-import { useNavigation, useTheme } from "@react-navigation/native";
+import auth from "@react-native-firebase/auth";
+import { useTheme } from "@react-navigation/native";
 import React, { useEffect, useRef, useState } from "react";
-import { ScrollView, TouchableOpacity, View } from "react-native";
-import PhoneInput from "react-native-phone-number-input";
+import { ScrollView, View } from "react-native";
 import Toast from "react-native-toast-message";
-import { Apple, Facebook, Google, Tick } from "../../assets/common-icons";
+import { useDispatch } from "react-redux";
 import Buttons from "../../components/atoms/Button";
 import { INPUT_FIELD } from "../../components/atoms/Input";
-import { storeData } from "../../localStorage";
 import Bold from "../../presentation/typography/bold-text";
 import Regular from "../../presentation/typography/regular-text";
-import allColors from "../../services/colors";
-import SERVICES from "../../services/common-services";
 import { mvs } from "../../services/metrices";
-import API_REQUESTS from "../../store/api-requests";
-import { Signin_Styles as styles } from "./signin-styles";
-import auth from "@react-native-firebase/auth";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getBusinessDetails } from "../../store/api-calls";
-import { useDispatch } from "react-redux";
+import { Signin_Styles as styles } from "./signin-styles";
 
 const Signin = (props) => {
-  const navigation = useNavigation();
   const [loading, setLoading] = React.useState(false);
-  const [selectedTab, setSelectedTab] = React.useState("login");
-  const [isSignUpWithPhone, setPhoneSignUp] = React.useState(true);
-  const [phoneNumber, setphoneNumber] = useState("818181");
   const phoneInput = useRef(null);
-  const [formattedValue, setFormattedValue] = useState("818181");
   const dispatch = useDispatch();
   const [payload, setPayload] = React.useState({
     email: "",
@@ -57,50 +45,13 @@ const Signin = (props) => {
   const signin = async (email, password) => {
     if (!email?.trim()) {
       return showToast("error", "Email is required");
-    }
-    if (!password?.trim()) {
+    } else if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+      return showToast("error", "Email is invalid");
+    } else if (!password?.trim()) {
       return showToast("error", "Password is required");
     }
     dispatch(getBusinessDetails(props, email, password, setLoading));
   };
-
-  // const onSigUpWithPhone = async () => {
-  //   setPhoneSignUp(true);
-  // };
-
-  // const delayAPI = (phone) => {
-  //   //navigation.navigate("Otp", { phone });
-  //   navigation.navigate("Main");
-  // };
-  // const getMobile = async () => {
-  //   if (formattedValue.length <= 0) {
-  //     return showToast("error", "Please Enter mobile number");
-  //   } else {
-  //     var phone = phoneInput?.current?.getCallingCode() + "-" + formattedValue; //"971-507285968";
-  //     console.log("Phone Number " + phone);
-  //     try {
-  //       setLoading(true);
-  //       const result = await API_REQUESTS.postData("users/login/business", {
-  //         phone: phone,
-  //         isBusiness: 1,
-  //       });
-  //       console.log('result=>', result?.data);
-  //       if (result?.data?.message === 'Invalid user') {
-  //         showToast("error", result?.data?.message);
-  //       } else {
-  //         storeData("BusinessId", result?.data?.customer_id + "");
-  //         delayAPI(phone, result?.data);
-  //         showToast("success", result.data);
-  //         delayAPI(phone);
-  //       }
-  //     } catch (error) {
-  //       console.log("error=>", error);
-  //       showToast("error", SERVICES._returnError(error));
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   }
-  // };
 
   const showToast = (type, text1, text2) => {
     Toast.show({
@@ -114,7 +65,9 @@ const Signin = (props) => {
   };
   return (
     <View style={{ ...styles.container, backgroundColor: colors.background }}>
-      <ScrollView>
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1, paddingBottom: mvs(20) }}
+      >
         <View style={styles.body}>
           <>
             <Bold label={"Welcome Back!"} style={styles.welcomeText} />
@@ -125,6 +78,8 @@ const Signin = (props) => {
             <Regular label={"to contiue"} style={styles.welcomeSubText} />
             <View style={styles.input_container}>
               <INPUT_FIELD.InputSecondary
+                keyboardType="email-address"
+                x
                 value={payload.email}
                 leftIcon="User"
                 rightIcon=""
@@ -139,9 +94,7 @@ const Signin = (props) => {
                 leftIcon="User"
                 rightIcon=""
                 value={payload.password}
-                onChangeText={(t) =>
-                  setPayload({ ...payload, password: t?.toLowerCase() })
-                }
+                onChangeText={(t) => setPayload({ ...payload, password: t })}
                 label="PASSWORD"
                 placeholder="Password"
               />

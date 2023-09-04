@@ -231,12 +231,14 @@ const CustomDropDown: FC<IProps> = ({
   placeholder = "This month",
   style,
   dropdownStyle,
+  editable = true,
   items = [],
 }) => {
   const [eye, setEye] = React.useState(true);
   const [visible, setVisible] = React.useState(false);
   return (
     <TouchableOpacity
+      disabled={!editable}
       onPress={() => setVisible(true)}
       style={{
         ...INPUT_STYLES.DROPDOWN_INPUT,

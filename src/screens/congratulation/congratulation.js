@@ -1,26 +1,19 @@
 import { useNavigation, useTheme } from "@react-navigation/native";
 import React from "react";
-import { ScrollView, SafeAreaView, View } from "react-native";
+import { SafeAreaView, ScrollView, View } from "react-native";
 import { connect } from "react-redux";
-import Buttons from "../../components/atoms/Button";
-import { mvs } from "../../services/metrices";
-import DIVIY_API from "../../store/api-calls";
 import { Congrates } from "../../assets/common-icons";
-import { Congratulation_Styles as styles } from "./congratulation-styles";
+import Buttons from "../../components/atoms/Button";
 import Bold from "../../presentation/typography/bold-text";
 import Regular from "../../presentation/typography/regular-text";
-import allColors from "../../services/colors";
+import { mvs } from "../../services/metrices";
+import DIVIY_API from "../../store/api-calls";
+import { Congratulation_Styles as styles } from "./congratulation-styles";
 
 const Congratulation = (props) => {
   const navigation = useNavigation();
   const [loading, setLoading] = React.useState(false);
 
-  const [payload, setPayload] = React.useState({
-    email: "",
-    password: "",
-    name: "",
-    confirmPassword: "",
-  });
   const { colors } = useTheme();
 
   const onSigin = async () => {};
@@ -55,24 +48,11 @@ const Congratulation = (props) => {
             <Buttons.ButtonPrimary
               disabled={loading}
               loading={loading}
-              onClick={() => navigation.navigate("NewBooking")}
+              onClick={() => navigation.pop(3)}
               textStyle={{ ...styles.buttonText, color: colors.white }}
               style={{ ...styles.button }}
               title={"Continue Booking..."}
             />
-            {/* <Buttons.ButtonPrimary
-              disabled={loading}
-              loading={loading}
-              onClick={onSigin}
-              textStyle={styles.buttonText}
-              style={{
-                ...styles.button,
-                backgroundColor: colors.white,
-                borderColor: allColors.primary,
-                borderWidth: 2,
-              }}
-              title={"How it works?"}
-            /> */}
           </View>
         </View>
       </ScrollView>
