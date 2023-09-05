@@ -59,15 +59,24 @@ const AfterNoon = (props) => {
       getOngoingBooking();
     }
   }, [isRefresh, isFocused]);
+
   const getWorkers = async (id) => {
-    setbtnLoading(true);
-    const workersReponse = await get_workers(bussinessId, id);
-    if (workersReponse?.data) {
-      setWorkers(workersReponse?.data);
-      setWorkerVisible(true);
+    try {
+      setbtnLoading(true);
+      setLoaders({ ...loaders, assign: id });
+      const workersReponse = await get_workers(bussinessId, id);
+      if (workersReponse?.data) {
+        setWorkers(workersReponse?.data);
+        setWorkerVisible(true);
+      }
+    } catch (error) {
+      console.log("error:::", error);
+    } finally {
+      setbtnLoading(false);
+      setLoaders({ ...loaders, assign: false });
     }
-    setbtnLoading(false);
   };
+
   // const checkin_booking = async (id) => {
   //   setbtnLoading(true)
   //   const res = await alertService.confirm(
@@ -202,7 +211,7 @@ const AfterNoon = (props) => {
                   checkinLoading={loaders.checkin === item?.id}
                   checkoutLoading={loaders.checkout === item?.id}
                   startLoading={loaders.start === item?.id}
-                  assignLoading={loaders.assign}
+                  assignLoading={loaders.assign === item?.id}
                   noshowLoading={loaders.noshow === item?.id}
                   btnLoading={btnLoading}
                   key={index}

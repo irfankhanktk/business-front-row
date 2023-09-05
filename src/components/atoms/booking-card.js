@@ -34,13 +34,17 @@ const BookingCard = ({
   isOngoing = false,
   ...props
 }) => {
-
+  const progress = Math.fround((item?.view?.progress || 1) / 100);
   return (
-    <TouchableOpacity onPress={() => props?.navigation?.navigate('ReviewSchedule',
-      {
-        bookingID: item?.id,
-        selected: item?.customer?.id
-      })} style={styles.CONTAINER}>
+    <TouchableOpacity
+      onPress={() =>
+        props?.navigation?.navigate("ReviewSchedule", {
+          bookingID: item?.id,
+          selected: item?.customer?.id,
+        })
+      }
+      style={styles.CONTAINER}
+    >
       <View
         style={{
           paddingHorizontal: mvs(10),
@@ -56,17 +60,21 @@ const BookingCard = ({
           }}
         >
           <Medium label={item?.slot?.view?.time} size={15} />
-          {isOngoing ? <Progress.Circle
-            size={30}
-            color={colors.primary}
-            borderColor={colors.gray}
-            progress={Math.fround((item?.view?.progress || 1) / 100)}
-            showsText
-            textStyle={{
-              color: colors.black,
-              fontWeight: 'bold',
-              fontSize: mvs(7),
-            }} /> : null}
+
+          {isOngoing ? (
+            <Progress.Circle
+              size={30}
+              color={colors.primary}
+              borderColor={colors.gray}
+              progress={progress}
+              showsText
+              textStyle={{
+                color: colors.black,
+                fontWeight: "bold",
+                fontSize: mvs(7),
+              }}
+            />
+          ) : null}
           {item?.view?.minimize && (
             <View>
               {item?.isNoshow ? (
@@ -78,18 +86,20 @@ const BookingCard = ({
                   size={40}
                   color={colors.primary}
                   borderColor={colors.gray}
-                  progress={Math.fround((item?.view?.progress || 1) / 100)}
+                  progress={progress}
                   showsText
-                  textStyle={styles.PROGRESSTEXT} />
+                  textStyle={styles.PROGRESSTEXT}
+                />
               ) : item?.isCompleted ? (
                 <View style={styles.progressView}>
                   <Progress.Circle
                     size={40}
                     color={colors.primary}
                     borderColor={colors.gray}
-                    progress={Math.fround((item?.view?.progress || 1) / 100)}
+                    progress={progress}
                     showsText
-                    textStyle={styles.PROGRESSTEXT} />
+                    textStyle={styles.PROGRESSTEXT}
+                  />
                   <View style={{ position: "absolute", right: -5, top: -10 }}>
                     <SVG.Tick height={20} width={20} />
                   </View>
@@ -106,12 +116,15 @@ const BookingCard = ({
                   // paddingLeft: mvs(15),
                   width: "50%",
                   alignItems: "center",
-                  
                 }}
               >
                 <Image
-                  style={[styles.BOTTOMIMG, { borderRadius: mvs(25) },]}
-                  source={item?.customer?.image ? { uri: SERVICES._returnFile(item?.customer?.image) } : IMGS.CarOwner}
+                  style={[styles.BOTTOMIMG, { borderRadius: mvs(25) }]}
+                  source={
+                    item?.customer?.image
+                      ? { uri: SERVICES._returnFile(item?.customer?.image) }
+                      : IMGS.CarOwner
+                  }
                 />
                 <View style={{ marginHorizontal: mvs(5), flex: 1 }}>
                   <Medium label={item?.customer?.name} size={15} />
@@ -126,8 +139,8 @@ const BookingCard = ({
                       item?.vehicle?.make
                         ? item?.vehicle?.make
                         : "" + " " + item?.vehicle?.model
-                          ? item?.vehicle?.model
-                          : ""
+                        ? item?.vehicle?.model
+                        : ""
                     }
                     size={15}
                     color={colors.black}
@@ -139,13 +152,16 @@ const BookingCard = ({
                   />
                 </View>
               </Row>
-
             </Row>
             <Row style={{ ...styles.UPPERROW, paddingVertical: mvs(7.5) }}>
-              <Row style={{ width: "50%", }} alignItems="center">
+              <Row style={{ width: "50%" }} alignItems="center">
                 <ImagePlaceholder
                   containerStyle={styles.BOTTOMIMG}
-                  uri={item?.offering?.cover ? { uri: SERVICES._returnFile(item?.offering?.cover) } : IMGS.CarWash}
+                  uri={
+                    item?.offering?.cover
+                      ? { uri: SERVICES._returnFile(item?.offering?.cover) }
+                      : IMGS.CarWash
+                  }
                   borderRadius={10}
                 />
                 <View style={styles.bussinessView}>
@@ -168,7 +184,11 @@ const BookingCard = ({
                 >
                   <Image
                     style={styles.BOTTOMIMG}
-                    source={item?.worker?.image ? { uri: SERVICES._returnFile(item?.worker?.image) } : IMGS.CarOwner}
+                    source={
+                      item?.worker?.image
+                        ? { uri: SERVICES._returnFile(item?.worker?.image) }
+                        : IMGS.CarOwner
+                    }
                   />
                   <View style={{ marginHorizontal: mvs(5), flex: 1 }}>
                     <Medium label={item?.worker?.title} size={15} />
@@ -237,11 +257,11 @@ const styles = StyleSheet.create({
     // padding: mvs(10),
     borderWidth: 0.7,
     borderColor: colors.gray,
-    marginTop: mvs(10)
+    marginTop: mvs(10),
   },
   PROGRESSTEXT: {
     color: colors.black,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 8,
   },
   IMAGE: {

@@ -1,41 +1,33 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { useState, useEffect } from "react";
+import moment from "moment";
+import React, { useEffect, useState } from "react";
 import {
-  ScrollView,
+  Image,
   SafeAreaView,
+  ScrollView,
+  Text,
   TextInput,
   TouchableOpacity,
   View,
-  Image,
-  Text,
 } from "react-native";
-import * as Progress from "react-native-progress";
-import { connect } from "react-redux";
-import { Edit, Vehicle, WhitePercentage } from "../../assets/common-icons";
-import { Bg } from "../../assets/images";
+import LinearGradient from "react-native-linear-gradient";
+import { createShimmerPlaceholder } from "react-native-shimmer-placeholder";
+import Toast from "react-native-toast-message";
+import { BaseURL } from "../../ApiServices";
+import { Edit } from "../../assets/common-icons";
+import { Warning } from "../../assets/images";
 import Buttons from "../../components/atoms/Button";
-import ImagePlaceholder from "../../components/atoms/Placeholder";
 import Row from "../../components/atoms/row";
+import BookingDetailsHeader from "../../components/booking-details-header";
+import BookingPaymentView from "../../components/booking-payment-view";
+import BookingCoupon from "../../components/coupon-promo/booking-coupon";
 import { CustomHeader } from "../../components/molecules/header/header-1x";
 import AssignModal from "../../components/molecules/modals/assign-modal";
 import Bold from "../../presentation/typography/bold-text";
-import Medium from "../../presentation/typography/medium-text";
 import Regular from "../../presentation/typography/regular-text";
-import SemiBold from "../../presentation/typography/semibold-text";
-import alertService from "../../services/alert.service";
 import colors from "../../services/colors";
 import { mvs } from "../../services/metrices";
-import DIVIY_API from "../../store/api-calls";
 import { Styles as styles } from "./booking-details-styles";
-import { Warning } from "../../assets/images";
-import BookingPaymentView from "../../components/booking-payment-view";
-import BookingCoupon from "../../components/coupon-promo/booking-coupon";
-import BookingDetailsHeader from "../../components/booking-details-header";
-import { createShimmerPlaceholder } from "react-native-shimmer-placeholder";
-import LinearGradient from "react-native-linear-gradient";
-import { BaseURL } from "../../ApiServices";
-import moment from "moment";
-import Toast from "react-native-toast-message";
 const ShimmerPlaceholder = createShimmerPlaceholder(LinearGradient);
 const BookingsDetails = ({ route, props }) => {
   const navigation = useNavigation();

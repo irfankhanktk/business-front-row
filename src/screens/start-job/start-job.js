@@ -1,45 +1,32 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { useState, useEffect } from "react";
+import moment from "moment";
+import React, { useEffect, useState } from "react";
 import {
-  ScrollView,
+  Image,
   SafeAreaView,
-  TextInput,
+  ScrollView,
   TouchableOpacity,
   View,
-  Image,
 } from "react-native";
-import * as Progress from "react-native-progress";
-import { connect } from "react-redux";
-import {
-  Edit,
-  TabActivityIcon,
-  Vehicle,
-  WhitePercentage,
-} from "../../assets/common-icons";
-import { Bg } from "../../assets/images";
-import Buttons from "../../components/atoms/Button";
-import ImagePlaceholder from "../../components/atoms/Placeholder";
-import Row from "../../components/atoms/row";
-import { CustomHeader } from "../../components/molecules/header/header-1x";
-import Bold from "../../presentation/typography/bold-text";
-import Medium from "../../presentation/typography/medium-text";
-import Regular from "../../presentation/typography/regular-text";
-import SemiBold from "../../presentation/typography/semibold-text";
-import alertService from "../../services/alert.service";
-import colors from "../../services/colors";
-import { mvs } from "../../services/metrices";
-import DIVIY_API from "../../store/api-calls";
-import { Styles as styles } from "./start-job-styles";
+import Toast from "react-native-toast-message";
+import { BaseURL } from "../../ApiServices";
+import { TabActivityIcon } from "../../assets/common-icons";
 import { Warning } from "../../assets/images";
+import Buttons from "../../components/atoms/Button";
+import Row from "../../components/atoms/row";
+import BookingDetailsHeader from "../../components/booking-details-header";
 import BookingPaymentView from "../../components/booking-payment-view";
 import BookingCoupon from "../../components/coupon-promo/booking-coupon";
-import BookingDetailsHeader from "../../components/booking-details-header";
+import { CustomHeader } from "../../components/molecules/header/header-1x";
 import CouponModal from "../../components/molecules/modals/coupon-modal";
 import WorkerModal from "../../components/molecules/modals/worker-modal";
 import WorkerModalItem from "../../components/service-offering/worker-modal-item";
-import { BaseURL } from "../../ApiServices";
-import moment from "moment";
-import Toast from "react-native-toast-message";
+import Bold from "../../presentation/typography/bold-text";
+import Medium from "../../presentation/typography/medium-text";
+import Regular from "../../presentation/typography/regular-text";
+import colors from "../../services/colors";
+import { mvs } from "../../services/metrices";
+import { Styles as styles } from "./start-job-styles";
 
 const UnStartMessage = ({}) => {
   return (

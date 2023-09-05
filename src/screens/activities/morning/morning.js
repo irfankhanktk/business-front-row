@@ -60,17 +60,24 @@ const Morning = (props) => {
     }
   }, [isRefresh, isFocused]);
   const getWorkers = async (id) => {
-    setbtnLoading(true);
-    const workersReponse = await get_workers(bussinessId, id);
-    if (workersReponse?.data) {
-      setWorkers(workersReponse?.data);
-      setWorkerVisible(true);
+    try {
+      setbtnLoading(true);
+      setLoaders({ ...loaders, assign: id });
+      const workersReponse = await get_workers(bussinessId, id);
+      if (workersReponse?.data) {
+        setWorkers(workersReponse?.data);
+        setWorkerVisible(true);
+      }
+    } catch (error) {
+      console.log("error:::", error);
+    } finally {
+      setbtnLoading(false);
+      setLoaders({ ...loaders, assign: false });
     }
-    setbtnLoading(false);
   };
   const checkin_booking = async (id) => {
     try {
-      setLoaders({ ...loaders, checkin: true });
+      setLoaders({ ...loaders, checkin: id });
       const res = await alertService.confirm(
         "Are you sure you want to check in?",
         "Yes",
@@ -89,7 +96,7 @@ const Morning = (props) => {
 
   const start_booking = async (id) => {
     try {
-      setLoaders({ ...loaders, start: true });
+      setLoaders({ ...loaders, start: id });
       const res = await alertService.confirm(
         "Are you sure you want to Start?",
         "Yes",
@@ -106,7 +113,7 @@ const Morning = (props) => {
   };
   const no_show_booking = async (id) => {
     try {
-      setLoaders({ ...loaders, noshow: true });
+      setLoaders({ ...loaders, noshow: id });
       const res = await alertService.confirm(
         "Are you sure you want to no show?",
         "Yes",
@@ -124,7 +131,7 @@ const Morning = (props) => {
   };
   const assign_booking_worker = async (id) => {
     try {
-      setLoaders({ ...loaders, assign: true });
+      setLoaders({ ...loaders, assign: id });
       await assign_worker(bussinessId, bookingId, id);
       await getOngoingBooking();
       setWorkerVisible(false);
@@ -154,11 +161,11 @@ const Morning = (props) => {
               data={data?.Morning?.bookings}
               renderItem={({ item, index }) => (
                 <BookingCard
-                  checkinLoading={loaders.checkin}
-                  checkoutLoading={loaders.checkout}
-                  startLoading={loaders.start}
-                  assignLoading={loaders.assign}
-                  noshowLoading={loaders.noshow}
+                  checkinLoading={loaders.checkin === item?.id}
+                  checkoutLoading={loaders.checkout === item?.id}
+                  startLoading={loaders.start === item?.id}
+                  assignLoading={loaders.assign === item?.id}
+                  noshowLoading={loaders.noshow === item?.id}
                   btnLaoding={false}
                   key={index}
                   // loading={!loading}
