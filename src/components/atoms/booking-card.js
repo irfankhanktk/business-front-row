@@ -34,7 +34,8 @@ const BookingCard = ({
   isOngoing = false,
   ...props
 }) => {
-  const progress = Math.fround((item?.view?.progress || 1) / 100);
+  const progress = item?.view?.progress;
+  console.log("progress::", progress);
   return (
     <TouchableOpacity
       onPress={() =>
@@ -66,7 +67,8 @@ const BookingCard = ({
               size={30}
               color={colors.primary}
               borderColor={colors.gray}
-              progress={progress}
+              progress={progress / 100}
+              formatText={(p) => `${Math.round(progress)}%`}
               showsText
               textStyle={{
                 color: colors.black,
@@ -86,8 +88,9 @@ const BookingCard = ({
                   size={40}
                   color={colors.primary}
                   borderColor={colors.gray}
-                  progress={progress}
+                  progress={progress / 100}
                   showsText
+                  formatText={(p) => `${Math.round(progress)}%`}
                   textStyle={styles.PROGRESSTEXT}
                 />
               ) : item?.isCompleted ? (
@@ -96,7 +99,8 @@ const BookingCard = ({
                     size={40}
                     color={colors.primary}
                     borderColor={colors.gray}
-                    progress={progress}
+                    progress={progress / 100}
+                    formatText={(p) => `${Math.round(progress)}%`}
                     showsText
                     textStyle={styles.PROGRESSTEXT}
                   />

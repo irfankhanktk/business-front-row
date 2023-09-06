@@ -1,19 +1,18 @@
 import React from "react";
+import { StyleSheet, View } from "react-native";
+import LinearGradient from "react-native-linear-gradient";
+import * as Progress from "react-native-progress";
+import { createShimmerPlaceholder } from "react-native-shimmer-placeholder";
 import ImagePlaceholder from "../../components/atoms/Placeholder";
 import Row from "../../components/atoms/row";
 import Medium from "../../presentation/typography/medium-text";
 import Regular from "../../presentation/typography/regular-text";
 import SemiBold from "../../presentation/typography/semibold-text";
 import colors from "../../services/colors";
-import { mvs } from "../../services/metrices";
-import * as Progress from "react-native-progress";
-import { Vehicle } from "../../assets/common-icons";
-import { createShimmerPlaceholder } from "react-native-shimmer-placeholder";
-import LinearGradient from "react-native-linear-gradient";
-const ShimmerPlaceholder = createShimmerPlaceholder(LinearGradient);
-import { View, TouchableOpacity, StyleSheet } from "react-native";
 import SERVICES from "../../services/common-services";
-const BookingDetailsHeader = ({ loading, data }) => {
+import { mvs } from "../../services/metrices";
+const ShimmerPlaceholder = createShimmerPlaceholder(LinearGradient);
+const BookingDetailsHeader = ({ loading, data, progress = 50 }) => {
   return (
     <View style={styles.conntainer}>
       <Row style={{ ...styles.UPPERROW, ...styles.TIMETOPVIEW }}>
@@ -59,7 +58,8 @@ const BookingDetailsHeader = ({ loading, data }) => {
               size={36}
               color={colors.primary}
               borderColor={colors.gray}
-              progress={0.35}
+              progress={progress / 100}
+              formatText={(p) => `${Math.round(progress)}%`}
               showsText
               textStyle={styles.PROGRESSTEXT}
             />
@@ -118,8 +118,8 @@ const BookingDetailsHeader = ({ loading, data }) => {
                 data?.vehicle?.make
                   ? data?.vehicle?.make
                   : " " + " " + data?.vehicle?.model
-                    ? data?.vehicle?.model
-                    : ""
+                  ? data?.vehicle?.model
+                  : ""
               }
               size={14}
             />

@@ -62,7 +62,7 @@ const ReviewSchedule = (props) => {
   const [workers, setWorkers] = useState();
   const [coupons, setCoupons] = useState();
   const [slotItem, setSlotItem] = useState();
-  const [booking, setBooking] = useState();
+  const [booking, setBooking] = useState({});
   const [bussinessId, setBussinessId] = useState();
   const [selectedSlot, setSelectedSlot] = useState();
   const [worker, setWorker] = useState(null);

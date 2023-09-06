@@ -180,7 +180,7 @@ const AfterNoon = (props) => {
   };
   const assign_booking_worker = async (id) => {
     try {
-      setLoaders({ ...loaders, assign: true });
+      setLoaders({ ...loaders, assign: id });
       await assign_worker(bussinessId, bookingId, id);
       await getOngoingBooking();
       setWorkerVisible(false);
@@ -244,6 +244,7 @@ const AfterNoon = (props) => {
         </View>
       )}
       <WorkerModal
+        loading={loaders?.assign}
         items={workers}
         value={worker}
         setValue={(value) => {

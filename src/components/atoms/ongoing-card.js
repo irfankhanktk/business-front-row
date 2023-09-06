@@ -1,19 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
+import LinearGradient from "react-native-linear-gradient";
+import { createShimmerPlaceholder } from "react-native-shimmer-placeholder";
+import { VehicleTwo } from "../../assets/common-icons";
+import Bold from "../../presentation/typography/bold-text";
+import Medium from "../../presentation/typography/medium-text";
 import Regular from "../../presentation/typography/regular-text";
 import SemiBold from "../../presentation/typography/semibold-text";
 import colors from "../../services/colors";
-import { mvs } from "../../services/metrices";
-import Row from "./row";
-import Bold from "../../presentation/typography/bold-text";
-import ImagePlaceholder from "./Placeholder";
-import Medium from "../../presentation/typography/medium-text";
-import Buttons from "./Button";
-import moment from "moment";
-import { createShimmerPlaceholder } from "react-native-shimmer-placeholder";
-import LinearGradient from "react-native-linear-gradient";
-import { VehicleTwo } from "../../assets/common-icons";
 import SERVICES from "../../services/common-services";
+import { mvs } from "../../services/metrices";
+import Buttons from "./Button";
+import ImagePlaceholder from "./Placeholder";
+import Row from "./row";
 const ShimmerPlaceholder = createShimmerPlaceholder(LinearGradient);
 const OngoingCard = ({
   loading,
@@ -28,15 +27,15 @@ const OngoingCard = ({
       <Row style={{ ...styles.UPPERROW, ...styles.TIMETOPVIEW }}>
         <Medium label={item?.queue?.title} size={16} />
         <ShimmerPlaceholder visible={loading}>
-          <Medium
-            label={`${item?.slot?.view?.time}`}
-            size={14}
-          />
+          <Medium label={`${item?.slot?.view?.time}`} size={14} />
         </ShimmerPlaceholder>
       </Row>
       <Row style={{ ...styles.UPPERROW, ...styles.TIMETOPVIEW }}>
         <ShimmerPlaceholder style={styles.IMAGE} visible={loading}>
-          <ImagePlaceholder containerStyle={styles.IMAGE} uri={SERVICES._returnFile(image)} />
+          <ImagePlaceholder
+            containerStyle={styles.IMAGE}
+            uri={SERVICES._returnFile(image)}
+          />
         </ShimmerPlaceholder>
         <View style={{ marginHorizontal: mvs(10), flex: 1 }}>
           <ShimmerPlaceholder height={40} width={150} visible={loading}>
@@ -60,7 +59,11 @@ const OngoingCard = ({
             visible={loading}
           >
             <View style={styles.progressView}>
-              <Bold label={(progress * 100)?.toFixed(0) + '%'} size={8} color={colors.black} />
+              <Bold
+                label={(progress * 100)?.toFixed(0) + "%"}
+                size={8}
+                color={colors.black}
+              />
             </View>
           </ShimmerPlaceholder>
           <Regular
@@ -98,7 +101,9 @@ const OngoingCard = ({
             />
           </ShimmerPlaceholder>
         </View>
-        <Row style={{ paddingHorizontal: mvs(10), flex: 1, alignItems: "center" }}>
+        <Row
+          style={{ paddingHorizontal: mvs(10), flex: 1, alignItems: "center" }}
+        >
           <ShimmerPlaceholder shimmerStyle={styles.BOTTOMIMG} visible={loading}>
             {item?.vehicle?.cover ? (
               <ImagePlaceholder
@@ -117,8 +122,8 @@ const OngoingCard = ({
                   item?.vehicle?.make
                     ? item?.vehicle?.make
                     : "" + " " + item?.vehicle?.model
-                      ? item?.vehicle?.model
-                      : ""
+                    ? item?.vehicle?.model
+                    : ""
                 }
                 size={14}
               />
@@ -195,8 +200,8 @@ const styles = StyleSheet.create({
     borderRadius: 1000,
     height: mvs(40),
     width: mvs(40),
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     borderWidth: mvs(3),
     borderColor: colors.primary,
   },

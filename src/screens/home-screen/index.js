@@ -147,7 +147,7 @@ const BusinessProfile = (props) => {
                   visible={apiData}
                 >
                   <Progress.Circle
-                    formatText={(n) => n * 20}
+                    formatText={(p) => `${Math.round(100)}%`}
                     size={mvs(75)}
                     color={colors.primary}
                     borderWidth={mvs(0)}
@@ -170,7 +170,7 @@ const BusinessProfile = (props) => {
                   visible={apiData}
                 >
                   <Progress.Circle
-                    formatText={(n) => n * 20}
+                    formatText={(p) => `${Math.round(100)}%`}
                     size={mvs(75)}
                     color={colors.B09D8FE}
                     borderWidth={mvs(0)}
@@ -193,7 +193,7 @@ const BusinessProfile = (props) => {
                   visible={apiData}
                 >
                   <Progress.Circle
-                    formatText={(n) => n * 20}
+                    formatText={(p) => `${Math.round(100)}%`}
                     size={mvs(75)}
                     color={colors.B2181F2}
                     borderWidth={mvs(0)}
@@ -217,7 +217,7 @@ const BusinessProfile = (props) => {
                   visible={apiData}
                 >
                   <Progress.Circle
-                    formatText={(n) => n * 20}
+                    formatText={(p) => `${Math.round(100)}%`}
                     size={mvs(75)}
                     color={colors.G3CB971}
                     borderWidth={mvs(0)}

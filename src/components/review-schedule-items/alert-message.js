@@ -16,10 +16,10 @@ const AlertMessage = ({
   color,
   view,
 }) => {
-  console.log("view?.message?.progress:::", view?.message?.progress);
-  const progress = Math.fround((view?.message?.progress || 1) / 100);
+  const progress = view?.message?.progress;
+  console.log("progress:>>>>>>>::>>", progress);
   const showProgress = view?.message?.showProgress;
-  console.log("progress::", progress);
+
   return (
     <View
       style={{
@@ -56,12 +56,12 @@ const AlertMessage = ({
       {showProgress && (
         <View style={{ alignSelf: "center", marginHorizontal: mvs(5) }}>
           <Progress.Circle
-            size={50}
+            size={30}
             color={colors.primary}
             borderColor={colors.gray}
-            progress={1}
+            progress={progress / 100}
             showsText
-            // textStyle={styles.PROGRESSTEXT}
+            formatText={(p) => `${Math.round(progress)}%`}
             textStyle={{
               color: colors.black,
               fontWeight: "bold",

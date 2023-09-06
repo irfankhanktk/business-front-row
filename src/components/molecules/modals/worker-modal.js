@@ -10,7 +10,7 @@ import WorkerItem from "../../service-offering/woker-item";
 import ModalLoader from "../modal-loader";
 const WorkerModal = ({
   value,
-  setValue = (arg) => { },
+  setValue = (arg) => {},
   visible,
   items = [],
   onBackdropPress,
@@ -36,7 +36,8 @@ const WorkerModal = ({
                 if (item?.id != value?.id) {
                   setValue(item);
                 }
-              }}>
+              }}
+            >
               <Row style={{ ...styles.PAYMENTDROPDOWN }}>
                 <WorkerItem item={item} style={{ flex: 1 }} />
                 <View>
