@@ -78,7 +78,9 @@ const NewCustomer = (props) => {
         .then((response) => {
           if (response?.ok) return response.json();
           else if (response?.status == 400) {
-            throw new Error("Same mobile already exists");
+            console.log(response);
+            // throw new Error("Same mobile already exists");
+            throw response;
           }
           throw response;
         })
@@ -92,8 +94,8 @@ const NewCustomer = (props) => {
         })
         .catch((error) => {
           setloading(false);
-          showToast("error", `${error?.message}`);
-          // console.log("error", error);
+          // showToast("error", `${error}`);
+          console.log("error::>>>", error);
         });
     }
   };

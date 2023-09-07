@@ -99,8 +99,8 @@ const BookingCard = ({
                     size={40}
                     color={colors.primary}
                     borderColor={colors.gray}
-                    progress={progress / 100}
-                    formatText={(p) => `${Math.round(progress)}%`}
+                    progress={1}
+                    formatText={(p) => `${Math.round(100)}%`}
                     showsText
                     textStyle={styles.PROGRESSTEXT}
                   />
@@ -136,7 +136,6 @@ const BookingCard = ({
                 </View>
               </Row>
               <Row alignItems="center" style={{ width: "50%" }}>
-                {/* <SVG.VehicleTwo /> */}
                 <View style={{ marginHorizontal: mvs(10), flex: 1 }}>
                   <Medium
                     label={

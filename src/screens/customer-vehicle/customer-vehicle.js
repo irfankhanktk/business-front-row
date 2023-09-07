@@ -30,7 +30,7 @@ const CustomerVehicle = ({ route, props }) => {
   const [payload, setPayload] = React.useState({
     emirate: "",
     type: "",
-    registration: "",
+    registration: null,
     make: "",
     modal: "",
     year: "",
