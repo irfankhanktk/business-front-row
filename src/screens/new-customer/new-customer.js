@@ -35,7 +35,7 @@ const NewCustomer = (props) => {
   function isValidUAEMobileNumber(number) {
     console.log("number ::::", number);
     // Define the regex pattern
-    const pattern = /^(?:\+971)[56789]\d{7}$/;
+    const pattern = /^(?:\+971)[56789]\d{8}$/;
 
     // Use the test method to check if the pattern matches the string
     return pattern.test(number);
@@ -61,7 +61,7 @@ const NewCustomer = (props) => {
 
       var raw = JSON.stringify({
         name: userInfo.name,
-        mobile: `+971${userInfo.mobile}`,
+        mobile: `${userInfo.mobile}`,
         email: userInfo.email,
       });
 
@@ -150,7 +150,7 @@ const NewCustomer = (props) => {
               <PhoneInput
                 ref={phoneInput}
                 defaultValue={phoneNumber}
-                defaultCode={countryCode}
+                defaultCode={"AE"}
                 layout="first"
                 flagButtonStyle={{ width: mvs(60), height: mvs(40) }}
                 codeTextStyle={{ marginBottom: 1, fontSize: 13 }}

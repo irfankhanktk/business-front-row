@@ -153,7 +153,11 @@ const NewBooking = (props) => {
         if (result != null) {
           setbookingCreated(false);
           if (result?.code == "vehicle required") {
-            showToast("error", result?.message);
+            // showToast("error", result?.message);
+            // props?.navigation?.navigate('');
+            navigation.navigate("CustomerVehicle", {
+              customerID: selected,
+            });
           } else {
             showToast("success", "Booking created successfully");
             delayApi(result);
@@ -260,37 +264,37 @@ const NewBooking = (props) => {
                   onBlur={() => searchCustomer()}
                 />
               ) : (
-                <PhoneInput
-                  ref={phoneInput}
-                  defaultValue=""
-                  defaultCode="AE"
-                  layout="first"
-                  placeholder="Phone Number"
-                  flagButtonStyle={{ width: mvs(60), height: mvs(40) }}
-                  codeTextStyle={{ marginBottom: 1, fontSize: 13 }}
-                  containerStyle={styles.phoneContainer}
-                  textContainerStyle={styles.textInput}
-                  textInputStyle={{ fontSize: 13 }}
-                  onChangeFormattedText={(text) => {}}
-                  onChangeText={(text) => {
-                    setmobile(text);
-                    if (!!text) {
-                      searchCustomer(text);
-                    } else {
-                      setcustomerData([]);
-                    }
-                  }}
-                />
-                // <Row style={{ flex: 1 }} alignItems="center">
-                //   <Regular label={"+971"} />
-                //   <TextInput
-                //     placeholder="XXXXXXXX"
-                //     style={{ flex: 1 }}
-                //     value={`${mobile}`}
-                //     onChangeText={setmobile}
-                //     onBlur={() => searchCustomer()}
-                //   />
-                // </Row>
+                // <PhoneInput
+                //   ref={phoneInput}
+                //   defaultValue=""
+                //   defaultCode="AE"
+                //   layout="first"
+                //   placeholder="Phone Number"
+                //   flagButtonStyle={{ width: mvs(60), height: mvs(40) }}
+                //   codeTextStyle={{ marginBottom: 1, fontSize: 13 }}
+                //   containerStyle={styles.phoneContainer}
+                //   textContainerStyle={styles.textInput}
+                //   textInputStyle={{ fontSize: 13 }}
+                //   onChangeFormattedText={(text) => {}}
+                //   onChangeText={(text) => {
+                //     setmobile(text);
+                //     if (!!text) {
+                //       searchCustomer(text);
+                //     } else {
+                //       setcustomerData([]);
+                //     }
+                //   }}
+                // />
+                <Row style={{ flex: 1 }} alignItems="center">
+                  <Regular label={" +971  "} />
+                  <TextInput
+                    placeholder="XXXXXXXXX"
+                    style={{ flex: 1 }}
+                    value={`${mobile}`}
+                    onChangeText={setmobile}
+                    onBlur={() => searchCustomer()}
+                  />
+                </Row>
               )}
               <TouchableOpacity onPress={() => searchCustomer()}>
                 <SearchTwo style={{}} />

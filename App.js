@@ -6,16 +6,20 @@ import { MainNavigator } from "./src/navigation";
 import "./src/services/axios-interceptors";
 import store from "./src/store";
 import { navigationRef } from "./src/navigation/navigation-ref";
+import Toast from "react-native-toast-message";
 // const defaultMode = Appearance.getColorScheme() || 'light';
 const App = () => {
   return (
-    <SafeAreaProvider>
-      <Provider store={store}>
-        <NavigationContainer ref={navigationRef}>
-          <MainNavigator />
-        </NavigationContainer>
-      </Provider>
-    </SafeAreaProvider>
+    <>
+      <SafeAreaProvider>
+        <Provider store={store}>
+          <NavigationContainer ref={navigationRef}>
+            <MainNavigator />
+          </NavigationContainer>
+        </Provider>
+      </SafeAreaProvider>
+      <Toast />
+    </>
   );
 };
 export default App;

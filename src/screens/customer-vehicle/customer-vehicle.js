@@ -13,6 +13,7 @@ import Regular from "../../presentation/typography/regular-text";
 import { Vehicle_Styles as styles } from "./customer-vehicle-styles";
 import DIVIY_API from "../../store/api-calls";
 import PageLoader from "../../components/atoms/page-loader";
+import colors from "../../services/colors";
 const CustomerVehicle = ({ route, props }) => {
   const navigation = useNavigation();
   const { customerID } = route.params;
@@ -36,12 +37,11 @@ const CustomerVehicle = ({ route, props }) => {
     color: "",
     vin: "",
   });
-  const { colors } = useTheme();
 
   const delayApi = () => {
     navigation.navigate("Congratulation");
   };
-  const showToast = (type, text1, text2) => {
+  const showToast = (type, text1, text2 = "") => {
     Toast.show({
       type: type,
       text1: text1,
@@ -71,7 +71,6 @@ const CustomerVehicle = ({ route, props }) => {
   const addNewVehicle = async () => {
     if (!payload.emirate) {
       showToast("error", "Enter Emirate");
-      return;
     } else if (!payload.type) {
       showToast("error", "Select vehicle type ");
       return;
@@ -86,14 +85,7 @@ const CustomerVehicle = ({ route, props }) => {
       var myHeaders = new Headers();
       myHeaders.append();
 
-      var raw = JSON.stringify({
-        type: payload.type,
-        registration: payload.registration,
-        make: payload.make,
-        model: payload.modal,
-        year: payload.year,
-        color: payload.color,
-      });
+      var raw = JSON.stringify(payload);
 
       var requestOptions = {
         method: "POST",
@@ -126,10 +118,12 @@ const CustomerVehicle = ({ route, props }) => {
   };
 
   return (
-    <View style={{ ...styles.container, backgroundColor: colors.background }}>
+    <View style={{ ...styles.container }}>
       <CustomHeader colors={colors} title="Customer Vehicle" allowBackBtn />
       {screenLoading ? (
-        <PageLoader />
+        <>
+          <PageLoader />
+        </>
       ) : (
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
           <View style={styles.body}>
