@@ -25,6 +25,14 @@ const showToast = (type, text1, text2) => {
 export const deleteToken = () => {
   return API_REQUESTS.getData(URLS.auth.delete_token);
 };
+export const getHomedData = (businessId) => {
+  return API_REQUESTS.getData(
+    `${URLS.business}/${businessId}${URLS.home_counter}`
+  );
+};
+export const onSignup = (data) =>
+  API_REQUESTS.postData(`${URLS.auth.signup}`, data);
+
 const getToken = async () => {
   console.log("GETTING TOKEN");
   let token = await auth().currentUser.getIdToken();
@@ -48,8 +56,11 @@ export const getBusinessDetails = (
       } catch (error) {
         console.log("error in fcm token--->>", error);
       }
-      const response = await API_REQUESTS.getData(
-        URLS.auth.get_business_detail
+      const response = await API_REQUESTS.postData(
+        URLS.auth.get_business_detail,
+        {
+          fcmToken: fcm,
+        }
       );
       console.log("response=>>>:::", response?.data);
       AsyncStorage.setItem("BusinessId", `${response?.data?.business?.id}`);

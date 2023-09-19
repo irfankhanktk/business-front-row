@@ -1,22 +1,21 @@
-import moment from 'moment';
-import React from 'react';
-import { FlatList, StyleSheet, View } from 'react-native';
-import { CarOwner } from '../../../assets/images';
-import SERVICES from '../../../services/common-services';
-import fonts from '../../../services/fonts';
-import { mvs, width } from '../../../services/metrices';
-import Regular from './../../../presentation/typography/regular-text';
-import SemiBold from './../../../presentation/typography/semibold-text';
-import colors from './../../../services/colors';
-import ImagePlaceholder from './../../atoms/Placeholder';
-import Row from './../../atoms/row';
-import RatingStar from './../rating-star/index';
+import moment from "moment";
+import React from "react";
+import { FlatList, StyleSheet, View } from "react-native";
+import { CarOwner } from "../../../assets/images";
+import SERVICES from "../../../services/common-services";
+import fonts from "../../../services/fonts";
+import { mvs, width } from "../../../services/metrices";
+import Regular from "./../../../presentation/typography/regular-text";
+import SemiBold from "./../../../presentation/typography/semibold-text";
+import colors from "./../../../services/colors";
+import ImagePlaceholder from "./../../atoms/Placeholder";
+import Row from "./../../atoms/row";
+import RatingStar from "./../rating-star/index";
 
 const ReviewsRaing = ({ ele = {}, style }) => {
-  console.log('review=>>>', ele);
+  console.log("review=>>>", ele);
   return (
-    <View
-      style={styles.container}>
+    <View style={styles.container}>
       <Row justifyContent="space-between" alignItems="flex-start">
         <Row>
           <ImagePlaceholder
@@ -30,7 +29,8 @@ const ReviewsRaing = ({ ele = {}, style }) => {
           <View
             style={{
               marginLeft: mvs(10),
-            }}>
+            }}
+          >
             <SemiBold
               size={mvs(12)}
               color={colors.B1B1B1B}
@@ -43,15 +43,12 @@ const ReviewsRaing = ({ ele = {}, style }) => {
               fill={colors.B323232}
               rate={ele?.rate}
               width={mvs(70)}
-              tintColor={'#ffedce'}
+              tintColor={"#ffedce"}
             />
           </View>
         </Row>
         <View style={{ marginRight: mvs(10) }}>
-          <Regular
-            style={styles.date}
-            label={moment(ele?.date).fromNow()}
-          />
+          <Regular style={styles.date} label={moment(ele?.date).fromNow()} />
         </View>
       </Row>
       <Regular
@@ -75,18 +72,19 @@ const ReviewsRaing = ({ ele = {}, style }) => {
                 height: mvs(52),
                 width: mvs(52),
                 marginRight: mvs(10),
-              }}>
+              }}
+            >
               <ImagePlaceholder
                 containerStyle={{
-                  height: '100%',
-                  width: '100%',
+                  height: "100%",
+                  width: "100%",
                   borderRadius: mvs(7),
                 }}
                 uri={{ uri: SERVICES._returnFile(item) }}
               />
             </View>
           )}
-          keyExtractor={item => item.id}
+          keyExtractor={(item) => item.id}
         />
       )}
     </View>
@@ -99,13 +97,14 @@ const styles = StyleSheet.create({
     paddingVertical: mvs(16),
     backgroundColor: colors.reviewBg,
     borderRadius: mvs(5),
+    marginRight: mvs(10),
   },
   bottomText: {
     marginTop: mvs(10),
     fontFamily: fonts.medium,
   },
   date: {
-    alignSelf: 'flex-end',
+    alignSelf: "flex-end",
     fontFamily: fonts.medium,
     color: colors.G9B9B9B,
     fontSize: mvs(12),
@@ -114,5 +113,5 @@ const styles = StyleSheet.create({
     height: mvs(33),
     width: mvs(33),
     borderRadius: mvs(17),
-  }
+  },
 });

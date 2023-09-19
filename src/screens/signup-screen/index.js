@@ -1,43 +1,33 @@
 import auth from "@react-native-firebase/auth";
 import { useTheme } from "@react-navigation/native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ScrollView, View } from "react-native";
 import Toast from "react-native-toast-message";
 import { useDispatch } from "react-redux";
 import Buttons from "../../components/atoms/Button";
 import { INPUT_FIELD } from "../../components/atoms/Input";
-import { navigate } from "../../navigation/navigation-ref";
 import Bold from "../../presentation/typography/bold-text";
 import Regular from "../../presentation/typography/regular-text";
 import { mvs } from "../../services/metrices";
-import { getBusinessDetails } from "../../store/api-calls";
-import { Signin_Styles as styles } from "./signin-styles";
+import { getBusinessDetails, onSignup } from "../../store/api-calls";
+import { Signin_Styles as styles } from "./signup-styles";
+import { navigate } from "../../navigation/navigation-ref";
 
-const Signin = (props) => {
+const Signup = (props) => {
   const [loading, setLoading] = React.useState(false);
   const dispatch = useDispatch();
   const [payload, setPayload] = React.useState({
-    email: "",
-    password: "",
     name: "",
+    email: "",
+    mobile: "",
+    password: "",
     confirmPassword: "",
+    uid: "",
   });
   const { colors } = useTheme();
-  const [initializing, setInitializing] = useState(true);
-  const [user, setUser] = useState();
 
-  // Handle user state changes
-  function onAuthStateChanged(user) {
-    setUser(user);
-    if (initializing) setInitializing(false);
-  }
-
-  useEffect(() => {
-    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-    return subscriber; // unsubscribe on unmount
-  }, []);
-
-  const signin = async (email, password) => {
+  const onSubmit = async () => {
+    const { email, password } = payload;
     if (!email?.trim()) {
       return showToast("error", "Email is required");
     } else if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
@@ -45,7 +35,12 @@ const Signin = (props) => {
     } else if (!password?.trim()) {
       return showToast("error", "Password is required");
     }
-    dispatch(getBusinessDetails(props, email, password, setLoading));
+    try {
+      const res = await onSignup({
+        email: payload?.email,
+        mobile: payload?.mobile,
+      });
+    } catch (error) {}
   };
 
   const showToast = (type, text1, text2) => {
@@ -65,16 +60,25 @@ const Signin = (props) => {
       >
         <View style={styles.body}>
           <>
-            <Bold label={"Welcome Back!"} style={styles.welcomeText} />
+            <Bold label={"Signup"} style={styles.welcomeText} />
             <Regular
-              label={"Please enter your email and password"}
+              numberOfLines={2}
+              label={"Please enter required informations to register account"}
               style={styles.welcomeSubText}
             />
-            <Regular label={"to contiue"} style={styles.welcomeSubText} />
             <View style={styles.input_container}>
               <INPUT_FIELD.InputSecondary
+                value={payload.email}
+                leftIcon="User"
+                rightIcon=""
+                onChangeText={(t) =>
+                  setPayload({ ...payload, email: t?.toLowerCase() })
+                }
+                label="NAME"
+                placeholder="John Doe"
+              />
+              <INPUT_FIELD.InputSecondary
                 keyboardType="email-address"
-                x
                 value={payload.email}
                 leftIcon="User"
                 rightIcon=""
@@ -85,6 +89,15 @@ const Signin = (props) => {
                 placeholder="lehieuds@gmail.com"
               />
               <INPUT_FIELD.InputSecondary
+                keyboardType="phone-pad"
+                value={payload.phone}
+                leftIcon="User"
+                rightIcon=""
+                onChangeText={(t) => setPayload({ ...payload, mobile: t })}
+                label="PHONE"
+                placeholder="XXXXXXXXX"
+              />
+              <INPUT_FIELD.InputSecondary
                 secureTextEntry
                 leftIcon="User"
                 rightIcon=""
@@ -93,14 +106,26 @@ const Signin = (props) => {
                 label="PASSWORD"
                 placeholder="Password"
               />
+              <INPUT_FIELD.InputSecondary
+                secureTextEntry
+                leftIcon="User"
+                rightIcon=""
+                value={payload.password}
+                onChangeText={(t) =>
+                  setPayload({ ...payload, confirmpassword: t })
+                }
+                label="CONFIRM PASSWORD"
+                placeholder="Confirm Password"
+              />
             </View>
+            {/* <Bold label={"Forgot Password?"} style={styles.forgotText} /> */}
             <Buttons.ButtonPrimary
               disabled={loading}
               loading={loading}
-              onClick={() => signin(payload?.email, payload?.password)}
+              onClick={onSubmit}
               textStyle={styles.buttonText}
               style={{ ...styles.button }}
-              title={"Login"}
+              title={"Register"}
             />
 
             <Regular
@@ -116,4 +141,4 @@ const Signin = (props) => {
   );
 };
 
-export default Signin;
+export default Signup;

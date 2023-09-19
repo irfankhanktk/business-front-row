@@ -22,7 +22,7 @@ import { CustomHeader } from "../../components/molecules/header/header-1x";
 import { get_notifications } from "../../store/api-calls";
 import { useDispatch, useSelector } from "react-redux";
 const Notifications = (props) => {
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = React.useState(true);
   const { notification } = useSelector((s) => s?.state);
   const dispatch = useDispatch();
   const newNotifications = async () => {

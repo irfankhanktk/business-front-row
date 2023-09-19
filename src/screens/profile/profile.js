@@ -184,6 +184,7 @@ const Profile = (props) => {
                   text: "Logout",
                   onPress: async () => {
                     try {
+                      await deleteToken();
                       clearData();
                       delayApi();
                     } catch (error) {

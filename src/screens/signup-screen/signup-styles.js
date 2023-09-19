@@ -10,7 +10,7 @@ export const Signin_Styles = StyleSheet.create({
   body: {
     flex: 1,
     paddingHorizontal: mvs(22),
-    paddingTop: mvs(25),
+    // paddingTop: mvs(20),
     backgroundColor: colors.white,
   },
   logo: {
@@ -51,7 +51,7 @@ export const Signin_Styles = StyleSheet.create({
   welcomeText: {
     fontSize: 20,
     alignSelf: "center",
-    marginTop: mvs(100),
+    marginTop: mvs(30),
     color: colors.black,
   },
   welcomeSubText: {

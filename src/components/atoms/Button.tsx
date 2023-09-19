@@ -95,6 +95,7 @@ const ButtonButton: FC<BProps> = ({
   textStyle,
   loading,
   disabled = false,
+  counter,
   ...props
 }) => {
   return (
@@ -114,7 +115,7 @@ const ButtonButton: FC<BProps> = ({
         <Regular size={mvs(12)} color={`${colors.B323232}34`} label={subTitle} />
       </View>
       <TouchableOpacity style={{ height: mvs(40), justifyContent: 'center', alignItems: 'center', backgroundColor: `${colors.primary}10`, borderRadius: mvs(6), width: mvs(46), ...style }}>
-        <Bold label={'1'} style={{ ...textStyle }} />
+        <Bold label={counter || '1'} style={{ ...textStyle }} />
       </TouchableOpacity>
 
     </TouchableOpacity>

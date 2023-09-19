@@ -7,10 +7,13 @@ export const URLS = {
   base_url: `${IP}/api/`,
   image_url: `${IP}`,
   auth: {
+    signup: "users/detail/business/signup",
     get_business_detail: "users/detail/business",
-    get_notifications: "users/",
-    delete_token: "delete",
+    get_notifications: "notifications", //users/:id/notifications
+    delete_token: "users/detail/customer/logout",
   },
+  home_counter: "/apphome",
+  users: "users/",
   business: "b/om/businesses/",
   lookup: "client/vehicle/lookup",
   booking: {

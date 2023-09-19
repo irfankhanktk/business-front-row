@@ -22,24 +22,38 @@ import { STYLES as styles } from "./style";
 import { createShimmerPlaceholder } from "react-native-shimmer-placeholder";
 
 import LinearGradient from "react-native-linear-gradient";
-import DIVIY_API from "../../store/api-calls";
+import DIVIY_API, { getHomedData } from "../../store/api-calls";
 import { connect } from "react-redux";
 import ImagePlaceholder from "../../components/atoms/Placeholder";
 import SERVICES from "../../services/common-services";
 import PickerModal from "../../components/molecules/modals/picker-modal";
 import ServicePickerModal from "../../components/molecules/modals/service-picker-modal";
 import { ACTIONS } from "../../store/actions";
+import { getData } from "../../localStorage";
 const ShimmerPlaceholder = createShimmerPlaceholder(LinearGradient);
 const BusinessProfile = (props) => {
   const { get_services, services, setServices } = props;
   const ser = services?.find((x) => x?.selected);
   const [apiData, setapiData] = React.useState(true);
   const [picker, setPicker] = React.useState(false);
+  const [data, setData] = React.useState({});
   React.useEffect(() => {
     (async () => {
       try {
         await get_services();
       } catch (error) {}
+    })();
+  }, []);
+  React.useEffect(() => {
+    (async () => {
+      try {
+        var bId = await getData("BusinessId");
+        const res = await getHomedData(bId);
+        console.log("res::data:", res?.data);
+        setData(res?.data);
+      } catch (error) {
+        console.log("error:::", error);
+      }
     })();
   }, []);
   return (
@@ -147,12 +161,12 @@ const BusinessProfile = (props) => {
                   visible={apiData}
                 >
                   <Progress.Circle
-                    formatText={(p) => `${Math.round(100)}%`}
+                    formatText={(p) => `${data?.header?.inprogress || 0}%`}
                     size={mvs(75)}
                     color={colors.primary}
-                    borderWidth={mvs(0)}
-                    borderColor={colors.primary}
-                    progress={1}
+                    borderWidth={mvs(1)}
+                    borderColor={colors.gray}
+                    progress={data?.header?.inprogress || 0 / 100}
                     showsText
                     textStyle={styles.PROGRESSTEXT}
                   />
@@ -170,12 +184,12 @@ const BusinessProfile = (props) => {
                   visible={apiData}
                 >
                   <Progress.Circle
-                    formatText={(p) => `${Math.round(100)}%`}
                     size={mvs(75)}
                     color={colors.B09D8FE}
-                    borderWidth={mvs(0)}
-                    borderColor={colors.B09D8FE}
-                    progress={1}
+                    borderWidth={mvs(1)}
+                    borderColor={colors.gray}
+                    formatText={(p) => `${data?.header?.booked || 0}%`}
+                    progress={data?.header?.booked || 0 / 100}
                     showsText
                     textStyle={styles.PROGRESSTEXT}
                   />
@@ -184,7 +198,7 @@ const BusinessProfile = (props) => {
                   numberOfLines={2}
                   style={styles.PROG_BOTTOM_TXT}
                   size={mvs(14)}
-                  label={"Bookings in process"}
+                  label={"Booked"}
                 />
               </View>
               <View style={styles.PROG_CONTAINER}>
@@ -193,12 +207,12 @@ const BusinessProfile = (props) => {
                   visible={apiData}
                 >
                   <Progress.Circle
-                    formatText={(p) => `${Math.round(100)}%`}
                     size={mvs(75)}
                     color={colors.B2181F2}
-                    borderWidth={mvs(0)}
-                    borderColor={colors.B2181F2}
-                    progress={1}
+                    borderWidth={mvs(1)}
+                    borderColor={colors.gray}
+                    formatText={(p) => `${data?.header?.completed || 0}%`}
+                    progress={data?.header?.completed || 0 / 100}
                     showsText
                     textStyle={styles.PROGRESSTEXT}
                   />
@@ -208,7 +222,7 @@ const BusinessProfile = (props) => {
                   numberOfLines={2}
                   style={styles.PROG_BOTTOM_TXT}
                   size={mvs(14)}
-                  label={"Bookings in process"}
+                  label={"Completed"}
                 />
               </View>
               <View style={styles.PROG_CONTAINER}>
@@ -217,12 +231,12 @@ const BusinessProfile = (props) => {
                   visible={apiData}
                 >
                   <Progress.Circle
-                    formatText={(p) => `${Math.round(100)}%`}
                     size={mvs(75)}
                     color={colors.G3CB971}
-                    borderWidth={mvs(0)}
-                    borderColor={colors.G3CB971}
-                    progress={1}
+                    borderWidth={mvs(1)}
+                    borderColor={colors.gray}
+                    formatText={(p) => `${data?.header?.checkedin || 0}%`}
+                    progress={data?.header?.checkedin || 0 / 100}
                     showsText
                     textStyle={styles.PROGRESSTEXT}
                   />
@@ -231,7 +245,7 @@ const BusinessProfile = (props) => {
                   numberOfLines={2}
                   style={styles.PROG_BOTTOM_TXT}
                   size={mvs(14)}
-                  label={"Bookings in process"}
+                  label={"checkedin"}
                 />
               </View>
             </Row>
@@ -260,7 +274,7 @@ const BusinessProfile = (props) => {
                 />
                 <Regular
                   style={{ width: "49%" }}
-                  label={"Earned in January "}
+                  label={`Earned in ${data?.overview?.lastMonth} `}
                   size={mvs(14)}
                   color={`${colors.black}34`}
                 />
@@ -268,13 +282,13 @@ const BusinessProfile = (props) => {
               <Row style={{ marginTop: mvs(3) }}>
                 <Bold
                   style={{ width: "49%" }}
-                  label={"AED 1,087"}
+                  label={`AED ${data?.overview?.balance || 0}`}
                   size={mvs(14)}
                   color={`${colors.primary}`}
                 />
                 <Bold
                   style={{ width: "49%" }}
-                  label={"AED 1964"}
+                  label={`AED ${data?.overview?.lastEarning || 0}`}
                   size={mvs(14)}
                   color={`${colors.black}`}
                 />
@@ -296,26 +310,26 @@ const BusinessProfile = (props) => {
               <Row style={{ marginTop: mvs(3) }}>
                 <SemiBold
                   style={{ width: "49%" }}
-                  label={"16"}
+                  label={data?.overview?.active?.count || 0}
                   size={mvs(14)}
                   color={`${colors.black}`}
                 >
                   <SemiBold
                     size={mvs(14)}
                     color={`${colors.black}34`}
-                    label={" (AED 1,039)"}
+                    label={` (AED ${data?.overview?.active?.value || 0})`}
                   />
                 </SemiBold>
                 <SemiBold
                   style={{ width: "49%" }}
-                  label={"2"}
+                  label={data?.overview?.new?.count || 0}
                   size={mvs(14)}
                   color={`${colors.black}`}
                 >
                   <SemiBold
                     size={mvs(14)}
                     color={`${colors.black}34`}
-                    label={" (AED 100)"}
+                    label={` (AED ${data?.overview?.new?.value || 0})`}
                   />
                 </SemiBold>
               </Row>
@@ -336,26 +350,26 @@ const BusinessProfile = (props) => {
               <Row style={{ marginTop: mvs(3) }}>
                 <SemiBold
                   style={{ width: "49%" }}
-                  label={"16"}
+                  label={data?.overview?.noshow?.count || 0}
                   size={mvs(14)}
                   color={`${colors.black}`}
                 >
                   <SemiBold
                     size={mvs(14)}
                     color={`${colors.black}34`}
-                    label={" (AED 400)"}
+                    label={` (AED ${data?.overview?.noshow?.value || 0})`}
                   />
                 </SemiBold>
                 <SemiBold
                   style={{ width: "49%" }}
-                  label={"1"}
+                  label={data?.overview?.cancelled?.count || 0}
                   size={mvs(14)}
                   color={`${colors.black}`}
                 >
                   <SemiBold
                     size={mvs(14)}
                     color={`${colors.black}34`}
-                    label={" (AED 50)"}
+                    label={` (AED ${data?.overview?.cancelled?.value || 0})`}
                   />
                 </SemiBold>
               </Row>
@@ -364,16 +378,19 @@ const BusinessProfile = (props) => {
           <HeadingTitle title={"To-Dos"} />
           <View style={{ paddingHorizontal: mvs(20) }}>
             <Buttons.ButtonButton
+              count={data?.todo?.upcoming || "1"}
               title="Upcoming bookings"
               subTitle={
                 "Check out upcoming booking and be ready to get things done."
               }
             />
             <Buttons.ButtonButton
+              count={data?.todo?.delayed || "1"}
               title="Delayed bookings"
               subTitle={"Check out delayed work and complete it fast."}
             />
             <Buttons.ButtonButton
+              count={data?.todo?.lateArrival || "1"}
               containerStyle={{ borderBottomWidth: 0 }}
               title="New bookings"
               style={{ backgroundColor: `${colors.FE0922}10` }}
@@ -393,19 +410,29 @@ const BusinessProfile = (props) => {
               shimmerStyle={styles.my_Services}
               visible={apiData}
             >
-              <ArrowRow title={"Impressions"} value={"5K"} />
+              <ArrowRow
+                title={"Impressions"}
+                value={`${data?.myServices?.walkin || 0}K`}
+              />
             </ShimmerPlaceholder>
             <ShimmerPlaceholder
               shimmerStyle={styles.my_Services}
               visible={apiData}
             >
-              <ArrowRow title={"Clicks"} value={"5K"} />
+              <ArrowRow
+                title={"Clicks"}
+                value={`${data?.myServices?.online || 0}K`}
+              />
             </ShimmerPlaceholder>
             <ShimmerPlaceholder
               shimmerStyle={styles.my_Services}
               visible={apiData}
             >
-              <ArrowRow title={"Views"} value={"5K"} isDown />
+              <ArrowRow
+                title={"Views"}
+                value={`${data?.myServices?.frontBot || 0}K`}
+                isDown
+              />
             </ShimmerPlaceholder>
             <ShimmerPlaceholder
               shimmerStyle={{ width: "100%", height: 30 }}
@@ -425,12 +452,19 @@ const BusinessProfile = (props) => {
               color={`${colors.B323232}23`}
             />
           </HeadingTitle>
-          <ShimmerPlaceholder
-            shimmerStyle={{ height: 170, width: "100%" }}
-            visible={apiData}
+          <ScrollView
+            contentContainerStyle={{ paddingHorizontal: mvs(15) }}
+            showsHorizontalScrollIndicator={false}
+            horizontal
           >
-            <ReviewsRaing style={{ marginTop: 0 }} bg={colors.GD8D8D8} />
-          </ShimmerPlaceholder>
+            {data?.reviews?.map((item, index) => (
+              <ReviewsRaing
+                key={index}
+                style={{ marginTop: 0 }}
+                bg={colors.GD8D8D8}
+              />
+            ))}
+          </ScrollView>
         </ScrollView>
       </View>
       <ServicePickerModal

@@ -1,11 +1,11 @@
 // In App.js in a new project
 
 import { createStackNavigator } from "@react-navigation/stack";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import { StatusBar, SafeAreaView } from "react-native";
 import HomeScreen from "../../screens/home-screen";
 import Otp from "../../screens/otp-screen/otp";
-import messaging from '@react-native-firebase/messaging'
+import messaging from "@react-native-firebase/messaging";
 import Splash from "../../screens/splash-screen/splash";
 import Onboarding from "./../../screens/onboarding-screen/onboarding";
 import Signin from "./../../screens/signin-screen/signin";
@@ -28,6 +28,7 @@ import StartJob from "../../screens/start-job/start-job";
 import ReviewSchedule from "../../screens/review-schedule/review-schedule";
 import Notifications from "../../screens/notifications";
 import { useNavigation } from "@react-navigation/native";
+import Signup from "../../screens/signup-screen";
 const Stack = createStackNavigator();
 const horizontalAnimation = {
   headerShown: false,
@@ -50,15 +51,15 @@ const horizontalAnimation = {
 export const MainNavigator = () => {
   const navigation = useNavigation();
   const [loading, setLoading] = useState(true);
-  const [initialRoute, setInitialRoute] = useState('Splash');
+  const [initialRoute, setInitialRoute] = useState("Splash");
 
   useEffect(() => {
     // Assume a message-notification contains a "type" property in the data payload of the screen to open
 
-    messaging().onNotificationOpenedApp(remoteMessage => {
+    messaging().onNotificationOpenedApp((remoteMessage) => {
       console.log(
-        'Notification caused app to open from background state:',
-        remoteMessage.notification,
+        "Notification caused app to open from background state:",
+        remoteMessage.notification
       );
       navigation.navigate(remoteMessage.data.type);
     });
@@ -66,11 +67,11 @@ export const MainNavigator = () => {
     // Check whether an initial notification is available
     messaging()
       .getInitialNotification()
-      .then(remoteMessage => {
+      .then((remoteMessage) => {
         if (remoteMessage) {
           console.log(
-            'Notification caused app to open from quit state:',
-            remoteMessage.notification,
+            "Notification caused app to open from quit state:",
+            remoteMessage.notification
           );
           setInitialRoute(remoteMessage.data.type); // e.g. "Settings"
         }
@@ -95,6 +96,7 @@ export const MainNavigator = () => {
         <Stack.Screen name="StartJob" component={StartJob} />
         <Stack.Screen name="Otp" component={Otp} />
         <Stack.Screen name="Signin" component={Signin} />
+        <Stack.Screen name="Signup" component={Signup} />
         <Stack.Screen name="Main" component={TabNavigator} />
         <Stack.Screen name="HomeScreen" component={HomeScreen} />
         <Stack.Screen name="ReviewSchedule" component={ReviewSchedule} />
