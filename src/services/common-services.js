@@ -1,14 +1,14 @@
 import moment from "moment";
-import { Alert, PermissionsAndroid, Platform, Share, } from "react-native";
-import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import { Alert, PermissionsAndroid, Platform, Share } from "react-native";
+import { launchCamera, launchImageLibrary } from "react-native-image-picker";
 
 import { IP, URLS } from "../store/api-urls";
 import { CommonActions } from "@react-navigation/native";
-const createShareLink = refId => {
-  let shareLink = '';
+const createShareLink = (refId) => {
+  let shareLink = "";
   try {
     shareLink = `${IP}/${refId}`;
-  } catch (err) { }
+  } catch (err) {}
   return shareLink;
 };
 // import Geocoder from "react-native-geocoding";
@@ -49,10 +49,11 @@ const SERVICES = {
             params: params,
           },
         ],
-      }),
+      })
     );
   },
-  _returnError: error => {
+  _returnError: (error) => {
+    console.log("error?.response:::", error?.response);
     if (error?.response?.request) {
       let { _response } = error?.response?.request;
       console.log(_response);
@@ -60,11 +61,11 @@ const SERVICES = {
         ? JSON.parse(_response)?.message.toString()
         : error.message?.toString();
     } else {
-      if (error === 'Hi Dude') {
-        return 'Dismiss';
+      if (error === "Hi Dude") {
+        return "Dismiss";
       } else if (error?.message) {
-        if (error?.message === 'Network Error') {
-          return 'Network Error';
+        if (error?.message === "Network Error") {
+          return "Network Error";
         } else {
           return error?.message?.toString();
         }
@@ -73,12 +74,12 @@ const SERVICES = {
       }
     }
   },
-  _capitalizeFirst: (str) => (str.charAt(0).toUpperCase() + str.slice(1)),
+  _capitalizeFirst: (str) => str.charAt(0).toUpperCase() + str.slice(1),
   _returnStringify: (data) => JSON.stringify(data),
 
-  _share: async (description = '', url) => {
+  _share: async (description = "", url) => {
     try {
-      console.log('url::', url);
+      console.log("url::", url);
       const result = await Share.share({
         // message:description?description:url,
         // url: url,
@@ -207,50 +208,59 @@ const SERVICES = {
   _returnFile: (uri) => `${URLS.image_url}${uri}`,
   _returnImageCamera: async () => {
     try {
-      const res = await launchCamera({ mediaType: 'photo', includeBase64: false });
+      const res = await launchCamera({
+        mediaType: "photo",
+        includeBase64: false,
+      });
       if (res?.didCancel) {
-        throw 'user canceled the action';
-      }
-      else if (res?.assets) {
+        throw "user canceled the action";
+      } else if (res?.assets) {
         return {
-          uri: Platform.OS === "android" ? res.assets[0].uri : res.assets[0].uri.replace("file://", ""),
+          uri:
+            Platform.OS === "android"
+              ? res.assets[0].uri
+              : res.assets[0].uri.replace("file://", ""),
           name: res.assets[0].fileName,
           type: res.assets[0].type,
-        }
+        };
       } else {
-        throw 'unknown error';
+        throw "unknown error";
       }
     } catch (error) {
       throw new Error(error);
     }
-
   },
   _returnImageGallery: async () => {
     try {
-      const res = await launchImageLibrary({ mediaType: 'photo', includeBase64: false });
+      const res = await launchImageLibrary({
+        mediaType: "photo",
+        includeBase64: false,
+      });
       if (res?.didCancel) {
         // throw 'user canceled the action';
-        console.log('user canceled the action');
-      }
-      else if (res?.assets) {
+        console.log("user canceled the action");
+      } else if (res?.assets) {
         return {
-          uri: Platform.OS === "android" ? res?.assets[0].uri : res?.assets[0].uri.replace("file://", ""),
+          uri:
+            Platform.OS === "android"
+              ? res?.assets[0].uri
+              : res?.assets[0].uri.replace("file://", ""),
           name: res?.assets[0].fileName,
           type: res?.assets[0].type,
-        }
+        };
       } else {
-        throw 'unknown error';
+        throw "unknown error";
       }
     } catch (error) {
       throw new Error(error);
     }
   },
   findOnlineUser: (users = {}, user_id) => {
-    console.log('usersssss:::', users);
-    return Object.keys(users)?.find((key, index) =>
-      users[key]?.user_id === user_id
+    console.log("usersssss:::", users);
+    return Object.keys(users)?.find(
+      (key, index) => users[key]?.user_id === user_id
     );
-  }
+  },
 };
 
 export default SERVICES;

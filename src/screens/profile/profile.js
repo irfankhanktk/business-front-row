@@ -26,7 +26,7 @@ import { createShimmerPlaceholder } from "react-native-shimmer-placeholder";
 import LinearGradient from "react-native-linear-gradient";
 import { clearData, removeData } from "../../localStorage";
 import { deleteToken } from "../../store/api-calls";
-import { resetStack } from "../../navigation/navigation-ref";
+import { navigate, resetStack } from "../../navigation/navigation-ref";
 const ShimmerPlaceholder = createShimmerPlaceholder(LinearGradient);
 // create a component
 const Profile = (props) => {
@@ -140,6 +140,9 @@ const Profile = (props) => {
             }}
           />
           <ProfileAction
+            onPress={() => {
+              navigate("Privacy");
+            }}
             label={"Security & Privacy"}
             leftIcon={"Security"}
             rightIcon={"Arrow"}
@@ -148,6 +151,9 @@ const Profile = (props) => {
             style={{ borderRadius: 2, marginTop: mvs(0), borderWidth: 0.3 }}
           />
           <ProfileAction
+            onPress={() => {
+              navigate("Terms");
+            }}
             label={"Terms & Conditions"}
             leftIcon={"Tcondition"}
             rightIcon={"Arrow"}

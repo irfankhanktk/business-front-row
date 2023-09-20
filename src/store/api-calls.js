@@ -68,7 +68,7 @@ export const getBusinessDetails = (
       dispatch(setUserInfo(response?.data));
       SERVICES.resetStack(props, "Main");
     } catch (error) {
-      console.log("error getBusinessDetails=>>>:::", error?.code);
+      console.log("error getBusinessDetails=>>>:::", error);
       let message = SERVICES._returnError(error);
       if (
         error?.code === "auth/wrong-password" ||
@@ -248,27 +248,12 @@ export const get_notifications = (setLoading) => {
       const { user_info } = getState()?.state;
       console.log({ user_info });
       const response = await API_REQUESTS.getData(
-        `${URLS.auth.get_notifications}${user_info?.id}/notifications`
+        `${URLS.users}${user_info?.id}${URLS.auth.get_notifications}`
       );
       console.log({ asdjaksdhk: response?.data });
       dispatch({
         type: SET_USER_NOTIFICATION,
-        payload: [
-          {
-            id: "1",
-            userId: "19",
-            type: "type1",
-            image: null,
-            title: "Notification 1 Title",
-            body: "This is notification body",
-            params: {
-              buisnessId: "1",
-              offeringId: "22",
-            },
-            created_at: "2023-05-19T12:13:39.000Z",
-            updated_at: "2023-05-19T12:27:41.000Z",
-          },
-        ],
+        payload: response?.data || [],
       });
     } catch (error) {
       console.log(error?.response?.data);

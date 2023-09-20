@@ -29,6 +29,8 @@ import ReviewSchedule from "../../screens/review-schedule/review-schedule";
 import Notifications from "../../screens/notifications";
 import { useNavigation } from "@react-navigation/native";
 import Signup from "../../screens/signup-screen";
+import Privacy from "../../screens/privacy";
+import Terms from "../../screens/terms";
 const Stack = createStackNavigator();
 const horizontalAnimation = {
   headerShown: false,
@@ -103,6 +105,8 @@ export const MainNavigator = () => {
         <Stack.Screen name="MoreDetails" component={MoreDetails} />
         <Stack.Screen name="ServiceDetails" component={ServiceDetails} />
         <Stack.Screen name="Notifications" component={Notifications} />
+        <Stack.Screen name="Privacy" component={Privacy} />
+        <Stack.Screen name="Terms" component={Terms} />
 
         <Stack.Screen
           name="ServiceOfferingDetails"

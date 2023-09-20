@@ -6,10 +6,11 @@ export const URLS = {
   //    base_url:'http://192.168.100.3:3000/api/',
   base_url: `${IP}/api/`,
   image_url: `${IP}`,
+  policy: `${IP}/images/privacy_html_v1.0.html`,
   auth: {
     signup: "users/detail/business/signup",
     get_business_detail: "users/detail/business",
-    get_notifications: "notifications", //users/:id/notifications
+    get_notifications: "/notifications", //users/:id/notifications
     delete_token: "users/detail/customer/logout",
   },
   home_counter: "/apphome",
