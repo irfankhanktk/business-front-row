@@ -30,9 +30,32 @@ export const getHomedData = (businessId) => {
     `${URLS.business}/${businessId}${URLS.home_counter}`
   );
 };
-export const onSignup = (data) =>
-  API_REQUESTS.postData(`${URLS.auth.signup}`, data);
+export const onSignup = async (data) => {
+  try {
+    const res = await auth().createUserWithEmailAndPassword(
+      data?.email,
+      data?.password
+    );
+    await getToken();
+    await API_REQUESTS.postData(`${URLS.auth.signup}`, {
+      ...data,
+      uid: res?.user?.uid,
+    });
+  } catch (error) {
+    if (error?.code === "auth/email-already-in-use") {
+      console.log("That email address is already in use!");
+      throw new Error("auth/email-already-in-use");
+    }
 
+    if (error?.code === "auth/invalid-email") {
+      console.log("That email address is invalid!");
+      throw new Error("That email address is invalid!");
+    }
+
+    console.error("error in signup API", error);
+    throw error;
+  }
+};
 const getToken = async () => {
   console.log("GETTING TOKEN");
   let token = await auth().currentUser.getIdToken();

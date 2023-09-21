@@ -14,7 +14,7 @@ const Terms = () => {
         style={{ backgroundColor: colors.primary }}
       />
       <View style={styles.body}>
-        <CustomWebView url={URLS.policy} />
+        <CustomWebView url={URLS.terms} />
       </View>
     </View>
   );

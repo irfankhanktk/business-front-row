@@ -62,6 +62,84 @@ type IProps = {
   setValue?: (arg: any) => void;
 };
 
+const InputPrimary: FC<IProps> = ({
+  label = "",
+  value = "",
+  onChangeText,
+  placeholder = "placeholder",
+  containerStyle,
+  labelStyle,
+  secureTextEntry,
+  maxLength,
+  keyboardType,
+  style,
+  leftIcon = "User",
+  rightIcon = "User",
+  editable = true,
+}) => {
+  const [eye, setEye] = React.useState(true);
+  // const LIcon = SVGS[leftIcon as keyof typeof SVGS];
+  // const RIcon = SVGS[rightIcon as keyof typeof SVGS];
+  return (
+    <View style={[{ marginBottom: mvs(18) }, containerStyle]}>
+      <Medium label={label} style={{ marginBottom: mvs(10), ...labelStyle }} />
+      <View
+        style={{
+          ...INPUT_STYLES.SECONDARY_INPUT,
+          backgroundColor: colors.white,
+          ...style,
+        }}
+      >
+
+        <TextInput
+          editable={editable}
+          keyboardType={keyboardType}
+          maxLength={maxLength}
+          secureTextEntry={secureTextEntry ? eye : false}
+          value={value}
+          placeholder={placeholder}
+          placeholderTextColor={colors.G777373}
+          onChangeText={onChangeText}
+          style={{
+            color: colors.black,
+            padding: mvs(5),
+            ...style,
+            flex: 1,
+
+            marginLeft: mvs(10),
+          }}
+        />
+
+        {secureTextEntry ? (
+          <TouchableOpacity
+            onPress={() => setEye((f) => !f)}
+            style={{
+              right: mvs(10),
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Icon
+              name={eye ? "eye" : "eye-with-line"}
+              color={colors.text}
+              size={mvs(20)}
+            />
+          </TouchableOpacity>
+        ) : rightIcon ? (
+          <View
+            style={{
+              right: mvs(10),
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            {/* <RIcon /> */}
+          </View>
+        ) : null}
+      </View>
+    </View>
+  );
+};
 const InputSecondary: FC<IProps> = ({
   label = "",
   value = "",
@@ -459,6 +537,7 @@ const DatePicker: FC<IProps> = ({ onChangeText = () => { }, value }) => {
 
 export const INPUT_FIELD = {
   DatePicker,
+  InputPrimary,
   InputSecondary,
   ReviewInput,
   CustomOtpInput,

@@ -7,6 +7,7 @@ export const URLS = {
   base_url: `${IP}/api/`,
   image_url: `${IP}`,
   policy: `${IP}/images/privacy_html_v1.0.html`,
+  terms: `${IP}/images/terms_html_v1.0.html`,
   auth: {
     signup: "users/detail/business/signup",
     get_business_detail: "users/detail/business",

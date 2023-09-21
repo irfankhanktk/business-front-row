@@ -21,8 +21,7 @@ client.interceptors.request.use(
 
     config.params = config.params || {};
     // config.cancelToken = source.token || {};
-    config.headers["Authorization"] =
-      `Bearer ` + token;
+    config.headers["Authorization"] = `Bearer ` + token;
     return config;
   },
   (error) => {
@@ -47,7 +46,7 @@ client.interceptors.response.use(
       return Promise.reject("Hi Dude");
     } else if (error?.response?.status === 401) {
       originalRequest._retry = true;
-      await DIVIY_API.refreshToken(JSON.parse(token)?.refresh_token);
+      // await DIVIY_API.refreshToken(JSON.parse(token)?.refresh_token);
       // console.log("Token info: ",tokenInfo)
       // if (tokenInfo) {
       //   await AsyncStorage.setItem('@token', JSON.stringify({token:tokenInfo}));
