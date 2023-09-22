@@ -190,7 +190,11 @@ const Profile = (props) => {
                   text: "Logout",
                   onPress: async () => {
                     try {
-                      await deleteToken();
+                      deleteToken()
+                        .then(() => {})
+                        .catch((error) => {
+                          console.log("error in logout", error);
+                        });
                       clearData();
                       delayApi();
                     } catch (error) {
