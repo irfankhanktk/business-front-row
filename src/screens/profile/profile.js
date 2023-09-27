@@ -2,31 +2,30 @@
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import {
+  Alert,
   ImageBackground,
   SafeAreaView,
   ScrollView,
   StatusBar,
   Text,
-  Alert,
   TouchableOpacity,
   View,
 } from "react-native";
 import { Rating } from "react-native-elements";
-import { connect } from "react-redux";
+import LinearGradient from "react-native-linear-gradient";
+import { createShimmerPlaceholder } from "react-native-shimmer-placeholder";
 import { Arrow, Location } from "../../assets/common-icons";
 import { Bg } from "../../assets/images";
 import ImagePlaceholder from "../../components/atoms/Placeholder";
 import ProfileAction from "../../components/atoms/profile-action";
 import Row from "../../components/atoms/row";
+import { clearData } from "../../localStorage";
+import { navigate, resetStack } from "../../navigation/navigation-ref";
 import Bold from "../../presentation/typography/bold-text";
 import Regular from "../../presentation/typography/regular-text";
 import { mvs } from "../../services/metrices";
-import styles from "./profile.styles";
-import { createShimmerPlaceholder } from "react-native-shimmer-placeholder";
-import LinearGradient from "react-native-linear-gradient";
-import { clearData, removeData } from "../../localStorage";
 import { deleteToken } from "../../store/api-calls";
-import { navigate, resetStack } from "../../navigation/navigation-ref";
+import styles from "./profile.styles";
 const ShimmerPlaceholder = createShimmerPlaceholder(LinearGradient);
 // create a component
 const Profile = (props) => {
@@ -89,9 +88,7 @@ const Profile = (props) => {
               />
             </ShimmerPlaceholder>
           </View>
-          <TouchableOpacity
-            onPress={() => navigation.navigate("PersonalDetails")}
-          >
+          <TouchableOpacity onPress={() => navigate("PersonalDetails")}>
             <Text>
               <Arrow />
             </Text>
